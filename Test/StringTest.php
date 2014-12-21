@@ -7,6 +7,26 @@ require_once '../Bang/lib/String.php';
  */
 class StringTest extends PHPUnit_Framework_TestCase {
 
+    
+    public function testIsNullOrSpace() {
+        //Arrange 
+        $strTrue = '  ';
+        $strFalse = " g";
+        $strTrue2 = NULL;
+
+        //Act
+        $resultTrue1 = String::IsNullOrSpace($strTrue);
+        $resultFalse1 = String::IsNullOrSpace($strFalse);
+        $resultTrue2 = String::IsNullOrSpace($strTrue2);
+        $resultTrue3= String::IsNullOrSpace("");
+
+        //Assert
+        $this->assertEquals($resultTrue1, TRUE);
+        $this->assertEquals($resultFalse1, FALSE);
+        $this->assertEquals($resultTrue2, TRUE);
+        $this->assertEquals($resultTrue3, TRUE);
+    }
+
     public function testRemoveSuffix() {
         // Arrange
         $suffix = 'Controller';

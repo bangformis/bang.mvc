@@ -6,6 +6,24 @@
 class String {
 
     /**
+     * 判斷字串不是空值或是空白
+     * @param string $str 判斷字串
+     * @return bool 判斷結果
+     */
+    public static function IsNotNullOrSpace($str) {
+        return !String::IsNullOrSpace($str);
+    }
+
+    /**
+     * 判斷字串是空值或是空白
+     * @param string $str 判斷字串
+     * @return bool 判斷結果
+     */
+    public static function IsNullOrSpace($str) {
+        return (!isset($str) || trim($str) === '');
+    }
+
+    /**
      * 刪除字串開頭文字
      * @param string $input 輸入值
      * @param string $prefix 開頭文字

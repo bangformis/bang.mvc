@@ -2,6 +2,9 @@
 
 include 'Config.php';
 
+ini_set("display_errors", "1");
+error_reporting(E_ALL);
+
 /**
  * Exception統一處理
  * @param Exception $exception

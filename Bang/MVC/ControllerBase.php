@@ -19,4 +19,12 @@ class ControllerBase {
         include $layoutFile;
     }
 
+    /**
+     * 回傳Json格式結果
+     */
+    protected function Json($obj) {
+        header('Content-Type: application/json');
+        echo json_encode($obj);
+    }
+
 }

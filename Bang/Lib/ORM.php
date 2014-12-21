@@ -7,6 +7,24 @@
 class ORM {
 
     /**
+     * 將物件轉換為陣列
+     * @param mixed $obj
+     * @return array 結果陣列
+     */
+    public static function ObjectToArray($obj) {
+        $result = array();
+        $reflect = new ReflectionClass($obj);
+        $properties = $reflect->getProperties();
+        foreach ($properties as $property) {
+            $name = $property->name;
+            $value = $property->getValue($obj);
+
+            $result[$name] = $value;
+        }
+        return $result;
+    }
+
+    /**
      * 將Array(字串索引)轉換為物建
      * @param array $array 字串索引的陣列
      * @param string $objOrClassName 物件或物件類別名稱

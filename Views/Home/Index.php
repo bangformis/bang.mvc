@@ -10,22 +10,18 @@ $allOperators = (new Operator())->GetList();
 </div>
 
 <?php
-foreach ($allOperators as $operator) {
-    $operator = Operator::ChangeType($operator);
-    ?>
-    <div>
-        <?= $operator->name ?>
-
-    </div>
-    <?php
-}
+$bangOper = new Operator();
+$bangOper->id = '964408';
+$bangOper->password = "digi9841";
+$bangOper->name = "王鎮邦";
+echo $bangOper->Insert();
 ?>
 
 
 <script>
     $(function () {
         $("#TestJson").click(function () {
-            $.post("<?= Url::Action("JsonTest") ?>", {UserName: 'Bang@cycu.org.tw', Password: "123456"}, function (data) {
+            $.post("<?= Url::Action("JsonTest") ?>", {id: '9644208', password: "123456", name: "Bang", permission: 9}, function (data) {
                 console.log(data);
             });
         });

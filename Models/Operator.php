@@ -6,6 +6,13 @@
  */
 class Operator extends MySqlTableBase {
 
+    function __construct($id = "", $password = "", $name = "", $permission = 9) {
+        $this->id = $id;
+        $this->password = $password;
+        $this->name = $name;
+        $this->permission = $permission;
+    }
+
     /**
      * @var string 使用者帳號
      */
@@ -14,7 +21,7 @@ class Operator extends MySqlTableBase {
     /**
      * @var string 密碼
      */
-    public $passowrd;
+    public $password;
 
     /**
      * @var string 使用者姓名

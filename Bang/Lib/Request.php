@@ -18,16 +18,7 @@ class Request {
      */
     public static function GetParam($obj, $isPost = false) {
         $from = ($isPost ? $_POST : $_GET);
-
-        $reflect = new ReflectionClass($obj);
-        $properties = $reflect->getProperties();
-        foreach ($properties as $property) {
-            $name = $property->name;
-            if (isset($from[$name])) {
-                $property->setValue($obj, $from[$name]);
-            }
-        }
-        return $obj;
+        return ORM::ArrayToObject($from, $obj);
     }
 
     /**

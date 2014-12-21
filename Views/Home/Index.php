@@ -1,5 +1,6 @@
 <?php
 echo ResponseBag::Get("Index1");
+$allOperators = (new Operator())->GetList();
 ?>
 
 <a href="<?= Url::Action("Index2") ?>"> Index 2 </a>
@@ -7,6 +8,19 @@ echo ResponseBag::Get("Index1");
 <div>
     <input type="button" value="TestJson" id="TestJson" />
 </div>
+
+<?php
+foreach ($allOperators as $operator) {
+    $operator = Operator::ChangeType($operator);
+    ?>
+    <div>
+        <?= $operator->name ?>
+
+    </div>
+    <?php
+}
+?>
+
 
 <script>
     $(function () {

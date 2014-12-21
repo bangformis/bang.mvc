@@ -1,6 +1,6 @@
 <?php
 
-require_once Url::Content('Models/User.php');
+require_once Url::Model("Operator");
 
 /**
  * 主頁面Controller
@@ -9,9 +9,10 @@ require_once Url::Content('Models/User.php');
 class HomeController extends ControllerBase {
 
     public function Index() {
+
         ResponseBag::Add("index1", "測試資料ㄇ!");
-        
-        
+
+
         ViewBag::SetNormalSite("Home", "測試各種各種.");
         return $this->View("Index");
     }

@@ -12,6 +12,11 @@ class Config {
      */
     public static $SiteName = "Bang MVC";
 
-    
-    
+    //資料庫各項連線設定
+    const DbName = "new_bang.project.cycu.house";
+    const DbHost = "localhost";
+    const DbPort = "3306";
+    const DbUser = "root";
+    const DbPassword = "digi9841";
+
 }

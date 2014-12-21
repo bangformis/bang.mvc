@@ -7,6 +7,16 @@
 class Url {
 
     /**
+     * 回傳網站Model檔案
+     * EX:(User) return /Models/User.php
+     * @return string Model檔案網址
+     */
+    public static function Model($name) {
+        $modelFile = Config::$Root . "Models/$name.php";
+        return $modelFile;
+    }
+
+    /**
      * 回傳網站Root起算相對網址
      * EX:(Views/Home/Index.php) return /Views/Home/Index.php
      * @param string $url

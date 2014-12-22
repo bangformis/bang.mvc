@@ -4,7 +4,7 @@
  * 資料庫類型容器基底
  * @author Bang
  */
-class DbContext {
+class MySqlDbContext {
 
     /**
      * 實作單例連線

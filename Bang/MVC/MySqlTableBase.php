@@ -13,7 +13,7 @@ class MySqlTableBase {
     public function GetList() {
         $className = get_class($this);
         $sql = "SELECT * FROM `$className`";
-        $db = DbContext::GetConnection();
+        $db = MySqlDbContext::GetConnection();
         return ORM::TwoDArrayToObjects($db->query($sql), $className);
     }
 
@@ -26,9 +26,7 @@ class MySqlTableBase {
         $objArray = ORM::ObjectToArray($this);
         $sql1 = "INSERT INTO `$tableName` (";
         $sql2 = "VALUES (";
-
-        //INSERT INTO `operator` (`id`, `password`, `name`, `permission`) VALUES ('asdf', 'asdf', 'asdf', '9')
-
+        
         $index = 0;
         foreach ($objArray as $name => $value) {
             if ($index > 0) {
@@ -42,7 +40,7 @@ class MySqlTableBase {
         $sql1 .= " ) ";
         $sql2 .= " ) ;";
         $sql = $sql1 . $sql2;
-        $connect = DbContext::GetConnection();
+        $connect = MySqlDbContext::GetConnection();
         return $connect->exec($sql);
     }
 }

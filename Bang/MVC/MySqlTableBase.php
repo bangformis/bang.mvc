@@ -45,5 +45,4 @@ class MySqlTableBase {
         $connect = DbContext::GetConnection();
         return $connect->exec($sql);
     }
-
 }

@@ -47,14 +47,14 @@ $_handleMissedError = function ($errno, $errstr, $errfile, $errline) {
 function __autoload($classname) {
     if (file_exists($classname . '.php')) {
         require_once( $classname . '.php');
-    } else if (file_exists('Bang/lib/' . $classname . '.php')) {
-        require_once('Bang/lib/' . $classname . '.php');
+    } else if (file_exists('Bang/Lib/' . $classname . '.php')) {
+        require_once('Bang/Lib/' . $classname . '.php');
     } else {
         throw new Exception("找不到 {$classname} 這個Class檔案，無法載入！");
     }
 }
 
 //將所有mvc中的檔案載入
-foreach (glob("Bang/mvc/*.php") as $filename) {
+foreach (glob("Bang/MVC/*.php") as $filename) {
     require_once $filename;
 }

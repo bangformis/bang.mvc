@@ -64,7 +64,7 @@ class Url {
         if (!is_null($getParam)) {
             foreach ($getParam as $key => $value) {
                 $value = urlencode($value);
-                $resultUrl . "&$key=$value";
+                $resultUrl .= "&$key=$value";
             }
         }
         return $resultUrl;

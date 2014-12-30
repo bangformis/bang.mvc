@@ -10,7 +10,10 @@ class ControllerBase {
      * 回傳View結果
      * 帶預設Layout.php
      */
-    protected function View($viewName) {
+    protected function View($viewName = "") {
+        if(String::IsNullOrSpace($viewName)){
+            $viewName = Route::Current()->action;
+        }
         $className = String::RemoveSuffix(get_class($this), "Controller");
         $viewFile = Url::View($viewName, $className);
         ResponseBag::Add("View", $viewFile);

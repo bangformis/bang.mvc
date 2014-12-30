@@ -13,7 +13,7 @@ class HomeController extends ControllerBase {
         ResponseBag::Add("index1", "測試資料ㄇ!");
         ViewBag::SetNormalSite("Home", "測試各種各種.");
         
-        return $this->View("Index");
+        return $this->View();
     }
 
     public function Index2() {

@@ -1,7 +1,5 @@
 <?php
 
-require_once Url::Model("TaskResult");
-
 /**
  * 所有Controller的基底
  * @author Bang

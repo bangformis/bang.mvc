@@ -45,8 +45,8 @@ $_handleMissedError = function ($errno, $errstr, $errfile, $errline) {
  * 自動載入lib中的Class功能
  */
 function __autoload($classname) {
-    if (file_exists($classname . '.php')) {
-        require_once( $classname . '.php');
+    if (file_exists('Models/' . $classname . '.php')) {
+        require_once( 'Models/' . $classname . '.php');
     } else if (file_exists('Bang/Lib/' . $classname . '.php')) {
         require_once('Bang/Lib/' . $classname . '.php');
     } else {

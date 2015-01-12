@@ -22,7 +22,7 @@ class HomeController extends ControllerBase {
     }
 
     public function JsonTest() {
-        return $this->Json(Request::GetPost(new User()));
+        return $this->Json(Request::GetPost(new Operator("", "", "", 9)));
     }
 
 }

@@ -5,19 +5,20 @@
  * @author Bang
  */
 class ControllerBase {
+
     /**
      * 回傳View結果
      * 帶預設Layout.php
      */
     protected function View($viewName = "") {
-        if(String::IsNullOrSpace($viewName)){
+        if (String::IsNullOrSpace($viewName)) {
             $viewName = Route::Current()->action;
         }
         $className = String::RemoveSuffix(get_class($this), "Controller");
         $viewFile = Url::View($viewName, $className);
         ResponseBag::Add("View", $viewFile);
 
-        $layoutFile = Config::$Root . "Views/Shared/_Layout.php";
+        $layoutFile = Path::View("_Layout", "Shared");
         include $layoutFile;
     }
 
@@ -27,13 +28,12 @@ class ControllerBase {
      */
     protected function Json($obj = NULL) {
         header('Content-Type: application/json');
-        
-        if($obj === NULL){
+
+        if ($obj === NULL) {
             $obj = new TaskResult();
             $obj->IsSuccess = true;
-            $obj->Message = "";
-            $obj->Value = "";
         }
         echo json_encode($obj);
     }
+
 }

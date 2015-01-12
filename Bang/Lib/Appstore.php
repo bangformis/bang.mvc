@@ -11,69 +11,63 @@
 class Appstore {
 
     /**
-     * @var array 存放物件的陣列
-     */
-    protected static $_store = array();
-
-    /**
      * 將一個物件加入store中
-     * @param mixed $obj 要儲存的物件
-     * @param string $name 物件名稱(索引,為空時將直接使用該物件類別名稱)
-     * @return obj 若已有舊的物件將會回傳舊的
+     * @param string $key 物件名稱(索引,為空時將直接使用該物件類別名稱)
+     * @param mixed $data 要儲存的物件
+     * @return bool 回傳是否成功
      */
-    public static function add($obj, $name = null) {
-
-        $name = (!is_null($name) ? $name : get_class($obj));
-        $name = strtolower($name);
-
-        $return = null;
-        if (isset(self::$_store[$name])) {
-            //已經有舊的物件時,將舊的物件回傳
-            $return = self::$_store[$name];
-        }
-
-        self::$_store[$name] = $obj;
-        return $return;
+    public static function Set($key, $data) {
+        $name = Appstore::StroeName($key);
+        return Appstore::Current()->set($name, $data);
     }
 
     /**
      * 從註冊表中取得物件
-     * @param string $name 物件名稱,{@see self::set()}
+     * @param string $key 物件名稱,{@see self::set()}
+     * @param mixed $init_data 預設物件(為空時存入物件)
      * @return mixed 物件
      */
-    public static function get($name) {
-        $name = strtolower($name);
-        
-        if (!self::contains($name)) {
-            throw new Exception("Object does not exist in eAppstore");
+    public static function Get($key, $init_data = FALSE) {
+        $name = Appstore::StroeName($key);
+        $result = Appstore::Current()->get($name);
+        if (!$result) {
+            Appstore::Set($key, $init_data);
+            $result = $init_data;
         }
-        return self::$_store[$name];
-    }
-
-    /**
-     * 檢查是否有物件物件存在
-     * @param type $name 物件名稱
-     * @return boolean 檢查結果
-     */
-    public static function contains($name) {
-        $name = strtolower($name);
-        
-        if (!isset(self::$_store[$name])) {
-            return false;
-        }
-        return true;
+        return $result;
     }
 
     /**
      * 從註冊中刪除物件
-     * @param string $name 物件名稱
+     * @param string $key 物件名稱
      * @return void
      */
-    public static function remove($name) {
-        $name = strtolower($name);
-        if (self::contains($name)) {
-            unset(self::$_store[$name]);
+    public static function Delete($key) {
+        $name = Appstore::StroeName($key);
+        Appstore::Current()->delete($name);
+    }
+
+    /**
+     * 統一網站存取名稱使用
+     * @param string $key 輸入名稱
+     * @return string 存取名稱
+     */
+    private static function StroeName($key) {
+        return Config::$SiteName . "_" . $key;
+    }
+
+    private static $_current = NULL;
+
+    /**
+     * 取得目前Memcache
+     * @return Memcache Memcache
+     */
+    private static function Current() {
+        if (is_null(Appstore::$_current)) {
+            Appstore::$_current = new Memcache();
+            Appstore::$_current->connect(Config::MemcachedServer, Config::MemcachedServerPort);
         }
+        return Appstore::$_current;
     }
 
 }

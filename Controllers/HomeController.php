@@ -9,7 +9,6 @@ require_once Url::Model("Operator");
 class HomeController extends ControllerBase {
 
     public function Index() {
-
         ResponseBag::Add("index1", "測試資料ㄇ!");
         ViewBag::SetNormalSite("Home", "測試各種各種.");
 
@@ -19,14 +18,16 @@ class HomeController extends ControllerBase {
     public function Cassandra() {
         ViewBag::SetNormalSite("Cassandra Test Page", "Cassandra 資料測試.");
 
-        $result = CassandraDb::Query("select * from playlists limit 100;");
-        ResponseBag::Add("Model", $result);
+        if ($_POST) {
+            $cql = $_POST['cql_content'];
+            ResponseBag::Add("CQL", $cql);
+            $cql = trim($cql);
+            if (String::EndsWith($cql, ";")) {
+                $result = CassandraDb::Query($cql);
+                ResponseBag::Add("CqlResult", $result);
+            }
+        }
         return $this->View();
-    }
-
-    public function Index2() {
-        ResponseBag::Add("index2", "測試資料ㄇ2!");
-        return $this->View("Index2");
     }
 
     public function JsonTest() {

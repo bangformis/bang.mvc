@@ -43,5 +43,5 @@ class CassandraConfig {
     /**
      * 預設 Keyspace
      */
-    const DefaultKeyspace = "demodb1";
+    const DefaultKeyspace = "pimin_net";
 }

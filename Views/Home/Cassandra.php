@@ -10,5 +10,6 @@
 <?php
 if (ResponseBag::Contains("CqlResult")) {
     $result = ResponseBag::Get("CqlResult");
+    
     var_dump($result);
 }

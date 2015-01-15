@@ -11,11 +11,11 @@ $viewBag = ViewBag::Get();
     </head>
     <body>
         <?php
-        include Path::Content("Views/Shared/_Layout/_Header.php");
+        require Path::Content("Views/Shared/_Layout/_Header.php");
 
-        include Path::Content("$bodyView");
+        require Path::Content("$bodyView");
 
-        include Path::Content("Views/Shared/_Layout/_Footer.php");
+        require Path::Content("Views/Shared/_Layout/_Footer.php");
         ?>
     </body>
 </html>

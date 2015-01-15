@@ -7,15 +7,20 @@ $viewBag = ViewBag::Get();
         <meta charset="UTF-8">
         <title><?= $viewBag->GetTitle() ?></title>
         <meta name="description" content="<?= $viewBag->Description ?>" />
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <link href="<?= Url::Content("Content/bootstrap/css/bootstrap.css") ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?= Url::Content("Content/css/site.css") ?>" rel="stylesheet" type="text/css"/>
+        <script src="<?= Url::Content("Content/js/lib/jquery.js") ?>"></script>
     </head>
     <body>
-        <?php
-        require Path::Content("Views/Shared/_Layout/_Header.php");
+        <div id="body">
+            <?php require Path::Content("Views/Shared/_Layout/_Header.php"); ?>
 
-        require Path::Content("$bodyView");
+            <div id="render_body">
+                <?php require Path::Content("$bodyView"); ?>
+            </div>
 
-        require Path::Content("Views/Shared/_Layout/_Footer.php");
-        ?>
+            <?php require Path::Content("Views/Shared/_Layout/_Footer.php"); ?>
+        </div>
+
     </body>
 </html>

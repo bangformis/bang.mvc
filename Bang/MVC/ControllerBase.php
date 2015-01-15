@@ -19,7 +19,7 @@ class ControllerBase {
         ResponseBag::Add("View", $viewFile);
 
         $layoutFile = Path::View("_Layout", "Shared");
-        include $layoutFile;
+        require $layoutFile;
     }
 
     /**

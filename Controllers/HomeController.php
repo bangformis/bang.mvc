@@ -16,6 +16,14 @@ class HomeController extends ControllerBase {
         return $this->View();
     }
 
+    public function Cassandra(){
+        ViewBag::SetNormalSite("Cassandra Test Page", "Cassandra 資料測試.");
+        
+        $result = CassandraDb::Query("select * from playlists limit 100;");
+        ResponseBag::Add("Model", $result);
+        return $this->View();
+    }
+    
     public function Index2() {
         ResponseBag::Add("index2", "測試資料ㄇ2!");
         return $this->View("Index2");

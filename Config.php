@@ -43,5 +43,5 @@ class CassandraConfig {
     /**
      * 預設 Keyspace
      */
-    const DefaultKeyspace = "pimin_net";
+    const DefaultKeyspace = "casino_ayasafe";
 }

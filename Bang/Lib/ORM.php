@@ -12,16 +12,7 @@ class ORM {
      * @return array 結果陣列
      */
     public static function ObjectToArray($obj) {
-        $result = array();
-        $reflect = new ReflectionClass($obj);
-        $properties = $reflect->getProperties();
-        foreach ($properties as $property) {
-            $name = $property->name;
-            $value = $property->getValue($obj);
-
-            $result[$name] = $value;
-        }
-        return $result;
+        return get_object_vars($obj);
     }
 
     /**
@@ -45,6 +36,32 @@ class ORM {
             }
         }
         return $obj;
+    }
+
+    /**
+     * 將2維 陣列(第二維必須維字串索引)  轉換為物件陣列 並對應Key名稱
+     * @param array $array 2維陣列 字串索引的陣列
+     * @param string $className 物建類別名稱
+     * @return array 轉換結果陣列
+     */
+    public static function TwoDArrayToObjectsKeyArray($twoD_Array, $className, $key_name) {
+        $reflect = new ReflectionClass($className);
+        $result = array();
+
+        foreach ($twoD_Array as $row) {
+            $item = $reflect->newInstanceArgs();
+            //設定所有屬性
+            $properties = $reflect->getProperties();
+            foreach ($properties as $property) {
+                $name = $property->name;
+                if (isset($row[$name])) {
+                    $property->setValue($item, $row[$name]);
+                }
+            }
+            $key = $row[$key_name];
+            $result[$key] = $item;
+        }
+        return $result;
     }
 
     /**

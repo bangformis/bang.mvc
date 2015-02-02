@@ -6,6 +6,26 @@
 class String {
 
     /**
+     * 将阵列字串结合成单一字串
+     * @param array $strs 字串阵列
+     * @param string $separated 分隔字串
+     * @param string $symbol 字串符号
+     * @return string 结果字串
+     */
+    public static function ToSingleString($strs, $separated = ",", $symbol = "'") {
+        $result = "";
+        $count = 0;
+        foreach ($strs as $str) {
+            if ($count > 0) {
+                $result .= $separated;
+            }
+            $result .= $symbol . $str . $symbol;
+            $count++;
+        }
+        return $result;
+    }
+
+    /**
      * 判斷字串不是空值或是空白
      * @param string $str 判斷字串
      * @return bool 判斷結果

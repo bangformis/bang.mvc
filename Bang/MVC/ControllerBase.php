@@ -15,11 +15,11 @@ class ControllerBase {
             $viewName = Route::Current()->action;
         }
         $className = String::RemoveSuffix(get_class($this), "Controller");
-        $viewFile = Url::View($viewName, $className);
+        $viewFile = "$className/$viewName.php";
         ResponseBag::Add("View", $viewFile);
 
         $layoutFile = Path::View("_Layout", "Shared");
-        require $layoutFile;
+        include $layoutFile;
     }
 
     /**
@@ -28,12 +28,20 @@ class ControllerBase {
      */
     protected function Json($obj = NULL) {
         header('Content-Type: application/json');
-
         if ($obj === NULL) {
             $obj = new TaskResult();
             $obj->IsSuccess = true;
         }
         echo json_encode($obj);
+    }
+
+    /**
+     * 以 Json 字串回傳json格式
+     * @param string $json_str 傳入JSON格式字串，為空時將自動傳TaskResult並IsSuccess為true
+     */
+    protected function JsonContent($json_str) {
+        header('Content-Type: application/json');
+        echo $json_str;
     }
 
 }

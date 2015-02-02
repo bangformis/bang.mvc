@@ -22,7 +22,7 @@ class TaskResult {
     public $Message;
     
     /**
-     * @var string 結果值
+     * @var mixed 結果值
      */
     public $Value;
     

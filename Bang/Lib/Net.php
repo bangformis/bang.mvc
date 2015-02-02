@@ -70,4 +70,61 @@ class Net {
         return $curl;
     }
 
+    /**
+     * 
+     * @param type $ip_address IP位置
+     * @param type $username 使用者帳號
+     * @param type $password 使用者密碼
+     * @return ip_country_data IP位置資訊
+     */
+    public static function GetIpInfoFromMaxmind($ip_address, $username = "94833", $password = "APSIxx8Bn0Yf") {
+        $url = "https://geoip.maxmind.com/geoip/v2.1/country/{$ip_address}?pretty";
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_ENCODING, "UTF-8");
+        curl_setopt($curl, CURLOPT_USERPWD, "{$username}:{$password}");
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 50);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 50);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        if (substr($url, 0, 5) == "https") {
+            curl_setopt($curl, CURLOPT_PORT, 443);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        }
+        $recall = curl_exec($curl);
+        if (!$recall) {
+            return false;
+        }
+        curl_close($curl);
+
+        var_dump($recall);
+        
+        $obj_result = json_decode($recall);
+        $area_code = $obj_result->continent->code;
+        $area = $obj_result->continent->names->en;
+        $country = $obj_result->country->names->en;
+        $country_code = $obj_result->country->iso_code;
+
+        $result = new ip_country_data();
+        $result->area_code = $area_code;
+        $result->area_name = $area;
+        $result->country_code = $country_code;
+        $result->country_name = $country;
+        $result->ip = $ip_address;
+        return $result;
+    }
+
+}
+
+class ip_country_data extends MySqlTableBase {
+
+    public $ip;
+    public $area_name;
+    public $area_code;
+    public $country_name;
+    public $country_code;
+
 }

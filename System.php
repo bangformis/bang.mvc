@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Config.php';
+include 'Config.php';
 
 ini_set("display_errors", "1");
 error_reporting(E_ALL);
@@ -20,10 +20,14 @@ $_handleMissedException = function ($exception) {
       final public array getTrace ( void )
       final public string getTraceAsString ( void )
      */
-    echo $exception->getTraceAsString();
+    $log = new error_log();
+    $log->content = $exception->getTraceAsString();
+    $log->file = $exception->getFile();
+    $log->line = $exception->getLine();
+    $log->message = $exception->getMessage();
+    $log->Insert();
+    die();
 };
-//set_exception_handler($_handleMissedException);
-
 /**
  * Error統一處理
  * @param int $errno 錯誤代碼
@@ -32,14 +36,17 @@ $_handleMissedException = function ($exception) {
  * @param string $errline 錯誤行號
  */
 $_handleMissedError = function ($errno, $errstr, $errfile, $errline) {
-    echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
-    echo "  Fatal error on line $errline in file $errfile";
-    echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
-    echo "Aborting...<br />\n";
-    exit(1);
+    $log = new error_log();
+    $log->content = $errstr;
+    $log->file = $errfile;
+    $log->line = $errline;
+    $log->Insert();
 };
 
-//set_error_handler($_handleMissedError);
+if (Config::IsReleaseMode) {
+    set_exception_handler($_handleMissedException);
+    set_error_handler($_handleMissedError);
+}
 
 /**
  * 自動載入lib中的Class功能
@@ -47,14 +54,13 @@ $_handleMissedError = function ($errno, $errstr, $errfile, $errline) {
 function __autoload($classname) {
     if (file_exists('Models/' . $classname . '.php')) {
         require_once( 'Models/' . $classname . '.php');
+    } else if (file_exists('AyaSafe/' . $classname . '.php')) {
+        require_once('AyaSafe/' . $classname . '.php');
+    } else if (file_exists('Bang/MVC/' . $classname . '.php')) {
+        require_once('Bang/MVC/' . $classname . '.php');
     } else if (file_exists('Bang/Lib/' . $classname . '.php')) {
         require_once('Bang/Lib/' . $classname . '.php');
     } else {
         throw new Exception("找不到 {$classname} 這個Class檔案，無法載入！");
     }
-}
-
-//將所有mvc中的檔案載入
-foreach (glob("Bang/MVC/*.php") as $filename) {
-    require_once $filename;
 }

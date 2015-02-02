@@ -52,15 +52,18 @@ class Url {
      * 取得Action網址
      * @param string $actionName Action名稱
      * @param string $controllerName Controller名稱
-     * @param array $getParam 其他參數
+     * @param mixed $getParam 其他參數
      * @return string Action網址
      */
     public static function Action($actionName, $controllerName = "", $getParam = null) {
         if (empty($controllerName)) {
             $controllerName = Route::Current()->controller;
         }
+        if ((!is_null($getParam)) && (!is_array($getParam))) {
+            $getParam = get_object_vars($getParam);
+        }
 
-        $resultUrl = Config::$Root . "Index.php?controller=$controllerName&action=$actionName";
+        $resultUrl = Config::$Root . "index.php?controller=$controllerName&action=$actionName";
         if (!is_null($getParam)) {
             foreach ($getParam as $key => $value) {
                 $value = urlencode($value);

@@ -12,9 +12,7 @@ $viewBag = ViewBag::Get();
     <body>
         <?php
         include Path::Content("Views/Shared/_Layout/_Header.php");
-
         include Path::Content("Views/$bodyView");
-
         include Path::Content("Views/Shared/_Layout/_Footer.php");
         ?>
     </body>

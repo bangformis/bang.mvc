@@ -18,10 +18,10 @@ class Config {
     const MemcachedServerPort = 11211;
     //資料庫各項連線設定
     const DbName = "bang.ayasafe.new";
-    const DbHost = "104.155.195.104";
+    const DbHost = "localhost";
     const DbPort = "3306";
     const DbUser = "root";
-    const DbPassword = "mysql";
+    const DbPassword = "123456";
     //各項快取設定
     const BufferInsertCount = 10;
     //系統使用的目錄分隔符號

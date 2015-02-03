@@ -1,6 +1,6 @@
 <?php
 
-require_once Url::Model("Operator");
+require_once Path::Model("test_model");
 
 /**
  * 主頁面Controller

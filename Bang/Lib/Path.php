@@ -12,7 +12,7 @@ class Path {
      * @return string Model檔案網址
      */
     public static function Model($name) {
-        $modelFile = Path::Content($name);
+        $modelFile = Path::Content("Models/$name.php");
         return $modelFile;
     }
 

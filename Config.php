@@ -17,7 +17,7 @@ class Config {
     const MemcachedServer = "localhost";
     const MemcachedServerPort = 11211;
     //資料庫各項連線設定
-    const DbName = "bang.ayasafe.new";
+    const DbName = "bang_test";
     const DbHost = "localhost";
     const DbPort = "3306";
     const DbUser = "root";

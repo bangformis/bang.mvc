@@ -78,7 +78,7 @@ class String {
      * @return bool 判斷結果
      */
     public static function StartsWith($input, $test) {
-        return $input === "" || strpos($input, $test) === 0;
+        return strpos($input, $test) === 0;
     }
 
     /**

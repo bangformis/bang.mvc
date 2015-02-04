@@ -60,14 +60,17 @@ class StringTest extends PHPUnit_Framework_TestCase {
     public function testStartsWith() {
         // Arrange
         $test = "test1";
-
+        $test2 = "";
+        
         // Act
         $isTrue = String::StartsWith($test, "test");
         $isFlase = String::StartsWith($test, "1");
-
+        $isFalse2 = String::StartsWith($test2, "1");
+        
         // Assert
         $this->assertTrue($isTrue);
         $this->assertFalse($isFlase);
+        $this->assertFalse($isFalse2);
     }
 
     public function testEndsWith() {

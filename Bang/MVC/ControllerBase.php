@@ -17,7 +17,6 @@ class ControllerBase {
         $className = String::RemoveSuffix(get_class($this), "Controller");
         $viewFile = "$className/$viewName.php";
         ResponseBag::Add("View", $viewFile);
-
         $layoutFile = Path::View("_Layout", "Shared");
         include $layoutFile;
     }

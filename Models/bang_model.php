@@ -51,6 +51,10 @@ class bang_model extends MySqlTable {
         ));
     }
 
+    public function Delete() {
+        parent::DeleteData("`id`=:id", array(":id" => $this->id));
+    }
+
     /**
      * @param bang_model $obj
      * @return bang_model

@@ -4,7 +4,7 @@
  * MySql資料庫資料表對應Model基底(ORM)
  * @author Bang
  */
-class MySqlTable {
+abstract class MySqlTable {
 
     /**
      * 取得單一筆資料
@@ -53,7 +53,7 @@ class MySqlTable {
      * @param array $without_keys 不打算Insert的欄位
      * @return int 執行結果或最後一次InsertID
      */
-    public function InsertData($without_keys = NULL) {
+    protected function InsertData($without_keys = NULL) {
         $bag = $this->GetInsertSqlBag($without_keys);
         $connect = DbContext::GetConnection();
         $stem = $connect->prepare($bag->PrepareSql);
@@ -67,11 +67,22 @@ class MySqlTable {
      * @param array $where_params
      * @param array $without_keys
      */
-    public function UpdateData($where_string, $where_params, $without_keys = NULL) {
+    protected function UpdateData($where_string, $where_params, $without_keys = NULL) {
         $bag = $this->GetUpdateSqlBag($where_string, $where_params, $without_keys);
         $connect = DbContext::GetConnection();
         $stem = $connect->prepare($bag->PrepareSql);
         $stem->execute($bag->KeyValues);
+    }
+
+    /**
+     * 刪除目前物件資料
+     * @param string $where_string
+     * @param array $where_params
+     */
+    protected function DeleteData($where_string, $where_params) {
+        $className = get_class($this);
+        $sql = "DELETE FROM `$className` WHERE ($where_string)";
+        DbContext::Query($sql, $where_params);
     }
 
     /**
@@ -135,7 +146,7 @@ class MySqlTable {
         return $bag;
     }
 
-    public function GetUpdateSqlBag($where_string, $where_params, $without_keys = NULL) {
+    private function GetUpdateSqlBag($where_string, $where_params, $without_keys = NULL) {
         $tableName = get_class($this);
         $key = "__PreapreUpdateSQL_$tableName";
         $cache = Cache::Get($key);
@@ -189,4 +200,9 @@ class MySqlTable {
         return $bag;
     }
 
+    public abstract function Insert();
+
+    public abstract function Update();
+
+    public abstract function Delete();
 }

@@ -7,7 +7,6 @@ require_once '../Bang/lib/String.php';
  */
 class StringTest extends PHPUnit_Framework_TestCase {
 
-    
     public function testIsNullOrSpace() {
         //Arrange 
         $strTrue = '  ';
@@ -18,7 +17,7 @@ class StringTest extends PHPUnit_Framework_TestCase {
         $resultTrue1 = String::IsNullOrSpace($strTrue);
         $resultFalse1 = String::IsNullOrSpace($strFalse);
         $resultTrue2 = String::IsNullOrSpace($strTrue2);
-        $resultTrue3= String::IsNullOrSpace("");
+        $resultTrue3 = String::IsNullOrSpace("");
 
         //Assert
         $this->assertEquals($resultTrue1, TRUE);
@@ -61,12 +60,12 @@ class StringTest extends PHPUnit_Framework_TestCase {
         // Arrange
         $test = "test1";
         $test2 = "";
-        
+
         // Act
         $isTrue = String::StartsWith($test, "test");
         $isFlase = String::StartsWith($test, "1");
         $isFalse2 = String::StartsWith($test2, "1");
-        
+
         // Assert
         $this->assertTrue($isTrue);
         $this->assertFalse($isFlase);
@@ -76,14 +75,17 @@ class StringTest extends PHPUnit_Framework_TestCase {
     public function testEndsWith() {
         // Arrange
         $test = "test1";
+        $test2 = "";
 
         // Act
         $isFlase = String::EndsWith($test, "test");
         $isTrue = String::EndsWith($test, "1");
+        $isFalse2 = String::EndsWith($test2, "1");
 
         // Assert
         $this->assertTrue($isTrue);
         $this->assertFalse($isFlase);
+        $this->assertFalse($isFalse2);
     }
 
 }

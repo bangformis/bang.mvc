@@ -63,4 +63,7 @@ class Url {
         return $resultUrl;
     }
 
+    public static function Relative(){
+        return $_SERVER['REQUEST_URI'];
+    }
 }

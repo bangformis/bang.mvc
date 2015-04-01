@@ -91,4 +91,8 @@ class String {
         return $test === "" || substr($input, -strlen($test)) === $test;
     }
 
+    public static function Replace($input, $target_str, $replace_to) {
+        return str_replace($target_str, $replace_to, $input);
+    }
+
 }

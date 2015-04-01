@@ -31,22 +31,3 @@ class Config {
     const IsReleaseMode = false;
 
 }
-
-/**
- * Cassandra 設定
- */
-class CassandraConfig {
-
-    /**
-     * 連接位置
-     */
-    public static $Hosts = array(
-        '107.167.182.168:9042'
-    );
-
-    /**
-     * 預設 Keyspace
-     */
-    const DefaultKeyspace = "casino_ayasafe";
-
-}

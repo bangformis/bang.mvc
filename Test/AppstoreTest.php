@@ -1,6 +1,7 @@
 <?php
 
 require_once '../Bang/lib/Appstore.php';
+require_once '../Config.php';
 
 /**
  * 應用程式單例存放測試
@@ -16,10 +17,10 @@ class _forAppstoreTest {
 class AppstoreTest extends PHPUnit_Framework_TestCase {
 
     protected function setUp() {
-        Appstore::Add("GG", "test_name");
+        Appstore::Set("test_name", "GG");
     }
 
-    public function testGetAndContains() {
+    public function testGetAndSet() {
         // Arrange
         $test = new _forAppstoreTest();
         $test->name = "test1";
@@ -27,28 +28,24 @@ class AppstoreTest extends PHPUnit_Framework_TestCase {
         $test->roles = [1, 3, 4, 5];
 
         // Act
-        Appstore::add($test);
+        Appstore::Set('_forAppstoreTest' , $test);
 
         // Assert
-        $true = Appstore::Contains("_forAppstoreTest");
         $test2 = Appstore::Get("_forAppstoreTest");
 
-        $this->assertTrue($true);
         $this->assertEquals($test2, $test);
     }
 
-    public function testRemove() {
+    public function testDelete() {
         // Arrange
-
-        $true = Appstore::Contains("test_name");
-        $this->assertTrue($true);
+        $true = Appstore::Get("test_name" , FALSE);
+        $this->assertTrue($true != FALSE);
 
         // Act
-        Appstore::Remove("test_name");
+        Appstore::Delete("test_name");
 
         // Assert
-        $false = Appstore::Contains("test_name");
-
+        $false = Appstore::Get("test_name", FALSE);
         $this->assertFalse($false);
     }
 

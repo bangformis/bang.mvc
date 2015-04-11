@@ -36,5 +36,13 @@ class Request {
     public static function GetGet($obj) {
         return Request::GetParam($obj, false);
     }
+    
+    /**
+     * 取得相對位置網址
+     * @return string 對應相對網址
+     */
+    public static function GetPathAndQuery(){
+        return  $_SERVER['REQUEST_URI'];
+    }
 
 }

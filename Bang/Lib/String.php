@@ -91,8 +91,26 @@ class String {
         return $test === "" || substr($input, -strlen($test)) === $test;
     }
 
+    /**
+     * 字串取代
+     * @param string $input 輸入完整字串
+     * @param string $target_str 尋找目標？
+     * @param string $replace_to 取代為？
+     * @return string 結果字串
+     */
     public static function Replace($input, $target_str, $replace_to) {
         return str_replace($target_str, $replace_to, $input);
+    }
+    
+    /**
+     * 將QueryString轉為陣列
+     * @param string $input QueryString
+     * @return array 陣列結果
+     */
+    public static function ParseQueryStringToArray($input){
+        $resultArray = array();
+        parse_str($input , $resultArray);
+        return $resultArray;
     }
 
 }

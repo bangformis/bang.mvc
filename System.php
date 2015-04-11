@@ -48,19 +48,27 @@ if (Config::IsReleaseMode) {
     set_error_handler($_handleMissedError);
 }
 
+Config::AddAutoIncludes(Path::Content('Bang/MVC/'));
+
 /**
  * 自動載入lib中的Class功能
  */
 function __autoload($classname) {
-    if (file_exists('Models/' . $classname . '.php')) {
-        require_once( 'Models/' . $classname . '.php');
-    } else if (file_exists('AyaSafe/' . $classname . '.php')) {
-        require_once('AyaSafe/' . $classname . '.php');
-    } else if (file_exists('Bang/MVC/' . $classname . '.php')) {
+    if (file_exists('Bang/MVC/' . $classname . '.php')) {
         require_once('Bang/MVC/' . $classname . '.php');
     } else if (file_exists('Bang/Lib/' . $classname . '.php')) {
         require_once('Bang/Lib/' . $classname . '.php');
     } else {
-        throw new Exception("找不到 {$classname} 這個Class檔案，無法載入！");
+        $exists = false;
+        $all_paths = Config::GetAutoIncludes();
+        foreach($all_paths as $key => $path){
+            if (file_exists($path . $classname . '.php')) {
+                $exists = true;
+                require_once( $path . $classname . '.php');
+            }
+        }
+        if(!$exists){
+            throw new Exception("找不到 {$classname} 這個Class檔案，無法載入！");
+        }
     }
 }

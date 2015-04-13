@@ -30,33 +30,13 @@ class HomeController extends ControllerBase {
         
         return $this->View(); //將傳至 Views/Home/Index.php 檔案執行
     }
-
-    public function GetCountryAndCityFromIp(){
-        $ip_address = $_GET['ip_address'];
-        $sql = "SELECT
-                geo_lite_city_location.country,
-                geo_lite_city_location.city
-                FROM
-                geo_lite_city_blocks
-                INNER JOIN geo_lite_city_location ON geo_lite_city_blocks.location_id = geo_lite_city_location.id
-                WHERE INET_ATON(:ip_address) BETWEEN start_ip_num AND end_ip_num";
-        $param = array(
-            ":ip_address" => $ip_address
-        );
-        
-        $sql_result = DbContext::Query($sql, $param);
-        $result_value = $sql_result->fetchObject();
-        
-        $result = new TaskResult();
-        $result->IsSuccess = TRUE;
-        $result->Message = "Hello World";
-        $result->Value = $result_value;
-        
-        return $this->Json($result);
+    
+    public function RedirectTest(){
+        return $this->RedirectToAction('Index');
     }
     
-    public function JsonTest() {
-        return $this->Json(Request::GetPost(new Operator("", "", "", 9)));
+    public function RedirectTest2(){
+        return $this->RedirectToUrl('http://facebook.com');
     }
 
 }

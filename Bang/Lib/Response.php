@@ -23,4 +23,14 @@ class Response {
         }
         die();
     }
+
+    /**
+     * 重新導向網址
+     * @param string $url 導向的網址
+     */
+    public static function RedirectUrl($url) {
+        header("Location: {$url}");
+        die();
+    }
+
 }

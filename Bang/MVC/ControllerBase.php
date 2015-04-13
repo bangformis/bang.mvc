@@ -42,5 +42,26 @@ class ControllerBase {
         header('Content-Type: application/json');
         echo $json_str;
     }
+    
+    /**
+     * 重新導向網址
+     * @param string $url 導向的網址
+     */
+    protected function RedirectToUrl($url) {
+        Response::RedirectUrl($url);
+        die();
+    }
+    
+    /**
+     * 重新導向網址
+     * @param string $url 導向的網址
+     */
+    protected function RedirectToAction($actoiName, $controller = null , $params = array()) {
+        if(null == $controller){
+            $controller = Route::Current()->controller;
+        }
+        $url = Url::Action($actoiName, $controller , $params);
+        $this->RedirectToUrl($url);
+    }
 
 }

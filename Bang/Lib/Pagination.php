@@ -74,7 +74,7 @@ class Pagination {
     }
 
     public function GetStartPage() {
-        $result1 = ($this->CurrentPage - 1) / 10.0;
+        $result1 = floor(($this->CurrentPage - 1) / 10.0);
         $result = $result1 * 10 + 1;
         return intval($result);
     }

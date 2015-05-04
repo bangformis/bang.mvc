@@ -24,7 +24,7 @@ class Net {
         $mailer = Swift_Mailer::newInstance($transport);
 
         $message = Swift_Message::newInstance($subject)
-                ->setFrom(array('test1@gmail.com' => $from_display_name))
+                ->setFrom(array($login_email => $from_display_name))
                 ->setTo(array($toEmail))
                 ->setBody($html_content, 'text/html');
         $result = $mailer->send($message);

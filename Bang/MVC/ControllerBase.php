@@ -10,14 +10,14 @@ class ControllerBase {
      * 回傳View結果
      * 帶預設Layout.php
      */
-    protected function View($viewName = "") {
+    protected function View($viewName = "", $layout = "_Layout") {
         if (String::IsNullOrSpace($viewName)) {
             $viewName = Route::Current()->action;
         }
         $className = String::RemoveSuffix(get_class($this), "Controller");
         $viewFile = "$className/$viewName.php";
         ResponseBag::Add("View", $viewFile);
-        $layoutFile = Path::View("_Layout", "Shared");
+        $layoutFile = Path::View($layout, "Shared");
         include $layoutFile;
     }
 
@@ -42,7 +42,7 @@ class ControllerBase {
         header('Content-Type: application/json');
         echo $json_str;
     }
-    
+
     /**
      * 重新導向網址
      * @param string $url 導向的網址
@@ -51,16 +51,16 @@ class ControllerBase {
         Response::RedirectUrl($url);
         die();
     }
-    
+
     /**
      * 重新導向網址
      * @param string $url 導向的網址
      */
-    protected function RedirectToAction($actoiName, $controller = null , $params = array()) {
-        if(null == $controller){
+    protected function RedirectToAction($actoiName, $controller = null, $params = array()) {
+        if (null == $controller) {
             $controller = Route::Current()->controller;
         }
-        $url = Url::Action($actoiName, $controller , $params);
+        $url = Url::Action($actoiName, $controller, $params);
         $this->RedirectToUrl($url);
     }
 

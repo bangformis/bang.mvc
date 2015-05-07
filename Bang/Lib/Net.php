@@ -4,7 +4,7 @@
  * 網路相關功能
  */
 class Net {
-
+    
     /**
      * 以Gmail寄送信件
      * @param string $login_email 登入的Email

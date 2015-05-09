@@ -27,7 +27,7 @@ class ViewBag {
      * @param string $title 標題前置
      * @param string $description 網頁敘述
      */
-    public static function SetNormalSite($title, $description) {
+    public static function SetNormalSite($title, $description = '') {
         $current = ViewBag::Get();
         $current->Title = $title;
         $current->Description = $description;

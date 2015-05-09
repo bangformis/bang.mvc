@@ -1,6 +1,6 @@
 <?php
 
-include 'Config.php';
+require_once 'Config.php';
 
 ini_set("display_errors", "1");
 error_reporting(E_ALL);
@@ -48,7 +48,26 @@ if (Config::IsReleaseMode) {
     set_error_handler($_handleMissedError);
 }
 
-Config::AddAutoIncludes(Path::Content('Bang/MVC/'));
+class BangSystem {
+
+    /**
+     * @var array 自動加載的所有套件字串
+     */
+    private static $__AutoIncludes = array();
+
+    /**
+     * 加入AutoLoad資料夾，可將資料夾位置傳入Autoload將自動掃描該資料夾
+     * @param type $path
+     */
+    public static function AddAutoIncludes($path) {
+        BangSystem::$__AutoIncludes[] = $path;
+    }
+
+    public static function GetAutoIncludes() {
+        return BangSystem::$__AutoIncludes;
+    }
+
+}
 
 /**
  * 自動載入lib中的Class功能
@@ -60,15 +79,17 @@ function __autoload($classname) {
         require_once('Bang/Lib/' . $classname . '.php');
     } else {
         $exists = false;
-        $all_paths = Config::GetAutoIncludes();
-        foreach($all_paths as $key => $path){
+        $all_paths = BangSystem::GetAutoIncludes();
+        foreach ($all_paths as $key => $path) {
             if (file_exists($path . $classname . '.php')) {
                 $exists = true;
                 require_once( $path . $classname . '.php');
             }
         }
-        if(!$exists){
+        if (!$exists) {
             throw new Exception("找不到 {$classname} 這個Class檔案，無法載入！");
         }
     }
 }
+
+require_once 'Autoloads.php';

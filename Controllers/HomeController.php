@@ -39,4 +39,16 @@ class HomeController extends ControllerBase {
         return $this->RedirectToUrl('http://facebook.com');
     }
 
+    public function SendEmailTest(){
+        //這裡可以測試Email送出功能，本地若出現SSL無法使用問題請至php.ini開啟 openssl套件 如: extension="ext\php_openssl.dll"
+        Net::SendGmail(
+            'your_login_email@gmail.com',
+            'your password',
+            'your subject', 
+            'your name display on mail',
+            'who_you_want_to_send@gmail.com',
+            'your email content , <br /> it is html body'
+        );
+    }
+    
 }

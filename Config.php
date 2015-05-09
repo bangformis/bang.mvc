@@ -17,7 +17,7 @@ class Config {
     const MemcachedServer = "localhost";
     const MemcachedServerPort = 11211;
     //資料庫各項連線設定
-    const DbName = "bang_test";
+    const DbName = "bang.for.test";
     const DbHost = "localhost";
     const DbPort = "3306";
     const DbUser = "root";
@@ -28,21 +28,4 @@ class Config {
     const DirSplitor = "\\";
     //是否為啟用版本 啟用版本將會不檢視錯誤訊息並記錄至資料庫中
     const IsReleaseMode = false;
-
-    
-    /**
-     * @var array 自動加載的所有套件字串
-     */
-    private static $__AutoIncludes = array();
-
-    /**
-     * 加入AutoLoad資料夾，可將資料夾位置傳入Autoload將自動掃描該資料夾
-     * @param type $path
-     */
-    public static function AddAutoIncludes($path) {
-        Config::$__AutoIncludes[] = $path;
-    }
-    public static function GetAutoIncludes(){
-        return Config::$__AutoIncludes;
-    }
 }

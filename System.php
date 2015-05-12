@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Config.php';
+require_once __DIR__ . '/Config.php';
 
 ini_set("display_errors", "1");
 error_reporting(E_ALL);
@@ -73,10 +73,10 @@ class BangSystem {
  * 自動載入lib中的Class功能
  */
 function __autoload($classname) {
-    if (file_exists('Bang/MVC/' . $classname . '.php')) {
-        require_once('Bang/MVC/' . $classname . '.php');
-    } else if (file_exists('Bang/Lib/' . $classname . '.php')) {
-        require_once('Bang/Lib/' . $classname . '.php');
+    if (file_exists(__DIR__ . '/Bang/MVC/' . $classname . '.php')) {
+        require_once(__DIR__ . '/Bang/MVC/' . $classname . '.php');
+    } else if (file_exists(__DIR__ . '/Bang/Lib/' . $classname . '.php')) {
+        require_once(__DIR__ . '/Bang/Lib/' . $classname . '.php');
     } else {
         $exists = false;
         $all_paths = BangSystem::GetAutoIncludes();

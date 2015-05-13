@@ -26,4 +26,26 @@ class TaskResult {
      */
     public $Value;
     
+    /**
+     * @param string $msg
+     * @return \TaskResult this
+     */
+    public function SetUnsuccess($msg = ''){
+        $this->Message = $msg;
+        $this->IsSuccess = FALSE;
+        return $this;
+    }
+    
+    /**
+     * @param mixed $value
+     * @param string $msg
+     * @return \TaskResult this
+     */
+    public function SetSuccess($value = '' , $msg = ''){
+        $this->IsSuccess = true;
+        $this->Message = $msg;
+        $this->Value = $value;
+        return $this;
+    }
+    
 }

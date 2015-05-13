@@ -1,3 +1,6 @@
 <?php
 
-BangSystem::AddAutoIncludes(Path::Content('Models/'));
+BangSystem::AddAutoIncludes(array(
+    'Models/'
+));
+

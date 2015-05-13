@@ -20,11 +20,12 @@ $_handleMissedException = function ($exception) {
       final public array getTrace ( void )
       final public string getTraceAsString ( void )
      */
-    $log = new error_log();
-    $log->content = $exception->getTraceAsString();
-    $log->file = $exception->getFile();
-    $log->line = $exception->getLine();
-    $log->message = $exception->getMessage();
+
+    $content = $exception->getTraceAsString();
+    $filename = $exception->getFile();
+    $line = $exception->getLine();
+    $msg = $exception->getMessage();
+    $log = error_log::CreateInstance($content, $filename, $line, $msg);
     $log->Insert();
     die();
 };
@@ -40,6 +41,12 @@ $_handleMissedError = function ($errno, $errstr, $errfile, $errline) {
     $log->content = $errstr;
     $log->file = $errfile;
     $log->line = $errline;
+
+    $content = $errstr;
+    $filename = $errfile;
+    $line = $errline;
+    $msg = 'errorno:' . $errno;
+    $log = error_log::CreateInstance($content, $filename, $line, $msg);
     $log->Insert();
 };
 
@@ -57,10 +64,16 @@ class BangSystem {
 
     /**
      * 加入AutoLoad資料夾，可將資料夾位置傳入Autoload將自動掃描該資料夾
-     * @param type $path
+     * @param mixed $paths array or string
      */
-    public static function AddAutoIncludes($path) {
-        BangSystem::$__AutoIncludes[] = $path;
+    public static function AddAutoIncludes($paths) {
+        if (is_array($paths)) {
+            foreach ($paths as $path) {
+                BangSystem::$__AutoIncludes[] = __DIR__ . '/' . $path;
+            }
+        } else {
+            BangSystem::$__AutoIncludes[] = __DIR__ . '/' . $paths;
+        }
     }
 
     public static function GetAutoIncludes() {

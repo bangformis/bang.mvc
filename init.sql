@@ -4,10 +4,17 @@
 -- ----------------------------
 DROP TABLE IF EXISTS `error_log`;
 CREATE TABLE `error_log` (
-  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `Content` text NOT NULL,
-  `Filename` varchar(200) NOT NULL,
-  `Message` varchar(200) NOT NULL,
-  `DateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+`Id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+`Content`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`Filename`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`Line`  int(11) NOT NULL ,
+`Message`  varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`DateTime`  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+PRIMARY KEY (`Id`)
+)
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+AUTO_INCREMENT=5
+ROW_FORMAT=COMPACT
+;
+

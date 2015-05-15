@@ -34,10 +34,12 @@ class DbContext {
     public static function Query($sql, $params) {
         $con = DbContext::GetConnection();
         $stem = $con->prepare($sql);
-        $stem->execute($params);
+        $result = $stem->execute($params);
+        if (!$result) {
+            $str_params = json_encode($params);
+            throw new Exception("Sql exception in:{$sql},params:{$str_params}");
+        }
         return $stem;
     }
-    
-    
 
 }

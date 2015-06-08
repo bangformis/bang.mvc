@@ -2,4 +2,9 @@
 
 require_once 'System.php';
 
-Response::HttpNotFound();
+
+$func = function () {
+    return 0;
+};
+
+echo $func();

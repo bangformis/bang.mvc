@@ -7,10 +7,16 @@ $viewBag = ViewBag::Get();
         <meta charset="UTF-8">
         <title><?= $viewBag->GetTitle() ?></title>
         <meta name="description" content="<?= $viewBag->Description ?>" />
-        <link href="<?= Url::Content('Content/bootstrap/css/bootstrap.css') ?>" rel="stylesheet" type="text/css"/>
-        <link href="<?= Url::Content('Content/bootstrap/css/bootstrap-theme.css') ?>" rel="stylesheet" type="text/css"/>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="../../Content/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+		<?php
+		Bundle::Css('test_css', array(
+            'Content/bootstrap/css/bootstrap.css',
+            'Content/bootstrap/css/bootstrap-theme.css'
+        ));
+		Bundle::Js('test_js', array(
+            'Content/js/lib/jquery.js',
+            'Content/bootstrap/js/bootstrap.js'
+        ));
+		?>
     </head>
     <body>
         <?php

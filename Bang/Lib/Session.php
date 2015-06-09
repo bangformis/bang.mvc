@@ -14,9 +14,7 @@ class Session {
      * 自動判斷是否啟動SessionStart
      */
     public static function StartSession() {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        //if something must to check on start session
     }
 
     /**

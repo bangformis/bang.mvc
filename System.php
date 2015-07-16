@@ -106,3 +106,4 @@ function __autoload($classname) {
 }
 
 require_once 'Autoloads.php';
+session_start();

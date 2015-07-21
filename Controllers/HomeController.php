@@ -1,7 +1,5 @@
 <?php
 
-require_once Path::Model("bang_model");
-
 /**
  * 主頁面Controller
  * @author Bang

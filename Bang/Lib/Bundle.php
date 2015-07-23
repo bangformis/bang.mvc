@@ -27,4 +27,14 @@ class Bundle {
         }
     }
 
+    public static function PHP($file_name, $php_files_array) {
+        if (String::IsNullOrSpace($file_name) && isset($php_files_array[0])) {
+            $file_name = $php_files_array[0];
+        }
+        foreach ($php_files_array as $value) {
+            $path = Path::Content($value);
+            require $path;
+        }
+    }
+
 }

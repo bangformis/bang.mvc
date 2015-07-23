@@ -21,9 +21,11 @@ $viewBag = ViewBag::Get();
     </head>
     <body>
         <?php
-        include Path::Content("Views/Shared/_Layout/_Header.php");
-        include Path::Content("Views/{$bodyView}");
-        include Path::Content("Views/Shared/_Layout/_Footer.php");
+        Bundle::PHP('layout', array(
+            "Views/Shared/_Layout/_Header.php",
+            "Views/{$bodyView}",
+            "Views/Shared/_Layout/_Footer.php"
+        ));
         ?>
     </body>
 </html>

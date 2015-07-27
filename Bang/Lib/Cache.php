@@ -34,6 +34,19 @@ class Cache {
      */
     public $time_up_seconds;
 
+    public function Update($data, $last_update = FALSE, $time_up_seconds = FALSE) {
+        if ($last_update == FALSE) {
+            $last_update = time();
+        }
+        if ($time_up_seconds == FALSE) {
+            $time_up_seconds = $this->time_up_seconds;
+        }
+        
+        $this->data = $data;
+        $this->last_update = $last_update;
+        $this->time_up_seconds = $time_up_seconds;
+    }
+
     /**
      * 
      * @return boolean 是否需要更新快取
@@ -78,5 +91,13 @@ class Cache {
     }
 
     private static $KeyPrefix = "__Cache";
+
+    /**
+     * @param type $obj
+     * @return Cache
+     */
+    public static function AsTo($obj) {
+        return $obj;
+    }
 
 }

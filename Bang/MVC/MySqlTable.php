@@ -53,11 +53,12 @@ abstract class MySqlTable {
      * @param array $without_keys 不打算Insert的欄位
      * @return int 執行結果或最後一次InsertID
      */
-    protected function InsertData($without_keys = NULL) {
+    protected function InsertData($without_keys = array()) {
+        
         $bag = $this->GetInsertSqlBag($without_keys);
         $connect = DbContext::GetConnection();
         $stem = $connect->prepare($bag->PrepareSql);
-        $stem->execute($bag->KeyValues);
+        $result = $stem->execute($bag->KeyValues);
         return $connect->lastInsertId();
     }
 

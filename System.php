@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Config.php';
+require_once __DIR__ . '/Config.php';
 
 ini_set("display_errors", "1");
 error_reporting(E_ALL);
@@ -20,11 +20,12 @@ $_handleMissedException = function ($exception) {
       final public array getTrace ( void )
       final public string getTraceAsString ( void )
      */
-    $log = new error_log();
-    $log->content = $exception->getTraceAsString();
-    $log->file = $exception->getFile();
-    $log->line = $exception->getLine();
-    $log->message = $exception->getMessage();
+
+    $content = $exception->getTraceAsString();
+    $filename = $exception->getFile();
+    $line = $exception->getLine();
+    $msg = $exception->getMessage();
+    $log = error_log::CreateInstance($content, $filename, $line, $msg);
     $log->Insert();
     die();
 };
@@ -40,6 +41,12 @@ $_handleMissedError = function ($errno, $errstr, $errfile, $errline) {
     $log->content = $errstr;
     $log->file = $errfile;
     $log->line = $errline;
+
+    $content = $errstr;
+    $filename = $errfile;
+    $line = $errline;
+    $msg = 'errorno:' . $errno;
+    $log = error_log::CreateInstance($content, $filename, $line, $msg);
     $log->Insert();
 };
 
@@ -57,10 +64,16 @@ class BangSystem {
 
     /**
      * 加入AutoLoad資料夾，可將資料夾位置傳入Autoload將自動掃描該資料夾
-     * @param type $path
+     * @param mixed $paths array or string
      */
-    public static function AddAutoIncludes($path) {
-        BangSystem::$__AutoIncludes[] = $path;
+    public static function AddAutoIncludes($paths) {
+        if (is_array($paths)) {
+            foreach ($paths as $path) {
+                BangSystem::$__AutoIncludes[] = __DIR__ . '/' . $path;
+            }
+        } else {
+            BangSystem::$__AutoIncludes[] = __DIR__ . '/' . $paths;
+        }
     }
 
     public static function GetAutoIncludes() {
@@ -73,10 +86,10 @@ class BangSystem {
  * 自動載入lib中的Class功能
  */
 function __autoload($classname) {
-    if (file_exists('Bang/MVC/' . $classname . '.php')) {
-        require_once('Bang/MVC/' . $classname . '.php');
-    } else if (file_exists('Bang/Lib/' . $classname . '.php')) {
-        require_once('Bang/Lib/' . $classname . '.php');
+    if (file_exists(__DIR__ . '/Bang/MVC/' . $classname . '.php')) {
+        require_once(__DIR__ . '/Bang/MVC/' . $classname . '.php');
+    } else if (file_exists(__DIR__ . '/Bang/Lib/' . $classname . '.php')) {
+        require_once(__DIR__ . '/Bang/Lib/' . $classname . '.php');
     } else {
         $exists = false;
         $all_paths = BangSystem::GetAutoIncludes();
@@ -93,3 +106,4 @@ function __autoload($classname) {
 }
 
 require_once 'Autoloads.php';
+session_start();

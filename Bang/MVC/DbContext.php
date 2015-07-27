@@ -20,7 +20,9 @@ class DbContext {
         if (is_null(DbContext::$Connection)) {
             $host = Config::DbHost;
             $name = Config::DbName;
-            DbContext::$Connection = new PDO("mysql:host=$host;dbname=$name;charset=utf8", Config::DbUser, Config::DbPassword);
+            $pdo = new PDO("mysql:host=$host;dbname=$name;charset=utf8", Config::DbUser, Config::DbPassword);
+            $pdo->exec("set names utf8");
+            DbContext::$Connection = $pdo;
         }
         return DbContext::$Connection;
     }
@@ -34,10 +36,12 @@ class DbContext {
     public static function Query($sql, $params) {
         $con = DbContext::GetConnection();
         $stem = $con->prepare($sql);
-        $stem->execute($params);
+        $result = $stem->execute($params);
+        if (!$result) {
+            $str_params = json_encode($params);
+            throw new Exception("Sql exception in:{$sql},params:{$str_params}");
+        }
         return $stem;
     }
-    
-    
 
 }

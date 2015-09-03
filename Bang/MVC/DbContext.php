@@ -21,6 +21,7 @@ class DbContext {
             $host = Config::DbHost;
             $name = Config::DbName;
             $pdo = new PDO("mysql:host=$host;dbname=$name;charset=utf8", Config::DbUser, Config::DbPassword);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->exec("set names utf8");
             DbContext::$Connection = $pdo;
         }
@@ -37,10 +38,6 @@ class DbContext {
         $con = DbContext::GetConnection();
         $stem = $con->prepare($sql);
         $result = $stem->execute($params);
-        if (!$result) {
-            $str_params = json_encode($params);
-            throw new Exception("Sql exception in:{$sql},params:{$str_params}");
-        }
         return $stem;
     }
 

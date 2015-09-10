@@ -30,15 +30,21 @@ class Route {
      * 執行該Controller的Action動作
      */
     public function invoke() {
-        $controllerName = $this->controller . "Controller";
-        require_once "Controllers/$controllerName.php";
+        $controllerName = "{$this->controller}Controller";
+        $file_path = "Controllers/{$controllerName}.php";
+        if (file_exists($file_path)) {
+            require_once $file_path;
+        } else {
+            Response::HttpNotFound();
+        }
         $reflection = new ReflectionClass($controllerName);
         $obj = $reflection->newInstanceArgs();
         if ($reflection->hasMethod($this->action)) {
             $actionMethod = $reflection->getMethod($this->action);
             $actionMethod->invoke($obj);
+        } else {
+            Response::HttpNotFound();
         }
-
         ResponseBag::Add("Route", $this);
     }
 

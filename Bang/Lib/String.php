@@ -101,16 +101,26 @@ class String {
     public static function Replace($input, $target_str, $replace_to) {
         return str_replace($target_str, $replace_to, $input);
     }
-    
+
     /**
      * 將QueryString轉為陣列
      * @param string $input QueryString
      * @return array 陣列結果
      */
-    public static function ParseQueryStringToArray($input){
+    public static function ParseQueryStringToArray($input) {
         $resultArray = array();
-        parse_str($input , $resultArray);
+        parse_str($input, $resultArray);
         return $resultArray;
+    }
+
+    /**
+     * 判断字串是否包含某字串
+     * @param string $input 字串 (ex:'test')
+     * @param string $test 是否包含的字串 (ex:'es')
+     * @return bool
+     */
+    public static function Contains($input, $test) {
+        return strpos($input, $test) !== false;
     }
 
 }

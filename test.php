@@ -2,9 +2,4 @@
 
 require_once 'System.php';
 
-
-$func = function () {
-    return 0;
-};
-
-echo $func();
+echo String::Contains('test', 'te');

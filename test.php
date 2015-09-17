@@ -2,4 +2,4 @@
 
 require_once 'System.php';
 
-echo String::Contains('test', 'te');
+var_dump(String::Split('test,test2,test3,gg,t,gas'));

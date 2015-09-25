@@ -47,8 +47,8 @@ class Session {
 
         $name = strtolower($name);
 
-        if (!self::contains($name)) {
-            throw new Exception("Object does not exist in eAppstore");
+        if (!self::Contains($name)) {
+            throw new Exception("Object does not exist in Session");
         }
         return $_SESSION[$name];
     }
@@ -78,7 +78,7 @@ class Session {
         Session::StartSession();
 
         $name = strtolower($name);
-        if (self::contains($name)) {
+        if (self::Contains($name)) {
             unset($_SESSION[$name]);
         }
     }

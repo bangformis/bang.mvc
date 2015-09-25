@@ -34,7 +34,7 @@ class DbContext {
      * @param array $params 傳入參數
      * @return PDOStatement 查詢結果
      */
-    public static function Query($sql, $params) {
+    public static function Query($sql, $params = array()) {
         $con = DbContext::GetConnection();
         $stem = $con->prepare($sql);
         $result = $stem->execute($params);
@@ -47,7 +47,7 @@ class DbContext {
      * @param array $params 傳入參數
      * @return string Insert后LastId
      */
-    public static function Insert($sql, $params) {
+    public static function Insert($sql, $params = array()) {
         $con = DbContext::GetConnection();
         $stem = $con->prepare($sql);
         $stem->execute($params);

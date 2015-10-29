@@ -2,6 +2,7 @@
 $bodyView = ResponseBag::Get("View");
 $viewBag = ViewBag::Get();
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">

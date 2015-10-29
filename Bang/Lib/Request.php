@@ -11,6 +11,19 @@
  */
 class Request {
 
+    public static function GetIpAddress() {
+        $vars = array(
+            1 => 'HTTP_X_FORWARDED_FOR',
+            2 => 'HTTP_INCAP_CLIENT_IP',
+            3 => 'REMOTE_ADDR'
+        );
+        foreach ($vars as $key => $value) {
+            if (isset($_SERVER[$value])) {
+                return $_SERVER[$value];
+            }
+        }
+    }
+
     /**
      * 取得使用者的請求資料
      * @param mixed $obj 傳入取值物件
@@ -36,13 +49,13 @@ class Request {
     public static function GetGet($obj) {
         return Request::GetParam($obj, false);
     }
-    
+
     /**
      * 取得相對位置網址
      * @return string 對應相對網址
      */
-    public static function GetPathAndQuery(){
-        return  $_SERVER['REQUEST_URI'];
+    public static function GetPathAndQuery() {
+        return $_SERVER['REQUEST_URI'];
     }
 
 }

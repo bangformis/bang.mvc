@@ -1,145 +1,340 @@
 <?php
-namespace Cassandra;
-
-require __DIR__ . '/DataStream.php';
-require __DIR__ . '/Rows.php';
-require __DIR__ . '/Serialize.php';
-require __DIR__ . '/Transport.php';
 
 /**
- * Cassandra client library.
+ * Copyright 2015 DataStax, Inc.
  *
- * Implementation of Cassandra binary protocol v1.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * @see https://git-wip-us.apache.org/repos/asf?p=cassandra.git;a=blob_plain;f=doc/native_protocol.spec;hb=refs/heads/cassandra-1.2
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-class Connection
+
+/**
+ * The main entry point to the PHP Driver for Apache Cassandra.
+ *
+ * Use Cassandra::cluster() to build a cluster instance.
+ * Use Cassandra::ssl() to build SSL options instance.
+ */
+class Cassandra
 {
-  // Consistency levels.
-  const CONSISTENCY_ANY = 0x0000;
-  const CONSISTENCY_ONE = 0x0001;
-  const CONSISTENCY_TWO = 0x0002;
-  const CONSISTENCY_THREE = 0x0003;
-  const CONSISTENCY_QUORUM = 0x0004;
-  const CONSISTENCY_ALL = 0x0005;
-  const CONSISTENCY_LOCAL_QUORUM = 0x0006;
-  const CONSISTENCY_EACH_QUORUM = 0x0007;
-  const CONSISTENCY_LOCAL_ONE = 0x0010;
+    /**
+     * Consistency level ANY means the request is fulfilled as soon as the data
+     * has been written on the Coordinator. Requests with this consistency level
+     * are not guranteed to make it to Replica nodes.
+     *
+     * @see Cassandra\ExecutionOptions::__construct()
+     */
+    const CONSISTENCY_ANY = 0;
 
-  protected $options = array(
-    'cql_version' => '3.0.0',
-    'connect_timeout' => 3,
-    'stream_timeout' => 10,
-    'default_consistency' => self::CONSISTENCY_QUORUM,
-  );
+    /**
+     * Consistency level ONE gurantess that data has been written to at least
+     * one Replica node.
+     *
+     * @see Cassandra\ExecutionOptions::__construct()
+     */
+    const CONSISTENCY_ONE = 1;
 
-  protected $transport;
+    /**
+     * Same as `CONSISTENCY_ONE`, but confined to the local data center. This
+     * consistency level works only with `NetworkTopologyStrategy` replication.
+     *
+     * @see Cassandra\ExecutionOptions::__construct()
+     */
+    const CONSISTENCY_LOCAL_ONE = 10;
+    /**
+     * Consistency level TWO gurantess that data has been written to at least
+     * two Replica nodes.
+     *
+     * @see Cassandra\ExecutionOptions::__construct()
+     */
+    const CONSISTENCY_TWO = 2;
 
-  /**
-   * Connect to Cassandra cluster.
-   *
-   * @param mixed $host
-   *   Hostname as string or array of hostnames.
-   * @param string $keyspace
-   * @param array $options
-   */
-  public function __construct($host, $keyspace = NULL, $options = array()) {
-    $this->options += $options;
+    /**
+     * Consistency level THREE gurantess that data has been written to at least
+     * three Replica nodes.
+     *
+     * @see Cassandra\ExecutionOptions::__construct()
+     */
+    const CONSISTENCY_THREE = 3;
 
-    if (empty($host)) {
-      throw new InvalidArgumentException('Invalid host');
-    }
-    if (!is_array($host)) {
-      $host = array($host);
-    }
-    shuffle($host);
-    while ($host) {
-      $hostname = array_pop($host);
-      try {
-        $this->transport = new Transport($hostname, $this->options['connect_timeout'], $this->options['stream_timeout']);
-        break;
-      }
-      catch (Exception $e) {
-        if (empty($host)) {
-          // No other hosts available, rethrow exception.
-          throw $e;
-        }
-      }
-    }
+    /**
+     * Consistency level QUORUM gurantess that data has been written to at least
+     * the majority of Replica nodes. How many nodes exactly are a majority
+     * depends on the replication factor of a given keyspace and is calculated
+     * using the formula `ceil(RF / 2 + 1)`, where `ceil` is a mathematical
+     * ceiling function and `RF` is the replication factor used. For example,
+     * for a replication factor of `5`, the majority is `ceil(5 / 2 + 1) = 3`.
+     *
+     * @see Cassandra\ExecutionOptions::__construct()
+     */
+    const CONSISTENCY_QUORUM = 4;
 
-    // Send STARTUP frame.
-    $body = Serialize::stringList(array('CQL_VERSION' => $this->options['cql_version']));
-    $this->transport->sendFrame(Transport::STARTUP, $body);
-    $frame = $this->transport->fetchFrame();
-    if ($frame['opcode'] == Transport::AUTHENTICATE) {
-      $this->authenticate();
-    }
-    if ($frame['opcode'] != Transport::READY) {
-      throw new Exception('Invalid response from server');
-    }
+    /**
+     * Same as `CONSISTENCY_QUORUM`, but confined to the local data center. This
+     * consistency level works only with `NetworkTopologyStrategy` replication.
+     *
+     * @see Cassandra\ExecutionOptions::__construct()
+     */
+    const CONSISTENCY_LOCAL_QUORUM = 6;
 
-    // Use namespace.
-    if ($keyspace) {
-      $this->useKeyspace($keyspace);
-    }
-  }
+    /**
+     * Consistency level EACH_QUORUM gurantess that data has been written to at
+     * least a majority Replica nodes in all datacenters. This consistency level
+     * works only with `NetworkTopologyStrategy` replication.
+     *
+     * @see Cassandra\ExecutionOptions::__construct()
+     */
+    const CONSISTENCY_EACH_QUORUM = 7;
 
-  /**
-   * Authenticate.
-   */
-  protected function authenticate() {
-    if (empty($this->options['authenticate'])) {
-      throw new InvalidArgumentException('Missing authenticate options');
-    }
-    // @todo: Implement authentication.
-    throw new Exception('Authentication not supported');
-  }
+    /**
+     * Consistency level ALL gurantess that data has been written to all
+     * Replica nodes.
+     *
+     * @see Cassandra\ExecutionOptions::__construct()
+     */
+    const CONSISTENCY_ALL = 5;
 
-  /**
-   * Switch to keyspace.
-   *
-   * @param string $name
-   */
-  public function useKeyspace($name) {
-    if (!preg_match('/^[a-z][a-z0-9_]*$/si', $name)) {
-      throw new InvalidArgumentException('Illegal keyspace name');
-    }
-    $this->query("USE $name");
-  }
+    /**
+     * This is a serial consistency level, it is used in conditional updates,
+     * e.g. (`CREATE|INSERT ... IF NOT EXISTS`), and should be specified as the
+     * `serial_consistency` option of the Cassandra\ExecutionOptions instance.
+     *
+     * Consistency level SERIAL, when set, ensures that a Paxos commit fails if
+     * any of the replicas is down.
+     *
+     * @see Cassandra\ExecutionOptions::__construct()
+     */
+    const CONSISTENCY_SERIAL = 8;
 
-  /**
-   * Execute query.
-   *
-   * @param string $cql
-   * @param int $consistency
-   */
-  public function query($cql, $consistency = NULL) {
-    if (is_null($consistency)) {
-      $consistency = $this->options['default_consistency'];
-    }
-    $body = Serialize::longString($cql) . Serialize::short($consistency);
-    $this->transport->sendFrame(Transport::QUERY, $body);
-    $data = $this->transport->fetchFrame();
-    $kind = $data['data']->readInt();
-    switch ($kind) {
-      // Void
-      case 0x0001:
-        return TRUE;
-      // Rows
-      case 0x0002:
-        return new Rows($data['data']);
-        break;
-      // Set keyspace
-      case 0x0003:
-        return TRUE;
-      // Prepared
-      case 0x0004:
-        return TRUE;
-      // Schema change
-      case 0x0005:
-        return TRUE;
-      default:
-        throw new \Exception('Unknown response from server');
-    }
-  }
+    /**
+     * Same as `CONSISTENCY_SERIAL`, but confined to the local data center. This
+     * consistency level works only with `NetworkTopologyStrategy` replication.
+     *
+     * @see Cassandra\ExecutionOptions::__construct()
+     */
+    const CONSISTENCY_LOCAL_SERIAL = 9;
+
+    /**
+     * Perform no verification of Cassandra nodes when using SSL encryption.
+     *
+     * @see Cassandra\SSLOptions\Builder::withVerifyFlags()
+     */
+    const VERIFY_NONE          = 0;
+
+    /**
+     * Verify presence and validity of SSL certificates of Cassandra.
+     *
+     * @see Cassandra\SSLOptions\Builder::withVerifyFlags()
+     */
+    const VERIFY_PEER_CERT     = 1;
+
+    /**
+     * Verify that the IP address matches the SSL certificate’s common name or
+     * one of its subject alternative names. This implies the certificate is
+     * also present.
+     *
+     * @see Cassandra\SSLOptions\Builder::withVerifyFlags()
+     */
+    const VERIFY_PEER_IDENTITY = 2;
+
+    /**
+     * @see Cassandra\BatchStatement::__construct()
+     */
+    const BATCH_LOGGED = 0;
+
+    /**
+     * @see Cassandra\BatchStatement::__construct()
+     */
+    const BATCH_UNLOGGED = 1;
+
+    /**
+     * @see Cassandra\BatchStatement::__construct()
+     */
+    const BATCH_COUNTER = 2;
+
+    /**
+     * When using a map, collection or set of type text, all of its elements
+     * must be strings.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_TEXT = 'text';
+
+    /**
+     * When using a map, collection or set of type ascii, all of its elements
+     * must be strings.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_ASCII = 'ascii';
+
+    /**
+     * When using a map, collection or set of type varchar, all of its elements
+     * must be strings.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_VARCHAR = 'varchar';
+
+    /**
+     * When using a map, collection or set of type bigint, all of its elements
+     * must be instances of Bigint.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_BIGINT = 'bigint';
+
+    /**
+     * When using a map, collection or set of type blob, all of its elements
+     * must be instances of Blob.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_BLOB = 'blob';
+
+    /**
+     * When using a map, collection or set of type boolean, all of its elements
+     * must be booleans.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_BOOLEAN = 'boolean';
+
+    /**
+     * When using a map, collection or set of type counter, all of its elements
+     * must be instances of Bigint.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_COUNTER = 'counter';
+
+    /**
+     * When using a map, collection or set of type decimal, all of its elements
+     * must be instances of Decimal.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_DECIMAL = 'decimal';
+
+    /**
+     * When using a map, collection or set of type double, all of its elements
+     * must be doubles.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_DOUBLE = 'double';
+
+    /**
+     * When using a map, collection or set of type float, all of its elements
+     * must be instances of Float.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_FLOAT = 'float';
+
+    /**
+     * When using a map, collection or set of type int, all of its elements
+     * must be ints.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_INT = 'int';
+
+    /**
+     * When using a map, collection or set of type timestamp, all of its elements
+     * must be instances of Timestamp.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_TIMESTAMP = 'timestamp';
+
+    /**
+     * When using a map, collection or set of type uuid, all of its elements
+     * must be instances of Uuid.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_UUID = 'uuid';
+
+    /**
+     * When using a map, collection or set of type varint, all of its elements
+     * must be instances of Varint.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_VARINT = 'varint';
+
+    /**
+     * When using a map, collection or set of type timeuuid, all of its elements
+     * must be instances of Timeuuid.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_TIMEUUID = 'timeuuid';
+
+    /**
+     * When using a map, collection or set of type inet, all of its elements
+     * must be instances of Inet.
+     *
+     * @see Cassandra\Set::__construct()
+     * @see Cassandra\Collection::__construct()
+     * @see Cassandra\Map::__construct()
+     */
+    const TYPE_INET = 'inet';
+
+    /**
+     * Current version of the extension.
+     */
+    const VERSION = '1.0.0-beta';
+
+    /**
+     * Returns a Cluster Builder.
+     *
+     * @return Cassandra\Cluster\Builder a Cluster Builder instance
+     */
+    public static function cluster() {}
+
+    /**
+     * Returns SSL Options Builder.
+     *
+     * @return Cassandra\SSLOptions\Builder an SSLOptions Builder instance
+     */
+    public static function ssl() {}
 }

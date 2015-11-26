@@ -75,4 +75,60 @@ class DbContext {
         DbContext::Query('COMMIT;');
     }
 
+    /**
+     * @param string $tablename
+     * @param string $params (参数以where开头将不会被Update,只会带入where语法中)
+     * @return string last_insert_id
+     */
+    public static function QuickInsert($tablename, $params) {
+        $keys = array();
+        foreach ($params as $key => $value) {
+            $keys[] = String::Replace($key, ':', '');
+        }
+
+        $fields = "";
+        $values = "";
+        foreach ($keys as $key => $value) {
+            if ($key > 0) {
+                $fields .= ",";
+                $values .= ",";
+            }
+            $fields .= "`{$value}`";
+            $values .= " :{$value}";
+        }
+
+        $sql = "INSERT INTO `{$tablename}`($fields) VALUES ($values) ;";
+        return DbContext::Insert($sql, $params);
+    }
+
+    /**
+     * 
+     * @param string $tablename
+     * @param string $where
+     * @param string $params (参数以where开头将不会被Update,只会带入where语法中)
+     * @return PDOStatement
+     */
+    public static function QuickUpdate($tablename, $where, $params) {
+        $keys = array();
+        foreach ($params as $key => $value) {
+            $keys[] = String::Replace($key, ':', '');
+        }
+
+        $set_sql = "";
+        $count = 0;
+        foreach ($keys as $value) {
+            if (String::StartsWith($value, 'where')) {
+                continue;
+            }
+            if ($count > 0) {
+                $set_sql .= ",";
+            }
+            $set_sql .= "`{$value}`=:{$value}";
+            $count++;
+        }
+
+        $sql = "UPDATE `{$tablename}` SET {$set_sql} WHERE ({$where})";
+        return DbContext::Query($sql, $params);
+    }
+
 }

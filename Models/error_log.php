@@ -4,7 +4,7 @@
  * 錯誤訊息紀錄
  * @author Bang
  */
-class error_log extends MySqlTable {
+class error_log {
 
     public $Id;
     public $Content;
@@ -12,30 +12,66 @@ class error_log extends MySqlTable {
     public $Line;
     public $Message;
     public $DateTime;
-    
+
     public function Delete() {
-        $this->DeleteData('`Id`=:Id', array(':Id' => $this->Id));
+        $sql = "DELETE FROM `error_log` WHERE (`Id`=:id)";
+        $params = array(
+            ':id' => $this->Id
+        );
+        $stem = DbContext::Query($sql, $params);
+        return $stem->rowCount();
     }
 
     public function Insert() {
-        $this->InsertData(array('Id' => true, 'DateTime' => true));
+        $sql = "INSERT INTO `error_log` (`Content`, `Filename`, `Line`, `Message`) VALUES
+                (:content, :filename , :line , :message)";
+        $params = array(
+            ':content' => $this->Content,
+            ':filename' => $this->Filename,
+            ':line' => $this->Line,
+            ':message' => $this->Message
+        );
+        $this->Id = DbContext::Insert($sql, $params);
+        return $this->Id;
     }
 
     public function Update() {
-        $this->UpdateData('`Id`=:Id', array(':Id' => $this->Id));
+        $sql = "UPDATE `error_log` SET 
+                `Filename`= :filename,
+                `Content` = :content,
+                `Line` = :line,
+                `Message` = :message
+                WHERE (`Id`= :id)";
+        $params = array(
+            ':content' => $this->Content,
+            ':filename' => $this->Filename,
+            ':line' => $this->Line,
+            ':message' => $this->Message,
+            ':id' => $this->Id
+        );
+        $stem = DbContext::Query($sql, $params);
+        return $stem->rowCount();
     }
 
-    public static function AddToDatabase(error_log $error_log) {
-        return $error_log->Insert();
+    public static function GetTotal() {
+        $sql = "SELECT Count(*) as `Count` FROM `error_log`";
+        $stem = DbContext::Query($sql);
+        $result = $stem->fetch(2);
+        return $result['Count'];
     }
 
-    public static function CreateInstance($Content, $Filename ,$Line, $Message) {
-        $log = new error_log();
-        $log->Line = $Line;
-        $log->Content = $Content;
-        $log->Filename = $Filename;
-        $log->Message = $Message;
-        return $log;
+    public static function GetList($page = 1, $count_per_page = 25) {
+        $total = error_log::GetTotal();
+        $total_int = intval($total);
+
+        $paging = new Pagination($total_int, $page, $count_per_page);
+        $sql = "SELECT * FROM `error_log` 
+                ORDER BY `DateTime` DESC
+                LIMIT {$paging->GetSkipCount()}, {$paging->GetCountPerPage()}";
+
+        $stem = DbContext::Query($sql);
+        $results = $stem->fetchAll(2);
+        return $results;
     }
 
 }

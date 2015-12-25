@@ -4,7 +4,7 @@
  * 網路相關功能
  */
 class Net {
-    
+
     /**
      * 以Gmail寄送信件
      * @param string $login_email 登入的Email
@@ -33,25 +33,27 @@ class Net {
 
     /**
      * 將IP轉算為數字
-     * @param string $ip IP位置
+     * @param string $ip_address IP位置
      * @return int 數字結果
      */
-    public static function INET_ATON($ip) {
-        $ip = trim($ip);
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))
+    public static function INET_ATON($ip_address) {
+        $ip = trim($ip_address);
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
             return 0;
+        }
         return sprintf("%u", ip2long($ip));
     }
 
     /**
      * 將數字轉算為IP
-     * @param int $num 數字
+     * @param int $ip_number 數字
      * @return string IP位置
      */
-    public static function INET_NTOA($num) {
-        $num = trim($num);
-        if ($num == "0")
+    public static function INET_NTOA($ip_number) {
+        $num = trim($ip_number);
+        if ($num == "0") {
             return "0.0.0.0";
+        }
         return long2ip(-(4294967295 - ($num - 1)));
     }
 
@@ -66,7 +68,6 @@ class Net {
 
         $recall = curl_exec($curl);
         if (!$recall) {
-            /* echo curl_error($curl); */
             return false;
         }
         curl_close($curl);
@@ -81,7 +82,6 @@ class Net {
         $curl = Net::PrepareCurl($url, $https_keyname, 25);
         $recall = curl_exec($curl);
         if (!$recall) {
-            /* echo curl_error($curl); */
             return false;
         }
         curl_close($curl);
@@ -105,7 +105,6 @@ class Net {
         curl_setopt($curl, CURLOPT_ENCODING, "UTF-8");
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
         curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
         if (substr($url, 0, 5) == "https") {

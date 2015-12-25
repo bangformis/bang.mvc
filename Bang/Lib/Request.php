@@ -50,6 +50,11 @@ class Request {
         return Request::GetParam($obj, false);
     }
 
+    public static function GetRequest($obj) {
+        $from = $_REQUEST;
+        return ORM::ArrayToObject($from, $obj);
+    }
+
     /**
      * 取得相對位置網址
      * @return string 對應相對網址

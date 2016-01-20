@@ -1,5 +1,6 @@
 <?php
 
 include 'System.php';
-Request::GetGet($route = new Route());
+$route = new Route();
+Request::GetGet($route);
 $route->invoke();

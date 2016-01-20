@@ -122,14 +122,20 @@ class String {
     public static function Contains($input, $test) {
         return strpos($input, $test) !== false;
     }
-    
+
     /**
      * @param string $input
      * @param string $split_by
      * @return array
      */
-    public static function Split($input, $split_by = ','){
+    public static function Split($input, $split_by = ',') {
         return explode($split_by, $input);
+    }
+
+    public static function GetLastChar($input) {
+        $result = str_split($input);
+        $count = strlen($input);
+        return $result[$count - 1];
     }
 
 }

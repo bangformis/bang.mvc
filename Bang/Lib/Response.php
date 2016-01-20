@@ -32,7 +32,6 @@ class Response {
     }
 
     public static function HttpError($code, $msg) {
-        http_response_code($code);
         header("HTTP/1.0 {$code} {$msg}");
         echo $msg;
         die();

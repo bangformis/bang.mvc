@@ -118,5 +118,29 @@ class Net {
         }
         return $curl;
     }
+    
+    /**
+     * 連結取得HTTP結果內容(POST)
+     * @param string $url
+     */
+    public static function HttpPostJson($url, $param, $timeout = 40, $https_keyname = "") {
+        $curl = Net::PrepareCurl($url, $https_keyname, $timeout);
+        //curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Accept: application/json',
+            'Content-Type: application/json',
+            'Connection: Keep-Alive'
+        ));
+
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $param);
+
+        $recall = curl_exec($curl);
+        if (!$recall) {
+            return false;
+        }
+        curl_close($curl);
+        return $recall;
+    }
 
 }

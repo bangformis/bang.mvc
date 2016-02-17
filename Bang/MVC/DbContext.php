@@ -75,6 +75,14 @@ class DbContext {
         DbContext::Query('COMMIT;');
     }
 
+    public static function Rollback() {
+        DbContext::Query('ROLLBACK;');
+    }
+
+    public static function Disconnect() {
+        DbContext::$Connection = null;
+    }
+
     /**
      * @param string $tablename
      * @param string $params (参数以where开头将不会被Update,只会带入where语法中)

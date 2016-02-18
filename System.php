@@ -86,7 +86,11 @@ class BangSystem {
  * 自動載入lib中的Class功能
  */
 function __autoload($classname) {
-    if (file_exists(__DIR__ . '/Bang/MVC/' . $classname . '.php')) {
+    $namespace_name = str_replace("\\", Config::DirSplitor, $classname);
+    $namespace_path = __DIR__ . Config::DirSplitor . $namespace_name . '.php';
+    if (file_exists($namespace_path)) {
+        require_once($namespace_path);
+    } else if (file_exists(__DIR__ . '/Bang/MVC/' . $classname . '.php')) {
         require_once(__DIR__ . '/Bang/MVC/' . $classname . '.php');
     } else if (file_exists(__DIR__ . '/Bang/Lib/' . $classname . '.php')) {
         require_once(__DIR__ . '/Bang/Lib/' . $classname . '.php');

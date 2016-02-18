@@ -50,11 +50,6 @@ $_handleMissedError = function ($errno, $errstr, $errfile, $errline) {
     $log->Insert();
 };
 
-if (Config::IsReleaseMode) {
-    set_exception_handler($_handleMissedException);
-    set_error_handler($_handleMissedError);
-}
-
 class BangSystem {
 
     /**

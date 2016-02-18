@@ -26,12 +26,12 @@ class ControllerBase {
      * @param object $obj 傳入物件，為空時將自動傳TaskResult並IsSuccess為true
      */
     protected function Json($obj = NULL) {
-        header('Content-Type: application/json');
         if ($obj === NULL) {
             $obj = new TaskResult();
             $obj->IsSuccess = true;
         }
-        echo json_encode($obj);
+        $result = json_encode($obj);
+        return $this->JsonContent($result);
     }
 
     /**

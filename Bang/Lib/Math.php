@@ -75,12 +75,11 @@ class Math {
     }
 
     public static function To36Carry($int) {
-
         $result = "";
         $map = Math::Get36CarryMap();
         $floor = doubleval($int);
         do {
-            $mod = intval(bcmod($floor, 36));
+            $mod = intval(Math::Bcmod($floor, 36));
             $floor = floor($floor / 36);
             $result = $map[$mod] . $result;
         } while ($floor >= 36);
@@ -88,9 +87,22 @@ class Math {
         if ($mod > 0) {
             $result = $map[$mod] . $result;
         }
-
-
         return $result;
+    }
+
+    public static function Bcmod($x, $y) {
+        if (function_exists('bcmod')) {
+            return bcmod($x, $y);
+        } else {
+            $take = 5;
+            $mod = '';
+            do {
+                $a = (int) $mod . substr($x, 0, $take);
+                $x = substr($x, $take);
+                $mod = $a % $y;
+            } while (strlen($x));
+            return (int) $mod;
+        }
     }
 
 }

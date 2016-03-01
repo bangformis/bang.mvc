@@ -74,6 +74,25 @@ class Math {
         }
     }
 
+    public static function To10CarryFrom36($carry_36_string) {
+        $map = Math::Get36CarryUnMap();
+        $chars = array_reverse(str_split(strtolower($carry_36_string)));
+        $len = count($chars);
+        if ($len > 5) {
+            throw new Exception('String length must less than 6.');
+        }
+        $sum = 0;
+        for ($i = 0; $i < $len; $i++) {
+            $char = $chars[$i];
+            $value = $map[$char];
+            if ($i > 0) {
+                $value = pow(36, $i) * $value;
+            }
+            $sum += $value;
+        }
+        return $sum;
+    }
+
     public static function To36Carry($int) {
         $result = "";
         $map = Math::Get36CarryMap();

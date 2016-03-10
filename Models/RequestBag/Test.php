@@ -11,7 +11,7 @@ class Test extends ChecksumBase {
 
     public function Valid() {
         parent::Valid();
-        if (!\Checker::IsEmail($this->email)) {
+        if (!\Bang\Lib\Checker::IsEmail($this->email)) {
             $this->ThrowException('Wrong Email Format', \ErrorCode::WrongFormat);
         }
     }
@@ -21,7 +21,7 @@ class Test extends ChecksumBase {
      */
     public static function GetFromQuery() {
         $bag = new Test();
-        \Request::GetGet($bag);
+        \Bang\Lib\Request::GetGet($bag);
         return $bag;
     }
 

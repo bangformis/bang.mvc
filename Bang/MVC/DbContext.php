@@ -24,7 +24,7 @@ class DbContext {
             $name = \Config::DbName;
             $username = \Config::DbUser;
             $password = \Config::DbPassword;
-            $db = new \Bang\Lib\MySqlDb($host, $name, $username, $password);
+            $db = new \Bang\Lib\MySqlDb($host, $username, $password, $name);
             self::$DB = $db;
         }
         return self::$DB;

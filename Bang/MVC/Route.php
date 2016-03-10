@@ -33,7 +33,7 @@ class Route {
      */
     public function invoke() {
         $controllerName = $this->controller;
-        $file_path = "Controllers/{$controllerName}.php";
+        $file_path = \Bang\Lib\Path::Content("Controllers/{$controllerName}.php");
         if (file_exists($file_path)) {
             require_once $file_path;
         } else {

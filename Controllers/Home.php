@@ -1,4 +1,5 @@
 <?php
+namespace Controllers;
 
 use Models\RequestBag;
 use Models\ControllerBase;
@@ -7,14 +8,14 @@ use Models\ControllerBase;
  * 主頁面Controller
  * @author Bang
  */
-class HomeController extends ControllerBase\ApiControllerBase {
+class Home extends ControllerBase\ApiControllerBase {
 
     public function Index() {
         \Bang\Lib\Response::HttpNotFound();
     }
 
     public function TestSuccess() {
-        $result = new Bang\Lib\TaskResult();
+        $result = new \Bang\Lib\TaskResult();
         $bag = RequestBag\Test::GetFromQuery();
         $bag->Valid();
         $result->SetSuccess(true, 'test success!');
@@ -22,7 +23,7 @@ class HomeController extends ControllerBase\ApiControllerBase {
     }
 
     public function TestUnSuccess() {
-        $result = new Bang\Lib\TaskResult();
+        $result = new \Bang\Lib\TaskResult();
         $bag = RequestBag\Test::GetFromQuery();
         $bag->Valid();
         $result->SetUnsuccess('test unsuccess!');

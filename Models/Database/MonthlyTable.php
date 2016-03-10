@@ -63,13 +63,13 @@ class MonthlyTable {
 
         $split_table_name = "{$table_name}_{$yyyyMM}";
         $sql = "show tables like '{$split_table_name}'";
-        $query_result = \DbContext::Query($sql);
+        $query_result = \Bang\MVC\DbContext::Query($sql);
         $result = $query_result->fetchAll(\PDO::FETCH_ASSOC);
         $row_count = $query_result->rowCount();
 
         if ($row_count == 0) { //沒有該月表
             $create_sql = "CREATE TABLE `{$split_table_name}` " . $create_table_sql_without_create;
-            \DbContext::Query($create_sql);
+            \Bang\MVC\DbContext::Query($create_sql);
         }
 
         return $split_table_name;

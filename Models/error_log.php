@@ -18,7 +18,7 @@ class error_log {
         $params = array(
             ':id' => $this->Id
         );
-        $stem = DbContext::Query($sql, $params);
+        $stem = \Bang\MVC\DbContext::Query($sql, $params);
         return $stem->rowCount();
     }
 
@@ -31,7 +31,7 @@ class error_log {
             ':line' => $this->Line,
             ':message' => $this->Message
         );
-        $this->Id = DbContext::Insert($sql, $params);
+        $this->Id = \Bang\MVC\DbContext::Insert($sql, $params);
         return $this->Id;
     }
 
@@ -49,13 +49,13 @@ class error_log {
             ':message' => $this->Message,
             ':id' => $this->Id
         );
-        $stem = DbContext::Query($sql, $params);
+        $stem = \Bang\MVC\DbContext::Query($sql, $params);
         return $stem->rowCount();
     }
 
     public static function GetTotal() {
         $sql = "SELECT Count(*) as `Count` FROM `error_log`";
-        $stem = DbContext::Query($sql);
+        $stem = \Bang\MVC\DbContext::Query($sql);
         $result = $stem->fetch(2);
         return $result['Count'];
     }
@@ -69,7 +69,7 @@ class error_log {
                 ORDER BY `DateTime` DESC
                 LIMIT {$paging->GetSkipCount()}, {$paging->GetCountPerPage()}";
 
-        $stem = DbContext::Query($sql);
+        $stem = \Bang\MVC\DbContext::Query($sql);
         $results = $stem->fetchAll(2);
         return $results;
     }

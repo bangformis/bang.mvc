@@ -13,25 +13,27 @@ class MySqlDb {
     protected $username;
     protected $password;
 
-    function __construct($host, $name, $username, $password) {
+    function __construct($host, $username, $password, $name = null) {
 
         $this->host = $host;
         $this->name = $name;
         $this->username = $username;
         $this->password = $password;
 
-        $pdo = new \PDO("mysql:host={$host};dbname={$name};charset=utf8", $username, $password);
+        $pdo = new \PDO("mysql:host={$host};charset=utf8", $username, $password);
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        $pdo->exec("set names utf8");
+        $pdo->exec("set names utf8;");
+        if (String::IsNotNullOrSpace($name)) {
+            $pdo->exec("USE {$name};");
+        }
 
         $this->pdo = $pdo;
     }
 
     /**
-     * 執行Query
-     * @param string $sql Prepare SQL語法
-     * @param array $params 傳入參數
-     * @return \PDOStatement 查詢結果
+     * @param string $sql
+     * @param array $params
+     * @return \PDOStatement
      */
     public function Query($sql, $params = array()) {
         $con = $this->pdo;
@@ -60,7 +62,7 @@ class MySqlDb {
     public function IsDbExist($db_name) {
         $sql = "SHOW DATABASES LIKE '{$db_name}';";
         $stem = $this->Query($sql);
-        return $stem->rowCount() == 0;
+        return $stem->rowCount() == 1;
     }
 
     /**
@@ -91,9 +93,11 @@ class MySqlDb {
     }
 
     public function Rollback() {
-        $result = $this->pdo->rollBack();
-        if (!$result) {
-            throw new \Exception('Rollback Transaction Error!', \ErrorCode::DatabaseError);
+        if ($this->pdo->inTransaction()) {
+            $result = $this->pdo->rollBack();
+            if (!$result) {
+                throw new \Exception('Rollback Transaction Error!', \ErrorCode::DatabaseError);
+            }
         }
     }
 
@@ -109,7 +113,7 @@ class MySqlDb {
     public function QuickInsert($tablename, $params) {
         $keys = array();
         foreach ($params as $key => $value) {
-            $keys[] = Bang\Lib\String::Replace($key, ':', '');
+            $keys[] = String::Replace($key, ':', '');
         }
 
         $fields = "";
@@ -137,13 +141,13 @@ class MySqlDb {
     public function QuickUpdate($tablename, $where, $params) {
         $keys = array();
         foreach ($params as $key => $value) {
-            $keys[] = Bang\Lib\String::Replace($key, ':', '');
+            $keys[] = String::Replace($key, ':', '');
         }
 
         $set_sql = "";
         $count = 0;
         foreach ($keys as $value) {
-            if (Bang\Lib\String::StartsWith($value, 'where')) {
+            if (String::StartsWith($value, 'where')) {
                 continue;
             }
             if ($count > 0) {

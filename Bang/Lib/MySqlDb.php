@@ -31,7 +31,7 @@ class MySqlDb {
      * 執行Query
      * @param string $sql Prepare SQL語法
      * @param array $params 傳入參數
-     * @return PDOStatement 查詢結果
+     * @return \PDOStatement 查詢結果
      */
     public function Query($sql, $params = array()) {
         $con = $this->pdo;
@@ -51,6 +51,16 @@ class MySqlDb {
         $stem = $con->prepare($sql);
         $stem->execute($params);
         return $con->lastInsertId();
+    }
+
+    /**
+     * @param string $db_name
+     * @return bool
+     */
+    public function IsDbExist($db_name) {
+        $sql = "SHOW DATABASES LIKE '{$db_name}';";
+        $stem = $this->Query($sql);
+        return $stem->rowCount() == 0;
     }
 
     /**
@@ -122,7 +132,7 @@ class MySqlDb {
      * @param string $tablename
      * @param string $where
      * @param string $params (参数以where开头将不会被Update,只会带入where语法中)
-     * @return PDOStatement
+     * @return \PDOStatement
      */
     public function QuickUpdate($tablename, $where, $params) {
         $keys = array();

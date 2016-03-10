@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\MVC;
+
 /**
  * 所有Controller的基底
  * @author Bang
@@ -11,13 +13,13 @@ class ControllerBase {
      * 帶預設Layout.php
      */
     protected function View($viewName = "", $layout = "_Layout") {
-        if (String::IsNullOrSpace($viewName)) {
+        if (Bang\Lib\String::IsNullOrSpace($viewName)) {
             $viewName = Route::Current()->action;
         }
-        $className = String::RemoveSuffix(get_class($this), "Controller");
+        $className = Bang\Lib\String::RemoveSuffix(get_class($this), "Controller");
         $viewFile = "{$className}/{$viewName}.php";
-        ResponseBag::Add("View", $viewFile);
-        $layoutFile = Path::View($layout, "Shared");
+        \Bang\Lib\ResponseBag::Add("View", $viewFile);
+        $layoutFile = Bang\Swagger\Path::View($layout, "Shared");
         include $layoutFile;
     }
 
@@ -27,7 +29,7 @@ class ControllerBase {
      */
     protected function Json($obj = NULL) {
         if ($obj === NULL) {
-            $obj = new TaskResult();
+            $obj = new Bang\Lib\TaskResult();
             $obj->IsSuccess = true;
         }
         $result = json_encode($obj);
@@ -48,7 +50,7 @@ class ControllerBase {
      * @param string $url 導向的網址
      */
     protected function RedirectToUrl($url) {
-        Response::RedirectUrl($url);
+        \Bang\Lib\Response::RedirectUrl($url);
         die();
     }
 
@@ -60,7 +62,7 @@ class ControllerBase {
         if (null == $controller) {
             $controller = Route::Current()->controller;
         }
-        $url = Url::Action($actoiName, $controller, $params);
+        $url = \Bang\Lib\Url::Action($actoiName, $controller, $params);
         $this->RedirectToUrl($url);
     }
 

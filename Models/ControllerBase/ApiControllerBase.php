@@ -7,12 +7,12 @@ use Models\Current;
 /**
  * @author Bang
  */
-class ApiControllerBase extends \ControllerBase {
+class ApiControllerBase extends \Bang\MVC\ControllerBase {
 
     function __construct() {
         if (\ApiConfig::LogRequest || \ApiConfig::LogResponse) {
             $log = Current\Current::GetLogger();
-            $route = \Route::Current();
+            $route = \Bang\MVC\Route::Current();
             $action = "{$route->controller}/{$route->action}";
             $request = http_build_query($_GET);
             $time = Current\Request::GetDatetime();

@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * @author Bang
  */
@@ -19,7 +21,7 @@ class TextFile {
             fclose($file);
             return $content;
         } else {
-            throw new Exception('File not found!', 404);
+            throw new \Exception('File not found!', 404);
         }
     }
 

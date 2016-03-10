@@ -26,7 +26,7 @@ class ChecksumBase extends Base {
         ksort($array);
         $check_sum = '';
         foreach ($array as $key => $value) {
-            if ($key == 'controller' || $key == 'action' || $key == 'Checksum' || \String::StartsWith($key, '_')) {
+            if ($key == 'controller' || $key == 'action' || $key == 'Checksum' || \Bang\Lib\String::StartsWith($key, '_')) {
                 continue;
             }
             $check_sum .= "{$key}:{$value},";

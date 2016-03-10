@@ -1,14 +1,15 @@
 <?php
 
 include 'System.php';
-Request::GetGet($route = new Route());
+
+Bang\Lib\Request::GetGet($route = new Bang\MVC\Route());
 try {
     $route->invoke();
 } catch (Exception $ex) {
-    DbContext::Rollback();
-    DbContext::Disconnect();
+    Bang\MVC\DbContext::Rollback();
+    Bang\MVC\DbContext::Disconnect();
     header('Content-Type: application/json');
-    $result = new TaskResult();
+    $result = new Bang\Lib\TaskResult();
     $result->SetUnsuccess($ex->getMessage(), $ex->getCode());
 
     $json_str = json_encode($result);

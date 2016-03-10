@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * 處理網址擴充功能
  * @author Bang
@@ -30,7 +32,7 @@ class Url {
     /**
      * 回傳網站Share View檔案
      * EX:(Index.php) /Views/Shared/Index.php
-     * @param string $url
+     * @param string $name
      * @return string View檔案網址
      */
     public static function ShareView($name) {
@@ -63,7 +65,8 @@ class Url {
         return $resultUrl;
     }
 
-    public static function Relative(){
+    public static function Relative() {
         return $_SERVER['REQUEST_URI'];
     }
+
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * @author Bang
  */
@@ -39,10 +41,10 @@ class Math {
      */
     public static function C($n, $r) {
         if ((!is_numeric($n)) || (!is_numeric($r))) {
-            throw new Exception('输入格式不正确！');
+            throw new \Exception('输入格式不正确！');
         }
         if ($r > $n) {
-            throw new Exception('C n取r r不可大于n！');
+            throw new \Exception('C n取r r不可大于n！');
         }
         if (($n - $r) < $r) {
             return Math::C($n, ($n - $r));
@@ -62,10 +64,10 @@ class Math {
      */
     public static function P($n, $r) {
         if ((!is_numeric($n)) || (!is_numeric($r))) {
-            throw new Exception('输入格式不正确！');
+            throw new \Exception('输入格式不正确！');
         }
         if ($r > $n) {
-            throw new Exception('P n取r r不可大于n！');
+            throw new \Exception('P n取r r不可大于n！');
         }
         if ($r) {
             return $n * (Math::P($n - 1, $r - 1));
@@ -79,7 +81,7 @@ class Math {
         $chars = array_reverse(str_split(strtolower($carry_36_string)));
         $len = count($chars);
         if ($len > 5) {
-            throw new Exception('String length must less than 6.');
+            throw new \Exception('String length must less than 6.');
         }
         $sum = 0;
         for ($i = 0; $i < $len; $i++) {

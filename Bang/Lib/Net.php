@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * 網路相關功能
  */
@@ -118,7 +120,7 @@ class Net {
         }
         return $curl;
     }
-    
+
     /**
      * 連結取得HTTP結果內容(POST)
      * @param string $url

@@ -64,7 +64,7 @@ class error_log {
         $total = error_log::GetTotal();
         $total_int = intval($total);
 
-        $paging = new Pagination($total_int, $page, $count_per_page);
+        $paging = new \Bang\Lib\Pagination($total_int, $page, $count_per_page);
         $sql = "SELECT * FROM `error_log` 
                 ORDER BY `DateTime` DESC
                 LIMIT {$paging->GetSkipCount()}, {$paging->GetCountPerPage()}";

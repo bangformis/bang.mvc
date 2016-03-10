@@ -3,5 +3,5 @@
 require_once 'System.php';
 
 
-echo Math::C(49, 3);
+echo Bang\Lib\Math::C(49, 3);
 

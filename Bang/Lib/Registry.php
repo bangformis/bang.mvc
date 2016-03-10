@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * 注册表物件（访Memcache）
  * @author Bang

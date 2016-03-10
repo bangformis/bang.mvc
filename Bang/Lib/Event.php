@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /*
  * 主要是要用來做為系統事件使用
  */
@@ -22,7 +24,7 @@ class Event {
      */
     public static function RegisterCallback($eventName, $callback) {
         if (!is_callable($callback)) {
-            throw new Exception("Invalid callback!");
+            throw new \Exception("Invalid callback!");
         }
 
         $eventName = strtolower($eventName);

@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * 存放本次回傳Response的各參數
  * 存放內容將會在回傳後清除(目前以$_REQUEST實作)

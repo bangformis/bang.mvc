@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\MVC;
+
 /**
  * 路由類型
  * 建立使用者傳入Get值後須執行的功能
@@ -11,7 +13,7 @@ class Route {
         $this->controller = "Home";
         $this->action = "Index";
 
-        ResponseBag::Add("Route", $this);
+        \Bang\Lib\ResponseBag::Add("Route", $this);
     }
 
     /**
@@ -30,22 +32,22 @@ class Route {
      * 執行該Controller的Action動作
      */
     public function invoke() {
-        $controllerName = "{$this->controller}Controller";
+        $controllerName = $this->controller;
         $file_path = "Controllers/{$controllerName}.php";
         if (file_exists($file_path)) {
             require_once $file_path;
         } else {
-            Response::HttpNotFound();
+            \Bang\Lib\Response::HttpNotFound();
         }
-        $reflection = new ReflectionClass($controllerName);
+        $reflection = new \ReflectionClass("Controllers\\{$controllerName}");
         $obj = $reflection->newInstanceArgs();
         if ($reflection->hasMethod($this->action)) {
             $actionMethod = $reflection->getMethod($this->action);
             $actionMethod->invoke($obj);
         } else {
-            Response::HttpNotFound();
+            \Bang\Lib\Response::HttpNotFound();
         }
-        ResponseBag::Add("Route", $this);
+        \Bang\Lib\ResponseBag::Add("Route", $this);
     }
 
     /**
@@ -53,7 +55,7 @@ class Route {
      * @return Route
      */
     public static function Current() {
-        return ResponseBag::Get("Route");
+        return \Bang\Lib\ResponseBag::Get("Route");
     }
 
 }

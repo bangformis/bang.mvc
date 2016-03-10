@@ -21,7 +21,7 @@ class MonthlyTable {
 
     public static function ApiLogs($yyMM = '') {
         
-        if (\String::IsNullOrSpace($yyMM)) {
+        if (\Bang\Lib\String::IsNullOrSpace($yyMM)) {
             $yyMM = MonthlyTable::GetYm();
         }
         $table_name = "api_logs";
@@ -57,7 +57,7 @@ class MonthlyTable {
      */
     private static function GetSplitTableName($table_name, $create_table_sql_without_create, $yyyyMM = '') {
 
-        if (\String::IsNullOrSpace($yyyyMM)) {
+        if (\Bang\Lib\String::IsNullOrSpace($yyyyMM)) {
             $yyyyMM = MonthlyTable::GetYm();
         }
 

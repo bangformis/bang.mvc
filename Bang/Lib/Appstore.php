@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /*
  * 用來存放各種應用程式會使用到的參數及物件
  */
@@ -53,7 +55,7 @@ class Appstore {
      * @return string 存取名稱
      */
     private static function StroeName($key) {
-        return Config::$SiteName . "_" . $key;
+        return \Config::$SiteName . "_" . $key;
     }
 
     private static $_current = NULL;
@@ -64,9 +66,9 @@ class Appstore {
      */
     private static function Current() {
         if (is_null(Appstore::$_current)) {
-            if (ConfigMemecache::Enable) {
+            if (\ConfigMemecache::Enable) {
                 Appstore::$_current = new Memcache();
-                Appstore::$_current->connect(ConfigMemecache::Host, ConfigMemecache::Port);
+                Appstore::$_current->connect(\ConfigMemecache::Host, \ConfigMemecache::Port);
             } else {
                 Appstore::$_current = new Registry();
             }

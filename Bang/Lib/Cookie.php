@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * Cookie 專用套件
  * @author Bang
@@ -22,8 +24,8 @@ class Cookie {
      * @param int $expires 保留天數
      * @param string $path 針對站內子目錄應用位置
      */
-    public static function SetCookie($name, $value, $expires = 30 , $path = '/') {
-        setcookie($name, $value, time() + (60 * 60 * 24 * $expires) , $path);
+    public static function SetCookie($name, $value, $expires = 30, $path = '/') {
+        setcookie($name, $value, time() + (60 * 60 * 24 * $expires), $path);
     }
 
     /**

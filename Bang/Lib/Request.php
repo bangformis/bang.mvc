@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /*
  * 主要在於協助取得使用者Request來的資料
  * 以物件方式取得
@@ -31,7 +33,7 @@ class Request {
      */
     public static function GetParam($obj, $isPost = false) {
         $from = ($isPost ? $_POST : $_GET);
-        return ORM::ArrayToObject($from, $obj);
+        return Bang\Lib\ORM::ArrayToObject($from, $obj);
     }
 
     /**
@@ -52,7 +54,7 @@ class Request {
 
     public static function GetRequest($obj) {
         $from = $_REQUEST;
-        return ORM::ArrayToObject($from, $obj);
+        return Bang\Lib\ORM::ArrayToObject($from, $obj);
     }
 
     /**

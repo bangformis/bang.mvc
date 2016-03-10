@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /*
  * 主要在於協助取得回傳Resposne
  * 以物件方式處理

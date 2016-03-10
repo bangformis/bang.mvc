@@ -10,11 +10,11 @@ use Models\ControllerBase;
 class HomeController extends ControllerBase\ApiControllerBase {
 
     public function Index() {
-        Response::HttpNotFound();
+        \Bang\Lib\Response::HttpNotFound();
     }
 
     public function TestSuccess() {
-        $result = new TaskResult();
+        $result = new Bang\Lib\TaskResult();
         $bag = RequestBag\Test::GetFromQuery();
         $bag->Valid();
         $result->SetSuccess(true, 'test success!');
@@ -22,7 +22,7 @@ class HomeController extends ControllerBase\ApiControllerBase {
     }
 
     public function TestUnSuccess() {
-        $result = new TaskResult();
+        $result = new Bang\Lib\TaskResult();
         $bag = RequestBag\Test::GetFromQuery();
         $bag->Valid();
         $result->SetUnsuccess('test unsuccess!');

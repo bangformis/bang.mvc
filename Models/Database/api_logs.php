@@ -23,7 +23,6 @@ class api_logs {
     public $request;
     public $response;
     public $error_code;
-    public $mobile_number;
     public $time;
 
     public function Insert() {
@@ -35,10 +34,9 @@ class api_logs {
             ':request' => $this->request,
             ':response' => $this->response,
             ':error_code' => $this->error_code,
-            ':mobile_number' => $this->mobile_number,
             ':time' => $this->time
         );
-        $id =  \Bang\MVC\DbContext::QuickInsert($tablename, $params);
+        $id = \Bang\MVC\DbContext::QuickInsert($tablename, $params);
         return $id;
     }
 

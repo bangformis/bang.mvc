@@ -33,14 +33,12 @@ class MonthlyTable {
                                     `request`  text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
                                     `response`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
                                     `error_code`  varchar(35) CHARACTER SET ascii COLLATE ascii_general_ci NULL DEFAULT NULL ,
-                                    `mobile_number`  varchar(10) CHARACTER SET ascii COLLATE ascii_general_ci NULL DEFAULT NULL ,
                                     `time`  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
                                     PRIMARY KEY (`id`),
                                     INDEX `day_index` USING BTREE (`day`) ,
                                     INDEX `hour_index` USING BTREE (`hour`) ,
                                     INDEX `action_index` USING BTREE (`action`) ,
-                                    INDEX `error_code_index` USING BTREE (`error_code`) ,
-                                    INDEX `mobile_number_index` USING BTREE (`mobile_number`) 
+                                    INDEX `error_code_index` USING BTREE (`error_code`) 
                                 )
                                 ENGINE=InnoDB
                                 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci

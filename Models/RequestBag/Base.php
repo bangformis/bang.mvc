@@ -17,7 +17,7 @@ class Base {
     public function ValidProperties($array) {
         foreach ($array as $value) {
             if (\Bang\Lib\String::IsNullOrSpace($this->{$value})) {
-                $this->ThrowException("缺少必要参数：{$value}", \ErrorCode::MissingParameter);
+                $this->ThrowException("缺少必要参数：{$value}", \Models\ErrorCode::MissingParameter);
             }
         }
     }

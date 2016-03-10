@@ -1,6 +1,6 @@
 <?php
 
-
+namespace Models;
 
 /**
  * @author Bang
@@ -19,9 +19,7 @@ class ErrorCode {
     const InsufficientBalance = 9;
     const TransactionFails = 10;
     const TransactionIsFinished = 11;
-    
     const NotFound = 404;
     const UnKnownError = 500;
-    
 
 }

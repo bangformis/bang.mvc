@@ -12,7 +12,7 @@ class Test extends ChecksumBase {
     public function Valid() {
         parent::Valid();
         if (!\Bang\Lib\Checker::IsEmail($this->email)) {
-            $this->ThrowException('Wrong Email Format', \ErrorCode::WrongFormat);
+            $this->ThrowException('Wrong Email Format', \Models\ErrorCode::WrongFormat);
         }
     }
 

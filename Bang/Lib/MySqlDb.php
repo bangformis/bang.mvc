@@ -81,14 +81,14 @@ class MySqlDb {
     public function BeginTransaction() {
         $result = $this->pdo->beginTransaction();
         if (!$result) {
-            throw new \Exception('Begin Transaction Error!', \ErrorCode::DatabaseError);
+            throw new \Exception('Begin Transaction Error!', \Models\ErrorCode::DatabaseError);
         }
     }
 
     public function Commit() {
         $result = $this->pdo->commit();
         if (!$result) {
-            throw new \Exception('Commit Transaction Error!', \ErrorCode::DatabaseError);
+            throw new \Exception('Commit Transaction Error!', \Models\ErrorCode::DatabaseError);
         }
     }
 
@@ -96,7 +96,7 @@ class MySqlDb {
         if ($this->pdo->inTransaction()) {
             $result = $this->pdo->rollBack();
             if (!$result) {
-                throw new \Exception('Rollback Transaction Error!', \ErrorCode::DatabaseError);
+                throw new \Exception('Rollback Transaction Error!', \Models\ErrorCode::DatabaseError);
             }
         }
     }

@@ -11,7 +11,7 @@ class ChecksumBase extends Base {
 
     public function Valid() {
         if ($this->GetChecksum() != $this->Checksum) {
-            $this->ThrowException('Checksum fail!', \ErrorCode::AuthenticationFail);
+            $this->ThrowException('Checksum fail!', \Models\ErrorCode::AuthenticationFail);
         }
     }
 

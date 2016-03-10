@@ -36,7 +36,7 @@ class FromToDatetime {
 
     public function Valid($must_same_month = true) {
         if ($this->from > $this->to) {
-            throw new \Exception('起始日期不可大于结束日期！', \ErrorCode::WrongParameter);
+            throw new \Exception('起始日期不可大于结束日期！', \Models\ErrorCode::WrongParameter);
         }
 
         if ($must_same_month) {
@@ -48,7 +48,7 @@ class FromToDatetime {
         $from_m = $this->from->format('m');
         $to_m = $this->to->format('m');
         if ($from_m !== $to_m) {
-            throw new \Exception('起迄必须为相同月份！', \ErrorCode::WrongParameter);
+            throw new \Exception('起迄必须为相同月份！', \Models\ErrorCode::WrongParameter);
         }
     }
 

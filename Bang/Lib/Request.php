@@ -33,7 +33,7 @@ class Request {
      */
     public static function GetParam($obj, $isPost = false) {
         $from = ($isPost ? $_POST : $_GET);
-        return Bang\Lib\ORM::ArrayToObject($from, $obj);
+        return ORM::ArrayToObject($from, $obj);
     }
 
     /**
@@ -54,7 +54,7 @@ class Request {
 
     public static function GetRequest($obj) {
         $from = $_REQUEST;
-        return Bang\Lib\ORM::ArrayToObject($from, $obj);
+        return ORM::ArrayToObject($from, $obj);
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * 處理檔案位置功能
  * @author Bang
@@ -23,13 +25,13 @@ class Path {
      * @return string
      */
     public static function Content($url) {
-        if(!String::StartsWith($url, "/")){
+        if (!String::StartsWith($url, "/")) {
             $url = "/$url";
         }
-        if (Config::DirSplitor == "\\") {
+        if (\Config::DirSplitor == "\\") {
             $url = str_replace("/", "\\", $url);
         }
-        return Config::$Path . $url;
+        return \Config::$Path . $url;
     }
 
     /**
@@ -46,11 +48,11 @@ class Path {
     /**
      * 回傳網站Share View檔案
      * EX:(Index.php) /Views/Shared/Index.php
-     * @param string $url
+     * @param string $name
      * @return string View檔案網址
      */
     public static function ShareView($name) {
-        $viewFile = Path::Content("Views/Shared/$name.php");
+        $viewFile = Path::Content("Views/Shared/{$name}.php");
         return $viewFile;
     }
 

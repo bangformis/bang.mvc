@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * 使用於工作或API一般回傳結果
  * @author Bang

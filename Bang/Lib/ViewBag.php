@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * 存放本次回傳View專用包
  * 存放內容將會在回傳後清除(目前以$_REQUEST實作)
@@ -38,7 +40,7 @@ class ViewBag {
      * 將ViewBag寫入ResponseBag中
      */
     public function Write() {
-        ResponseBag::Add(ViewBag::ResponseBagName, $this);
+        \Bang\Lib\ResponseBag::Add(ViewBag::ResponseBagName, $this);
     }
 
     /**
@@ -46,10 +48,10 @@ class ViewBag {
      * @return ViewBag 當前ViewBag
      */
     public static function Get() {
-        if (!ResponseBag::Contains(ViewBag::ResponseBagName)) {
-            ResponseBag::Add(ViewBag::ResponseBagName, new ViewBag());
+        if (!\Bang\Lib\ResponseBag::Contains(ViewBag::ResponseBagName)) {
+            \Bang\Lib\ResponseBag::Add(ViewBag::ResponseBagName, new ViewBag());
         }
-        return ResponseBag::Get(ViewBag::ResponseBagName);
+        return \Bang\Lib\ResponseBag::Get(ViewBag::ResponseBagName);
     }
 
     /**
@@ -59,10 +61,10 @@ class ViewBag {
     public static function GetTitle() {
         $current = ViewBag::Get();
 
-        if (String::IsNotNullOrSpace($current->Title)) {
-            return $current->Title . " - " . Config::$SiteName;
+        if (Bang\Lib\String::IsNotNullOrSpace($current->Title)) {
+            return $current->Title . " - " . \Config::$SiteName;
         } else {
-            return Config::$SiteName;
+            return \Config::$SiteName;
         }
     }
 

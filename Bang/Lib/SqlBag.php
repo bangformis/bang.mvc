@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * SQL 呼叫使用Bag,先Prepare後在執行
  * @author Bang

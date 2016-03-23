@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
  * 字串(String)擴增功能
  */

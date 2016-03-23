@@ -1,5 +1,5 @@
 <?php
-
+namespace Bang\Lib;
 /**
  * @author Bang
  */

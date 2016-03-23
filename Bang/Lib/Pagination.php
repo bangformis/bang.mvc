@@ -1,8 +1,8 @@
 <?php
 
+namespace Bang\Lib;
+
 /**
- * Description of Pagination
- *
  * @author Bang
  */
 class Pagination {

@@ -1,5 +1,7 @@
 <?php
 
+namespace Bang\Lib;
+
 /*
  * 主要在於協助取得使用者Request來的資料
  * 以物件方式取得

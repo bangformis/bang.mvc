@@ -1,5 +1,5 @@
 <?php
-
+namespace Bang\Lib;
 /**
  * 資料快取模型
  * @author Bang

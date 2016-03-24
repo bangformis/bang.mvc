@@ -11,7 +11,7 @@ use Models\ControllerBase;
 class Home extends ControllerBase\ApiControllerBase {
 
     public function Index() {
-        \Bang\Lib\Response::HttpNotFound();
+        \Bang\Lib\Response::Forbidden();
     }
 
     public function TestSuccess() {

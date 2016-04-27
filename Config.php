@@ -31,11 +31,3 @@ class ConfigMemecache {
     const Port = 11211;
 
 }
-
-class ApiConfig {
-
-    const LogResponse = true;
-    const LogRequest = true;
-    const Key = 'bang_api_test';
-
-}

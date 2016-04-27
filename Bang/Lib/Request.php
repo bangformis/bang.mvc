@@ -65,4 +65,8 @@ class Request {
         return $_SERVER['REQUEST_URI'];
     }
 
+    public static function GetPostBody(){
+        return file_get_contents('php://input');
+    }
+    
 }

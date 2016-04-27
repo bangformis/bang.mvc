@@ -31,7 +31,8 @@ class Path {
         if (\Config::DirSplitor == "\\") {
             $url = str_replace("/", "\\", $url);
         }
-        return \Config::$Path . $url;
+        $root = \Config::$Path;
+        return $root . $url;
     }
 
     /**

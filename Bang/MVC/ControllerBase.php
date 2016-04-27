@@ -2,6 +2,8 @@
 
 namespace Bang\MVC;
 
+use Bang\Lib;
+
 /**
  * 所有Controller的基底
  * @author Bang
@@ -13,13 +15,13 @@ class ControllerBase {
      * 帶預設Layout.php
      */
     protected function View($viewName = "", $layout = "_Layout") {
-        if (Bang\Lib\String::IsNullOrSpace($viewName)) {
+        if (Lib\String::IsNullOrSpace($viewName)) {
             $viewName = Route::Current()->action;
         }
-        $className = Bang\Lib\String::RemoveSuffix(get_class($this), "Controller");
+        $className = Lib\String::RemovePrefix(get_class($this), "Controllers\\");
         $viewFile = "{$className}/{$viewName}.php";
-        \Bang\Lib\ResponseBag::Add("View", $viewFile);
-        $layoutFile = Bang\Swagger\Path::View($layout, "Shared");
+        Lib\ResponseBag::Add("View", $viewFile);
+        $layoutFile = Lib\Path::View($layout, "Shared");
         include $layoutFile;
     }
 

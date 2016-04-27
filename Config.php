@@ -11,10 +11,10 @@ class Config {
     /**
      * @var string 網站名稱(會出現在Title 後至)
      */
-    public static $SiteName = "Bang MVC API";
+    public static $SiteName = "Bang MVC";
 
     //資料庫各項連線設定
-    const DbName = "bang_mvc_api";
+    const DbName = "bang_mvc_web";
     const DbHost = "localhost";
     const DbPort = "3306";
     const DbUser = "root";

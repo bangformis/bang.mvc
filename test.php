@@ -1,3 +1,4 @@
 <?php
 
 require_once 'System.php';
+echo Bang\Lib\Session::Get('test');

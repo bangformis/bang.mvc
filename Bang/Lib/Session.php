@@ -28,13 +28,11 @@ class Session {
     public static function Set($name, $obj) {
         Session::StartSession();
         $name = strtolower($name);
-
         $return = null;
         if (isset($_SESSION[$name])) {
             //已經有舊的物件時,將舊的物件回傳
             $return = $_SESSION[$name];
         }
-
         $_SESSION[$name] = $obj;
         return $return;
     }
@@ -46,11 +44,9 @@ class Session {
      */
     public static function Get($name) {
         Session::StartSession();
-
         $name = strtolower($name);
-
         if (!self::Contains($name)) {
-            throw new Exception("Object does not exist in Session");
+            throw new \Exception("Object does not exist in Session");
         }
         return $_SESSION[$name];
     }
@@ -62,9 +58,7 @@ class Session {
      */
     public static function Contains($name) {
         Session::StartSession();
-
         $name = strtolower($name);
-
         if (!isset($_SESSION[$name])) {
             return false;
         }
@@ -78,7 +72,6 @@ class Session {
      */
     public static function Remove($name) {
         Session::StartSession();
-
         $name = strtolower($name);
         if (self::Contains($name)) {
             unset($_SESSION[$name]);

@@ -1,33 +1,37 @@
 <?php
+
 namespace Controllers;
 
-use Models\RequestBag;
-use Models\ControllerBase;
+use Bang\MVC;
+use Bang\Lib;
 
 /**
  * 主頁面Controller
  * @author Bang
  */
-class Home extends ControllerBase\ApiControllerBase {
+class Home extends MVC\ControllerBase {
 
     public function Index() {
-        \Bang\Lib\Response::Forbidden();
-    }
 
-    public function TestSuccess() {
-        $result = new \Bang\Lib\TaskResult();
-        $bag = RequestBag\Test::GetFromQuery();
-        $bag->Valid();
-        $result->SetSuccess(true, 'test success!');
-        return $this->Json($result);
-    }
+        //設定將資料需傳至 View的所有值 對應key可在view取得
+        Lib\ResponseBag::Add("index1", "測試資料ㄇ!");
 
-    public function TestUnSuccess() {
-        $result = new \Bang\Lib\TaskResult();
-        $bag = RequestBag\Test::GetFromQuery();
-        $bag->Valid();
-        $result->SetUnsuccess('test unsuccess!');
-        return $this->Json($result);
+        //設定該頁面 標題 和敘述 範例
+        Lib\ViewBag::SetNormalSite("Home", "測試各種各種.");
+
+        //設定 Session值
+        Lib\Session::Set('name', 'value');
+
+        //取得Session值
+        Lib\Session::Get('name');
+
+        //設定 Appstore 值 （快取資料）
+        Lib\Appstore::Set('name', 'value');
+
+        //取得 appstore 值 （快取資料）
+        Lib\Appstore::Get('name');
+
+        return $this->View(); //將傳至 Views/Home/Index.php 檔案執行
     }
 
 }

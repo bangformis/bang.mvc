@@ -13,6 +13,7 @@ class MySqlDb {
     protected $username;
     protected $password;
     protected $port;
+    private $transaction_count;
 
     function __construct($host, $username, $password, $name = null, $port = 3306) {
 
@@ -30,6 +31,7 @@ class MySqlDb {
         }
 
         $this->pdo = $pdo;
+        $this->transaction_count = 0;
     }
 
     /**
@@ -85,12 +87,18 @@ class MySqlDb {
         if (!$result) {
             throw new \Exception('Begin Transaction Error!', \Models\ErrorCode::DatabaseError);
         }
+        $this->transaction_count += 1;
     }
 
     public function Commit() {
-        $result = $this->pdo->commit();
-        if (!$result) {
-            throw new \Exception('Commit Transaction Error!', \Models\ErrorCode::DatabaseError);
+        if ($this->transaction_count > 0) {
+            $this->transaction_count -= 1;
+            if ($this->transaction_count === 0) {
+                $result = $this->pdo->commit();
+                if (!$result) {
+                    throw new \Exception('Commit Transaction Error!', \Models\ErrorCode::DatabaseError);
+                }
+            }
         }
     }
 

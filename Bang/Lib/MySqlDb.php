@@ -12,15 +12,17 @@ class MySqlDb {
     protected $name;
     protected $username;
     protected $password;
+    protected $port;
 
-    function __construct($host, $username, $password, $name = null) {
+    function __construct($host, $username, $password, $name = null, $port = 3306) {
 
         $this->host = $host;
         $this->name = $name;
         $this->username = $username;
         $this->password = $password;
+        $this->port = $port;
 
-        $pdo = new \PDO("mysql:host={$host};charset=utf8", $username, $password);
+        $pdo = new \PDO("mysql:host={$host};port={$port};charset=utf8", $username, $password);
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $pdo->exec("set names utf8;");
         if (String::IsNotNullOrSpace($name)) {

@@ -1,6 +1,8 @@
 <?php
 
-require_once '../Bang/lib/String.php';
+require_once 'auto_load.php';
+
+use Bang\Lib\String;
 
 /**
  * 字串功能測試

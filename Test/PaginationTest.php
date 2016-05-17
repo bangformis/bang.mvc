@@ -1,7 +1,7 @@
 <?php
 
-require_once '../Bang/Lib/Pagination.php';
-require_once '../Config.php';
+require_once 'auto_load.php';
+use Bang\Lib\Pagination;
 
 class PaginationTest extends PHPUnit_Framework_TestCase {
 

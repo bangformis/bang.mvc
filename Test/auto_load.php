@@ -1,5 +1,5 @@
 <?php
-
+require_once 'ConfigTest.php';
 require_once '../Config.php';
 spl_autoload_register(function ($classname) {
     if ($classname == 'PHPUnit_Extensions_Story_TestCase' || $classname == 'Composer\Autoload\ClassLoader') {

@@ -17,9 +17,7 @@ class ApiControllerBase extends \Bang\MVC\ControllerBase {
             $request = http_build_query($_GET);
             $time = Current\Request::GetDatetime();
             $log->InitRequest($action, $request, $time);
-            if (isset($_GET['mobile_number'])) {
-                $log->mobile_number = $_GET['mobile_number'];
-            }
+            
             if (\ApiConfig::LogRequest) {
                 $log->Insert();
             }

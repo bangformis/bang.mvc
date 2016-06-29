@@ -12,15 +12,18 @@ class MySqlDb {
     protected $name;
     protected $username;
     protected $password;
+    protected $port;
+    private $transaction_count;
 
-    function __construct($host, $username, $password, $name = null) {
+    function __construct($host, $username, $password, $name = null, $port = 3306) {
 
         $this->host = $host;
         $this->name = $name;
         $this->username = $username;
         $this->password = $password;
+        $this->port = $port;
 
-        $pdo = new \PDO("mysql:host={$host};charset=utf8", $username, $password);
+        $pdo = new \PDO("mysql:host={$host};port={$port};charset=utf8", $username, $password);
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $pdo->exec("set names utf8;");
         if (String::IsNotNullOrSpace($name)) {
@@ -28,6 +31,7 @@ class MySqlDb {
         }
 
         $this->pdo = $pdo;
+        $this->transaction_count = 0;
     }
 
     /**
@@ -83,12 +87,18 @@ class MySqlDb {
         if (!$result) {
             throw new \Exception('Begin Transaction Error!', \Models\ErrorCode::DatabaseError);
         }
+        $this->transaction_count += 1;
     }
 
     public function Commit() {
-        $result = $this->pdo->commit();
-        if (!$result) {
-            throw new \Exception('Commit Transaction Error!', \Models\ErrorCode::DatabaseError);
+        if ($this->transaction_count > 0) {
+            $this->transaction_count -= 1;
+            if ($this->transaction_count === 0) {
+                $result = $this->pdo->commit();
+                if (!$result) {
+                    throw new \Exception('Commit Transaction Error!', \Models\ErrorCode::DatabaseError);
+                }
+            }
         }
     }
 

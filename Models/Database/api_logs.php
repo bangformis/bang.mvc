@@ -37,6 +37,7 @@ class api_logs {
             ':time' => $this->time
         );
         $id = \Bang\MVC\DbContext::QuickInsert($tablename, $params);
+        $this->id = $id;
         return $id;
     }
 

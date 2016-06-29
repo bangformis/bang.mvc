@@ -22,6 +22,13 @@ class Base {
         }
     }
 
+    public function ValidPositive($number) {
+        $value = doubleval($number);
+        if ($value < 0) {
+            $this->ThrowException('带入的数值不可为负数！', ErrorCode::WrongFormat);
+        }
+    }
+
     public function HasProperties($array) {
         foreach ($array as $value) {
             if (\Bang\Lib\String::IsNotNullOrSpace($this->{$value})) {
@@ -29,6 +36,13 @@ class Base {
             }
         }
         return false;
+    }
+
+    public function ValidIsBoolean($param) {
+        $test = intval($this->{$param});
+        if ($test !== 0 && $test !== 1) {
+            $this->ThrowException("{$param}参数必须为1或0!", \Models\ErrorCode::WrongFormat);
+        }
     }
 
 }

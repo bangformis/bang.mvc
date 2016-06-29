@@ -40,6 +40,21 @@ class ORM {
         return $obj;
     }
 
+    public static function CopyPropertiesIfExist($src_obj, $target_obj) {
+        $reflect = new \ReflectionClass($target_obj);
+        $array = self::ObjectToArray($src_obj);
+
+        $properties = $reflect->getProperties();
+        foreach ($properties as $property) {
+            $name = $property->name;
+            
+            if (isset($array[$name])) {
+                $property->setValue($target_obj, $array[$name]);
+            }
+        }
+        return $target_obj;
+    }
+
     /**
      * 將2維 陣列(第二維必須維字串索引)  轉換為物件陣列 並對應Key名稱
      * @param array $array 2維陣列 字串索引的陣列

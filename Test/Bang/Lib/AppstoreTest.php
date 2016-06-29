@@ -1,7 +1,8 @@
 <?php
 
-require_once '../Bang/lib/Appstore.php';
-require_once '../Config.php';
+require_once 'auto_load.php';
+
+use Bang\Lib\Appstore;
 
 /**
  * 應用程式單例存放測試
@@ -28,7 +29,7 @@ class AppstoreTest extends PHPUnit_Framework_TestCase {
         $test->roles = [1, 3, 4, 5];
 
         // Act
-        Appstore::Set('_forAppstoreTest' , $test);
+        Appstore::Set('_forAppstoreTest', $test);
 
         // Assert
         $test2 = Appstore::Get("_forAppstoreTest");
@@ -38,7 +39,7 @@ class AppstoreTest extends PHPUnit_Framework_TestCase {
 
     public function testDelete() {
         // Arrange
-        $true = Appstore::Get("test_name" , FALSE);
+        $true = Appstore::Get("test_name", FALSE);
         $this->assertTrue($true != FALSE);
 
         // Act

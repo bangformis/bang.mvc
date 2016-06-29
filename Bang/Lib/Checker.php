@@ -43,7 +43,7 @@ class Checker {
     public static function IsPostiveInt($value) {
         $is_int = is_numeric($value) && !String::Contains($value, '.');
         $is_not_null = String::IsNotNullOrSpace($value);
-        $great_than_0 = intval($value) > 0;
+        $great_than_0 = intval($value) >= 0;
         return $is_not_null && $is_int && $great_than_0;
     }
 

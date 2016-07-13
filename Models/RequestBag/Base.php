@@ -2,13 +2,18 @@
 
 namespace Models\RequestBag;
 
+use Bang\Lib\Checker;
+use Bang\Lib\String;
+use Exception;
+use Models\ErrorCode;
+
 /**
  * @author Bang
  */
 class Base {
 
     protected function ThrowException($message, $code) {
-        throw new \Exception($message, $code);
+        throw new Exception($message, $code);
     }
 
     /**
@@ -16,8 +21,8 @@ class Base {
      */
     public function ValidProperties($array) {
         foreach ($array as $value) {
-            if (\Bang\Lib\String::IsNullOrSpace($this->{$value})) {
-                $this->ThrowException("缺少必要参数：{$value}", \Models\ErrorCode::MissingParameter);
+            if (String::IsNullOrSpace($this->{$value})) {
+                $this->ThrowException("缺少必要参数：{$value}", ErrorCode::MissingParameter);
             }
         }
     }
@@ -31,7 +36,7 @@ class Base {
 
     public function HasProperties($array) {
         foreach ($array as $value) {
-            if (\Bang\Lib\String::IsNotNullOrSpace($this->{$value})) {
+            if (String::IsNotNullOrSpace($this->{$value})) {
                 return true;
             }
         }
@@ -41,7 +46,14 @@ class Base {
     public function ValidIsBoolean($param) {
         $test = intval($this->{$param});
         if ($test !== 0 && $test !== 1) {
-            $this->ThrowException("{$param}参数必须为1或0!", \Models\ErrorCode::WrongFormat);
+            $this->ThrowException("{$param}参数必须为1或0!", ErrorCode::WrongFormat);
+        }
+    }
+
+    public function ValidIsDate($param) {
+        $test = $this->{$param};
+        if (String::IsNotNullOrSpace($test) && !Checker::IsDate($test)) {
+            $this->ThrowException("{$param}参数日期格式有误!", ErrorCode::WrongFormat);
         }
     }
 

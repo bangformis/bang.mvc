@@ -16,6 +16,11 @@ class Checker {
         }
     }
     
+    public static function IsDateTime($date, $format = 'Y-m-d H:i:s') {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+    
     public static function IsEmail($input) {
         if (!filter_var($input, FILTER_VALIDATE_EMAIL)) {
             return false;

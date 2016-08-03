@@ -29,5 +29,5 @@ class Home extends ControllerBase\ApiControllerBase {
         $result->SetUnsuccess('test unsuccess!');
         return $this->Json($result);
     }
-
+    
 }

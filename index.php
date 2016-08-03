@@ -1,20 +1,26 @@
 <?php
 
+use Bang\Lib\Request;
+use Bang\Lib\TaskResult;
+use Bang\MVC\DbContext;
+use Bang\MVC\Route;
+use Models\Current\Current;
+
 include 'System.php';
 
-Bang\Lib\Request::GetGet($route = new Bang\MVC\Route());
+Request::GetGet($route = new Route());
 try {
     $route->invoke();
 } catch (Exception $ex) {
-    Bang\MVC\DbContext::Rollback();
-    Bang\MVC\DbContext::Disconnect();
+    DbContext::Rollback();
+    DbContext::Disconnect();
     header('Content-Type: application/json');
-    $result = new Bang\Lib\TaskResult();
+    $result = new TaskResult();
     $result->SetUnsuccess($ex->getMessage(), $ex->getCode());
 
     $json_str = json_encode($result);
     if (ApiConfig::LogResponse) {
-        $log = \Models\Current\Current::GetLogger();
+        $log = Current::GetLogger();
         $log->response = $json_str;
         $log->error_code = $result->Value;
         $log->Insert();

@@ -32,6 +32,28 @@ class eDateTime {
         return $this->datetime->format($format);
     }
 
+    /**
+     * @param int $count
+     */
+    public function AddSeconds($count) {
+        $min_count = intval($count);
+        if ($min_count < 0) {
+            $this->datetime->modify("{$min_count} second");
+        } else {
+            $this->datetime->modify("+{$min_count} second");
+        }
+    }
+
+    public function AddMinutes($count) {
+        $min_count = intval($count);
+        if ($min_count < 0) {
+            $min_count = $min_count * -1;
+            $this->datetime->sub(new DateInterval("PT{$min_count}M"));
+        } else {
+            $this->datetime->add(new DateInterval("PT{$min_count}M"));
+        }
+    }
+
     public function AddMonth($count) {
         $day_count = intval($count);
         if ($day_count < 0) {
@@ -82,6 +104,22 @@ class eDateTime {
 
     public function GetDay() {
         return $this->datetime->format('d');
+    }
+
+    public function GetYear() {
+        return $this->datetime->format('Y');
+    }
+
+    public function GetMonth() {
+        return $this->datetime->format('m');
+    }
+
+    /**
+     * @return eDateTime
+     */
+    public static function GetFirstDateOfThisMonth() {
+        $datetime = new eDateTime('first day of this month');
+        return $datetime;
     }
 
 }

@@ -15,12 +15,12 @@ class Checker {
             return false;
         }
     }
-    
+
     public static function IsDateTime($date, $format = 'Y-m-d H:i:s') {
         $d = \DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
-    
+
     public static function IsEmail($input) {
         if (!filter_var($input, FILTER_VALIDATE_EMAIL)) {
             return false;
@@ -50,6 +50,17 @@ class Checker {
         $is_not_null = String::IsNotNullOrSpace($value);
         $great_than_0 = intval($value) >= 0;
         return $is_not_null && $is_int && $great_than_0;
+    }
+
+    /**
+     * @param type $value
+     * @return boolean 
+     */
+    public static function IsPostiveNumber($value) {
+        $is_number = is_numeric($value);
+        $is_not_null = String::IsNotNullOrSpace($value);
+        $great_than_0 = intval($value) >= 0;
+        return $is_not_null && $is_number && $great_than_0;
     }
 
 }

@@ -34,11 +34,21 @@ class DbContext {
      * 執行Query
      * @param string $sql Prepare SQL語法
      * @param array $params 傳入參數
-     * @return PDOStatement 查詢結果
+     * @return \PDOStatement 查詢結果
      */
     public static function Query($sql, $params = array()) {
         $db = self::GetConnection();
         return $db->Query($sql, $params);
+    }
+
+    public static function QuickInsertOrAdd($tablename, $params, $un_updates) {
+        $db = self::GetConnection();
+        return $db->QuickInsertOrAdd($tablename, $params, $un_updates);
+    }
+
+    public static function QuickInsertOrUpdate($tablename, $params, $un_updates) {
+        $db = self::GetConnection();
+        return $db->QuickInsertOrUpdate($tablename, $params, $un_updates);
     }
 
     /**
@@ -98,7 +108,7 @@ class DbContext {
      * @param string $tablename
      * @param string $where
      * @param string $params (参数以where开头将不会被Update,只会带入where语法中)
-     * @return PDOStatement
+     * @return \PDOStatement
      */
     public static function QuickUpdate($tablename, $where, $params) {
         $db = self::GetConnection();

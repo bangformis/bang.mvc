@@ -33,5 +33,5 @@ class Home extends MVC\ControllerBase {
 
         return $this->View(); //將傳至 Views/Home/Index.php 檔案執行
     }
-
+    
 }

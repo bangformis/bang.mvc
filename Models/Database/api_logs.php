@@ -2,18 +2,37 @@
 
 namespace Models\Database;
 
+use Bang\Lib\String;
+use Bang\MVC\DbContext;
+use Bang\MVC\Route;
+use DateTime;
+
 /**
  * @author Bang
  */
 class api_logs {
 
-    public function InitRequest($action, $request, \DateTime $time) {
+    function __construct() {
+        $this->error_code = 0;
+    }
+
+    
+    public function InitRequest($action = "", $request = "", DateTime $time = null) {
+        if (String::IsNullOrSpace($action)) {
+            $route = Route::Current();
+            $action = "{$route->controller}/{$route->action}";
+        }
+        if (String::IsNullOrSpace($request)) {
+            $request = http_build_query($_GET);
+        }
+        if (null === $time) {
+            $time = new DateTime();
+        }
         $this->action = $action;
         $this->request = $request;
         $this->time = $time->format('Y-m-d H:i:s');
         $this->day = $time->format('d');
         $this->hour = $time->format('H');
-        $this->error_code = 0;
     }
 
     public $id;
@@ -26,6 +45,9 @@ class api_logs {
     public $time;
 
     public function Insert() {
+        if (!isset($this->request)) {
+            $this->InitRequest();
+        }
         $tablename = MonthlyTable::ApiLogs();
         $params = array(
             ':day' => $this->day,
@@ -36,7 +58,7 @@ class api_logs {
             ':error_code' => $this->error_code,
             ':time' => $this->time
         );
-        $id = \Bang\MVC\DbContext::QuickInsert($tablename, $params);
+        $id = DbContext::QuickInsert($tablename, $params);
         $this->id = $id;
         return $id;
     }

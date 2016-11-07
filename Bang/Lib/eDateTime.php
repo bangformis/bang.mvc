@@ -11,11 +11,24 @@ use DateTime;
 class eDateTime {
 
     function __construct($time = null) {
-        if (String::IsNotNullOrSpace($time)) {
-            $this->datetime = new DateTime($time);
+        if (null !== $time) {
+            if ($time instanceof DateTime) {
+                $this->datetime = $time;
+            } else if (String::IsNotNullOrSpace($time)) {
+                $this->datetime = new DateTime($time);
+            } else {
+                $this->datetime = new DateTime();
+            }
         } else {
             $this->datetime = new DateTime();
         }
+    }
+
+    public static function Create($year, $month, $day, $hour = 1, $minute = 1, $second = 1) {
+        $format = 'Y-m-d H:i:s';
+        $datetime = DateTime::createFromFormat($format, "{$year}-{$month}-{$day} {$hour}:{$minute}:{$second}");
+        $result = new eDateTime($datetime);
+        return $result;
     }
 
     /**
@@ -100,6 +113,18 @@ class eDateTime {
 
     public function ToYYmm() {
         return $this->datetime->format('ym');
+    }
+
+    public function GetSecond() {
+        return $this->datetime->format('s');
+    }
+
+    public function GetMinute() {
+        return $this->datetime->format('i');
+    }
+
+    public function GetHour() {
+        return $this->datetime->format('H');
     }
 
     public function GetDay() {

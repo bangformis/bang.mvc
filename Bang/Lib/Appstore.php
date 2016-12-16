@@ -62,12 +62,12 @@ class Appstore {
 
     /**
      * 取得目前Memcache
-     * @return Memcache Memcache
+     * @return eMemcache Memcache
      */
     private static function Current() {
         if (is_null(Appstore::$_current)) {
             if (\ConfigMemecache::Enable) {
-                Appstore::$_current = new Memcache();
+                Appstore::$_current = new eMemcache();
                 Appstore::$_current->connect(\ConfigMemecache::Host, \ConfigMemecache::Port);
             } else {
                 Appstore::$_current = new Registry();

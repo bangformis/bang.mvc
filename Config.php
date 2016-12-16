@@ -26,7 +26,7 @@ class Config {
 
 class ConfigMemecache {
 
-    const Enable = false;
+    const Enable = true;
     const Host = "localhost";
     const Port = 11211;
 

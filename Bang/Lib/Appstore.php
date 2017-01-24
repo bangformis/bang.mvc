@@ -20,7 +20,7 @@ class Appstore {
      */
     public static function Set($key, $data) {
         $name = Appstore::StroeName($key);
-        return Appstore::Current()->set($name, $data);
+        return Appstore::Current()->Set($name, $data);
     }
 
     /**
@@ -31,7 +31,7 @@ class Appstore {
      */
     public static function Get($key, $init_data = FALSE) {
         $name = Appstore::StroeName($key);
-        $result = Appstore::Current()->get($name);
+        $result = Appstore::Current()->Get($name);
         if (!$result) {
             Appstore::Set($key, $init_data);
             $result = $init_data;
@@ -46,7 +46,7 @@ class Appstore {
      */
     public static function Delete($key) {
         $name = Appstore::StroeName($key);
-        Appstore::Current()->delete($name);
+        Appstore::Current()->Delete($name);
     }
 
     /**
@@ -68,7 +68,6 @@ class Appstore {
         if (is_null(Appstore::$_current)) {
             if (\ConfigMemecache::Enable) {
                 Appstore::$_current = new eMemcache();
-                Appstore::$_current->connect(\ConfigMemecache::Host, \ConfigMemecache::Port);
             } else {
                 Appstore::$_current = new Registry();
             }

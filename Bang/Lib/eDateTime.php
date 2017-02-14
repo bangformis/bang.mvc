@@ -67,6 +67,19 @@ class eDateTime {
         }
     }
 
+    public function AddYear($count) {
+        $day_count = intval($count);
+        if ($day_count < 0) {
+            return $this->SubMonth($day_count * -1);
+        } else {
+            $this->datetime->add(new DateInterval("P{$day_count}Y"));
+        }
+    }
+
+    public function SubYear($count) {
+        $this->AddDay($count * -1);
+    }
+
     public function AddMonth($count) {
         $day_count = intval($count);
         if ($day_count < 0) {

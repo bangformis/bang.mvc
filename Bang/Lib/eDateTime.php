@@ -11,11 +11,24 @@ use DateTime;
 class eDateTime {
 
     function __construct($time = null) {
-        if (String::IsNotNullOrSpace($time)) {
-            $this->datetime = new DateTime($time);
+        if (null !== $time) {
+            if ($time instanceof DateTime) {
+                $this->datetime = $time;
+            } else if (String::IsNotNullOrSpace($time)) {
+                $this->datetime = new DateTime($time);
+            } else {
+                $this->datetime = new DateTime();
+            }
         } else {
             $this->datetime = new DateTime();
         }
+    }
+
+    public static function Create($year, $month, $day, $hour = '01', $minute = '01', $second = '01') {
+        $format = 'Y-m-d H:i:s';
+        $datetime = DateTime::createFromFormat($format, "{$year}-{$month}-{$day} {$hour}:{$minute}:{$second}");
+        $result = new eDateTime($datetime);
+        return $result;
     }
 
     /**
@@ -52,6 +65,19 @@ class eDateTime {
         } else {
             $this->datetime->add(new DateInterval("PT{$min_count}M"));
         }
+    }
+
+    public function AddYear($count) {
+        $day_count = intval($count);
+        if ($day_count < 0) {
+            return $this->SubMonth($day_count * -1);
+        } else {
+            $this->datetime->add(new DateInterval("P{$day_count}Y"));
+        }
+    }
+
+    public function SubYear($count) {
+        $this->AddDay($count * -1);
     }
 
     public function AddMonth($count) {
@@ -100,6 +126,18 @@ class eDateTime {
 
     public function ToYYmm() {
         return $this->datetime->format('ym');
+    }
+
+    public function GetSecond() {
+        return $this->datetime->format('s');
+    }
+
+    public function GetMinute() {
+        return $this->datetime->format('i');
+    }
+
+    public function GetHour() {
+        return $this->datetime->format('H');
     }
 
     public function GetDay() {

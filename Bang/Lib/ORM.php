@@ -18,6 +18,25 @@ class ORM {
     }
 
     /**
+     * 取得物件各属性名称
+     * @param mixed $objOrClassName
+     * @return array
+     */
+    public static function GetPropertiesName($objOrClassName) {
+        $reflect = new \ReflectionClass($objOrClassName);
+        $obj = $objOrClassName;
+        if (!is_a($obj, $reflect->getName())) {
+            $obj = $reflect->newInstanceArgs();
+        }
+        $properties = $reflect->getProperties();
+        $result = array();
+        foreach ($properties as $property) {
+            $result[] = $property->name;
+        }
+        return $result;
+    }
+
+    /**
      * 將Array(字串索引)轉換為物建
      * @param array $array 字串索引的陣列
      * @param string $objOrClassName 物件或物件類別名稱
@@ -47,7 +66,7 @@ class ORM {
         $properties = $reflect->getProperties();
         foreach ($properties as $property) {
             $name = $property->name;
-            
+
             if (isset($array[$name])) {
                 $property->setValue($target_obj, $array[$name]);
             }

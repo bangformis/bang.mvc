@@ -152,6 +152,16 @@ class eDateTime {
         return $this->datetime->format('m');
     }
 
+    public function ToTimestamp() {
+        return $this->datetime->getTimestamp();
+    }
+
+    public function GetFirstDateOfTheWeek() {
+        $timestamp = strtotime('sunday last week', $this->ToTimestamp());
+        $result = date("Y-m-d", $timestamp);
+        return $result;
+    }
+
     /**
      * @return eDateTime
      */

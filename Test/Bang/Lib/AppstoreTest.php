@@ -4,16 +4,7 @@ require_once 'auto_load.php';
 
 use Bang\Lib\Appstore;
 
-/**
- * 應用程式單例存放測試
- */
-class _forAppstoreTest {
-
-    public $name;
-    public $password;
-    public $roles;
-
-}
+require_once 'Bang/TestModels/ForTestAppstore.php';
 
 class AppstoreTest extends PHPUnit_Framework_TestCase {
 
@@ -23,7 +14,7 @@ class AppstoreTest extends PHPUnit_Framework_TestCase {
 
     public function testGetAndSet() {
         // Arrange
-        $test = new _forAppstoreTest();
+        $test = new ForTestAppstore();
         $test->name = "test1";
         $test->password = "gg9944";
         $test->roles = [1, 3, 4, 5];

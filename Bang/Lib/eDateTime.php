@@ -128,6 +128,10 @@ class eDateTime {
         return $this->datetime->format('ym');
     }
 
+    public function ToYYYYmm() {
+        return $this->datetime->format('Ym');
+    }
+
     public function GetSecond() {
         return $this->datetime->format('s');
     }

@@ -6,6 +6,17 @@ require_once 'auto_load.php';
 
 class eDateTimeTest extends PHPUnit_Framework_TestCase {
 
+    public function testGetWeekfirstDate() {
+        $date1 = new eDateTime("2017-03-28");
+        $date2 = new eDateTime("2017-04-05");
+
+        $result1 = $date1->GetFirstDateOfTheWeek();
+        $result2 = $date2->GetFirstDateOfTheWeek();
+
+        $this->assertEquals($result1, '2017-03-26');
+        $this->assertEquals($result2, '2017-04-02');
+    }
+
     public function testAddSecond1() {
         $seconds = rand(10, 58);
         $datetime_str = "2016-06-30 12:00:{$seconds}";

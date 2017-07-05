@@ -3,21 +3,7 @@
 use Bang\Lib\eMemcache;
 
 require_once 'auto_load.php';
-
-/**
- * 應用程式單例存放測試
- */
-class _forAppstoreTest {
-
-    public $name;
-    public $password;
-    public $roles;
-
-    public function Equal(_forAppstoreTest $obj) {
-        return ($this->name == $obj->name) && ($this->password == $obj->password) && ($this->roles == $obj->roles);
-    }
-
-}
+require_once 'Bang/TestModels/ForTestAppstore.php';
 
 class eMemcacheTest extends PHPUnit_Framework_TestCase {
 
@@ -26,10 +12,10 @@ class eMemcacheTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @return _forAppstoreTest
+     * @return ForTestAppstore
      */
     private function GetData() {
-        $result = new _forAppstoreTest();
+        $result = new ForTestAppstore();
         $result->name = "Name" . rand(100, 999);
         $result->password = "Password" . rand(100, 999);
         $result->roles = "Roles" . rand(100, 999);

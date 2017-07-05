@@ -128,6 +128,10 @@ class eDateTime {
         return $this->datetime->format('ym');
     }
 
+    public function ToYYYYmm() {
+        return $this->datetime->format('Ym');
+    }
+
     public function GetSecond() {
         return $this->datetime->format('s');
     }
@@ -150,6 +154,16 @@ class eDateTime {
 
     public function GetMonth() {
         return $this->datetime->format('m');
+    }
+
+    public function ToTimestamp() {
+        return $this->datetime->getTimestamp();
+    }
+
+    public function GetFirstDateOfTheWeek() {
+        $timestamp = strtotime('sunday last week', $this->ToTimestamp());
+        $result = date("Y-m-d", $timestamp);
+        return $result;
     }
 
     /**

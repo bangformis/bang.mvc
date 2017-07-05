@@ -21,7 +21,8 @@ class Request {
         );
         foreach ($vars as $key => $value) {
             if (isset($_SERVER[$value])) {
-                return $_SERVER[$value];
+                $ip_array = String::Split($_SERVER[$value], ",");
+                return $ip_array[0];
             }
         }
     }
@@ -65,8 +66,8 @@ class Request {
         return $_SERVER['REQUEST_URI'];
     }
 
-    public static function GetPostBody(){
+    public static function GetPostBody() {
         return file_get_contents('php://input');
     }
-    
+
 }

@@ -9,11 +9,7 @@ namespace Bang\Lib;
 class Checker {
 
     public static function IsDate($string) {
-        if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $string)) {
-            return true;
-        } else {
-            return false;
-        }
+        return self::Regexp($string, "/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/");
     }
 
     public static function IsDateTime($date, $format = 'Y-m-d H:i:s') {
@@ -112,24 +108,20 @@ class Checker {
     /**
      * 檢查是否有匹配字元
      * @param string $input
-     * @param string $characters ex:~,`,!,@,#,$,%,^,*,(,),_,-,+,=
+     * @param string $characters ex:!,@,#,$,%,^,&,*,(,),+,|,~,\,=,-,.,<,>,/,?,:,",',;,[,],{,}
      * @return boolean
      */
     public static function Match($input, $characters) {
         $regexp = "/[";
         $array = String::Split($characters, ",");
         foreach ($array as $value) {
-            if (self::Regexp($value, "/[a-zA-Z]/")) {
+            if (self::Regexp($value, "/[a-zA-Z0-9]/")) {
                 if (String::Contains($input, $value)) {
                     return true;
                 }
+            } else {
+                $regexp.='\\' . $value;
             }
-            if (self::Regexp($value, "/[0-9]/")) {
-                if (String::Contains($input, $value)) {
-                    return true;
-                }
-            }
-            $regexp.='\\' . $value;
         }
         $regexp.= "]/";
         return self::Regexp($input, $regexp);

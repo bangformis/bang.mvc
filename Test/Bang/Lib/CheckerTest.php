@@ -20,6 +20,18 @@ class CheckerTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($result);
     }
 
+    public function testIsDate(){
+        $date = '2017-07-12' ;
+        $result = Checker::IsDate($date);
+        $this->assertTrue($result);
+    }
+    
+    public function testIsDate_not(){
+        $date = '2017-07-121' ;
+        $result = Checker::IsDate($date);
+        $this->assertFalse($result);
+    }
+    
     public function testIPv4() {
         $ip = "127.0.0.1"; //ipv4
         $result = Checker::IP($ip);

@@ -63,4 +63,87 @@ class Checker {
         return $is_not_null && $is_number && $great_than_0;
     }
 
+    /**
+     * 检查IP
+     * @param string $input
+     * @return boolean
+     */
+    public static function IP($input) {
+        if (filter_var($input, FILTER_VALIDATE_IP)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 检查網址
+     * @param string $input
+     * @return boolean
+     */
+    public static function Url($input) {
+        if (filter_var($input, FILTER_VALIDATE_URL)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 正規表達示
+     * @param string $input
+     * @param string $regexp 正則式
+     * @return boolean
+     */
+    public static function Regexp($input, $regexp) {
+        $int_options = array(
+            "options" =>
+            array(
+                "regexp" => $regexp
+            )
+        );
+        if (filter_var($input, FILTER_VALIDATE_REGEXP, $int_options)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 檢查是否有匹配字元
+     * @param string $input
+     * @param string $characters ex:~,`,!,@,#,$,%,^,*,(,),_,-,+,=
+     * @return boolean
+     */
+    public static function Match($input, $characters) {
+        $regexp = "/[";
+        $array = String::Split($characters, ",");
+        foreach ($array as $value) {
+            if (self::Regexp($value, "/[a-zA-Z]/")) {
+                if (String::Contains($input, $value)) {
+                    return true;
+                }
+            }
+            if (self::Regexp($value, "/[0-9]/")) {
+                if (String::Contains($input, $value)) {
+                    return true;
+                }
+            }
+            $regexp.='\\' . $value;
+        }
+        $regexp.= "]/";
+        return self::Regexp($input, $regexp);
+    }
+
+    /**
+     * 檢查字串,不包含特殊字元
+     * @param string $input
+     * @param integer $length_max 最大長度
+     * @param integer $length_min 最小長度
+     * @return boolean
+     */
+    public static function Word($input, $length_max = "", $length_min = 1) {
+        return self::Regexp($input, "/^[a-zA-Z0-9]{{$length_min},{$length_max}}$/");
+    }
+
 }

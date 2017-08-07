@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/Config.php';
 
-ini_set("display_errors", "1");
+ini_set("display_errors", Config::EnablePHPErrorReport);
 error_reporting(E_ALL);
 
 /**

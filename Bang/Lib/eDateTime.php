@@ -166,6 +166,22 @@ class eDateTime {
         return $result;
     }
 
+    public function GetWeekDay() {
+        return intval($this->Format('w'));
+    }
+
+    public function GetMondayDateOfTheWeek() {
+        $datetime = new eDateTime($this->ToDateString());
+        if ($datetime->GetWeekDay() == 0) {
+            $datetime->AddDay(-6);
+        } else {
+            $days = $datetime->GetWeekDay();
+            $datetime->AddDay((-1 * $days) + 1);
+        }
+
+        return $datetime->ToDateString();
+    }
+
     /**
      * @return eDateTime
      */

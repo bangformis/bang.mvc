@@ -59,11 +59,22 @@ class TextFile {
         return $size / 1024.0;
     }
 
-    public function CreateIfNotFound($default_content = '') {
+    public function CreateIfNotFound($default_content = '', $mode = 755) {
         $path = ($this->Path);
         if (!file_exists($path)) {
             $this->Write($default_content);
+            $this->ChangeMode($mode);
         }
+    }
+
+    /**
+     * 修改權限
+     * @param string $mode EX:755
+     */
+    public function ChangeMode($mode = 755) {
+        $oct_mode = octdec($mode);
+        $path = ($this->Path);
+        return chmod($path, $oct_mode);
     }
 
 }

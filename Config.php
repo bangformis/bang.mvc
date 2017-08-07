@@ -21,6 +21,7 @@ class Config {
     const DbPassword = "123456";
     //系統使用的目錄分隔符號
     const DirSplitor = "\\";
+    const EnablePHPErrorReport = true;
 
 }
 

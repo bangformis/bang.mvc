@@ -8,6 +8,24 @@ namespace Bang\Lib;
 class String {
 
     /**
+     * 解码HTML
+     * @param string $string
+     * @return string
+     */
+    public static function DecodeHtml($string){
+        return html_entity_decode($string);
+    }
+    
+    /**
+     * 改为HTML编码
+     * @param string $str
+     * @return string
+     */
+    public static function EncodeHtml($str) {
+        return htmlentities($str, ENT_QUOTES, 'utf-8');
+    }
+
+    /**
      * 将阵列字串结合成单一字串
      * @param array $strs 字串阵列
      * @param string $separated 分隔字串

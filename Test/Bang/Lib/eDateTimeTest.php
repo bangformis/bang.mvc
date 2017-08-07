@@ -6,6 +6,28 @@ require_once 'auto_load.php';
 
 class eDateTimeTest extends PHPUnit_Framework_TestCase {
 
+    public function test_get_week_first_date_is_monday(){
+        $date1 = new eDateTime("2017-07-02");
+        $date2 = new eDateTime("2017-07-13");
+
+        $result1 = $date1->GetMondayDateOfTheWeek();
+        $result2 = $date2->GetMondayDateOfTheWeek();
+
+        $this->assertEquals($result1, '2017-06-26');
+        $this->assertEquals($result2, '2017-07-10');
+    }
+    
+    public function test_get_week_day(){
+        $date1 = new eDateTime("2017-07-02");
+        $date2 = new eDateTime("2017-07-13");
+
+        $result1 = $date1->GetWeekDay();
+        $result2 = $date2->GetWeekDay();
+
+        $this->assertEquals($result1, 0);
+        $this->assertEquals($result2, 4);
+    }
+    
     public function testGetWeekfirstDate() {
         $date1 = new eDateTime("2017-03-28");
         $date2 = new eDateTime("2017-04-05");

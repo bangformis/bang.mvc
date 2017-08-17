@@ -2,6 +2,9 @@
 
 namespace Bang\Lib;
 
+use Exception;
+use Models\ErrorCode;
+
 /**
  * @author Bang
  */
@@ -16,25 +19,25 @@ class TextFile {
     public function Read() {
         $path = ($this->Path);
         if (is_file($path)) {
-            $file = fopen($path, "r");
-            $content = fread($file, filesize($path));
+            $file = $this->FileOpen($path, "r");
+            $content = $this->FileRead($file, filesize($path));
             fclose($file);
             return $content;
         } else {
-            throw new \Exception('File not found!', 404);
+            throw new Exception('File not found!', 404);
         }
     }
 
     public function Write($content) {
         $path = ($this->Path);
-        $file = fopen($path, "w");
+        $file = $this->FileOpen($path, "w");
         fwrite($file, $content);
         fclose($file);
     }
 
     public function Append($content) {
         $path = ($this->Path);
-        $file = fopen($path, "a");
+        $file = $this->FileOpen($path, "a");
         fwrite($file, $content);
         fclose($file);
     }
@@ -75,6 +78,22 @@ class TextFile {
         $oct_mode = octdec($mode);
         $path = ($this->Path);
         return chmod($path, $oct_mode);
+    }
+
+    private function FileOpen($full_file_path, $mode) {
+        $file = fopen($full_file_path, $mode);
+        if (false == $file) {
+            throw new Exception("File open fail:{$full_file_path}", ErrorCode::UnKnownError);
+        }
+        return $file;
+    }
+
+    private function FileRead($file, $length) {
+        $content = fread($file, $length);
+        if (false == $content) {
+            throw new Exception("File read fail:{$this->Path}", ErrorCode::UnKnownError);
+        }
+        return $file;
     }
 
 }

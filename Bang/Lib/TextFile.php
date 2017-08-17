@@ -82,7 +82,7 @@ class TextFile {
 
     private function FileOpen($full_file_path, $mode) {
         $file = fopen($full_file_path, $mode);
-        if (false == $file) {
+        if (false === $file) {
             throw new Exception("File open fail:{$full_file_path}", ErrorCode::UnKnownError);
         }
         return $file;
@@ -90,10 +90,10 @@ class TextFile {
 
     private function FileRead($file, $length) {
         $content = fread($file, $length);
-        if (false == $content) {
+        if (false === $content) {
             throw new Exception("File read fail:{$this->Path}", ErrorCode::UnKnownError);
         }
-        return $file;
+        return $content;
     }
 
 }

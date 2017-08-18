@@ -20,7 +20,7 @@ class Config {
     const DbUser = "root";
     const DbPassword = "123456";
     //系統使用的目錄分隔符號
-    const DirSplitor = "\\";
+    const DirSplitor = DIRECTORY_SEPARATOR;
     const EnablePHPErrorReport = true;
 
 }

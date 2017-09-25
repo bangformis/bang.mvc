@@ -17,7 +17,8 @@ class Request {
         $vars = array(
             1 => 'HTTP_X_FORWARDED_FOR',
             2 => 'HTTP_INCAP_CLIENT_IP',
-            3 => 'REMOTE_ADDR'
+            3 => 'HTTP_CF_CONNECTING_IP',
+            4 => 'REMOTE_ADDR'
         );
         foreach ($vars as $key => $value) {
             if (isset($_SERVER[$value])) {

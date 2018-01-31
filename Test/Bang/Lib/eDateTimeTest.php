@@ -6,6 +6,18 @@ require_once 'auto_load.php';
 
 class eDateTimeTest extends PHPUnit_Framework_TestCase {
 
+    public function test_for_cross_year(){
+        $date1 = new eDateTime('2018-01-01');
+        $date1->AddDay(-1);
+        $this->assertEquals($date1->ToDateString(), '2017-12-31');
+    }
+    
+    public function test_for_cross_month(){
+        $date1 = new eDateTime('2018-03-01');
+        $date1->AddDay(-1);
+        $this->assertEquals($date1->ToDateString(), '2018-02-28');
+    }
+    
     public function test_get_week_first_date_is_monday(){
         $date1 = new eDateTime("2017-07-02");
         $date2 = new eDateTime("2017-07-13");

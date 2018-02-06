@@ -161,9 +161,12 @@ class eDateTime {
     }
 
     public function GetFirstDateOfTheWeek() {
-        $timestamp = strtotime('sunday last week', $this->ToTimestamp());
-        $result = date("Y-m-d", $timestamp);
-        return $result;
+        $datetime = new eDateTime($this->ToDateString());
+        if ($datetime->GetWeekDay() != 0) {
+            $days = $datetime->GetWeekDay();
+            $datetime->AddDay((-1 * $days));
+        }
+        return $datetime->ToDateString();
     }
 
     public function GetWeekDay() {

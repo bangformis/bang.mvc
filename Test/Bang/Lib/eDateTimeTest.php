@@ -21,12 +21,15 @@ class eDateTimeTest extends PHPUnit_Framework_TestCase {
     public function test_get_week_first_date_is_monday(){
         $date1 = new eDateTime("2017-07-02");
         $date2 = new eDateTime("2017-07-13");
+        $date3 = new eDateTime("2018-02-04");
 
         $result1 = $date1->GetMondayDateOfTheWeek();
         $result2 = $date2->GetMondayDateOfTheWeek();
+        $result3 = $date3->GetMondayDateOfTheWeek();
 
         $this->assertEquals($result1, '2017-06-26');
         $this->assertEquals($result2, '2017-07-10');
+        $this->assertEquals($result3, '2018-01-28');
     }
     
     public function test_get_week_day(){
@@ -43,10 +46,13 @@ class eDateTimeTest extends PHPUnit_Framework_TestCase {
     public function testGetWeekfirstDate() {
         $date1 = new eDateTime("2017-03-28");
         $date2 = new eDateTime("2017-04-05");
+        $date3 = new eDateTime("2018-02-04 16:47:03");
 
         $result1 = $date1->GetFirstDateOfTheWeek();
         $result2 = $date2->GetFirstDateOfTheWeek();
-
+        $result3 = $date3->GetFirstDateOfTheWeek();
+        
+        $this->assertEquals($result3, '2018-02-04');
         $this->assertEquals($result1, '2017-03-26');
         $this->assertEquals($result2, '2017-04-02');
     }

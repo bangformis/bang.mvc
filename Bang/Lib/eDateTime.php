@@ -193,4 +193,19 @@ class eDateTime {
         return $datetime;
     }
 
+    /**
+     * 取的當前時間的字串（格式：yyyy-MM-dd HH:mm:ss.SSSSSS）
+     * @param int $point_to 秒數至小數點第幾位
+     */
+    public static function GetDateTimeWithMilliseconds($point_to = 6) {
+        $t = microtime(true);
+        $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+        $d = new DateTime(date('Y-m-d H:i:s.' . $micro, $t));
+        $result = $d->format("Y-m-d H:i:s.u");
+        if ($point_to >= 0 && $point_to < 6) {
+            $result = substr($result, 0, 20 + $point_to);
+        }
+        return $result;
+    }
+
 }

@@ -6,19 +6,19 @@ require_once 'auto_load.php';
 
 class eDateTimeTest extends PHPUnit_Framework_TestCase {
 
-    public function test_for_cross_year(){
+    public function test_for_cross_year() {
         $date1 = new eDateTime('2018-01-01');
         $date1->AddDay(-1);
         $this->assertEquals($date1->ToDateString(), '2017-12-31');
     }
-    
-    public function test_for_cross_month(){
+
+    public function test_for_cross_month() {
         $date1 = new eDateTime('2018-03-01');
         $date1->AddDay(-1);
         $this->assertEquals($date1->ToDateString(), '2018-02-28');
     }
-    
-    public function test_get_week_first_date_is_monday(){
+
+    public function test_get_week_first_date_is_monday() {
         $date1 = new eDateTime("2017-07-02");
         $date2 = new eDateTime("2017-07-13");
         $date3 = new eDateTime("2018-02-04");
@@ -31,8 +31,8 @@ class eDateTimeTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($result2, '2017-07-10');
         $this->assertEquals($result3, '2018-01-28');
     }
-    
-    public function test_get_week_day(){
+
+    public function test_get_week_day() {
         $date1 = new eDateTime("2017-07-02");
         $date2 = new eDateTime("2017-07-13");
 
@@ -42,7 +42,7 @@ class eDateTimeTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($result1, 0);
         $this->assertEquals($result2, 4);
     }
-    
+
     public function testGetWeekfirstDate() {
         $date1 = new eDateTime("2017-03-28");
         $date2 = new eDateTime("2017-04-05");
@@ -51,7 +51,7 @@ class eDateTimeTest extends PHPUnit_Framework_TestCase {
         $result1 = $date1->GetFirstDateOfTheWeek();
         $result2 = $date2->GetFirstDateOfTheWeek();
         $result3 = $date3->GetFirstDateOfTheWeek();
-        
+
         $this->assertEquals($result3, '2018-02-04');
         $this->assertEquals($result1, '2017-03-26');
         $this->assertEquals($result2, '2017-04-02');
@@ -153,6 +153,15 @@ class eDateTimeTest extends PHPUnit_Framework_TestCase {
 
         $datetime2 = eDateTime::Create($datetime->GetYear(), $datetime->GetMonth(), $datetime->GetDay(), $datetime->GetHour(), $datetime->GetMinute(), $datetime->GetSecond());
         $this->assertEquals($datetime2->ToDateTimeString(), $datetime->ToDateTimeString());
+    }
+
+    public function testCreateByYYYYmm() {
+        $yyyymm = '201801';
+        $datetime = eDateTime::CreateByYYYYmm($yyyymm);
+        $this->assertEquals($datetime->ToDateString(), '2018-01-01');
+
+        $datetime->AddMonth(-1);
+        $this->assertEquals($datetime->ToDateString(), '2017-12-01');
     }
 
 }

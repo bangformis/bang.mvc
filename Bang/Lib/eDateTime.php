@@ -32,6 +32,17 @@ class eDateTime {
     }
 
     /**
+     * @param type $yyyymm
+     * @return \Bang\Lib\eDateTime
+     */
+    public static function CreateByYYYYmm($yyyymm) {
+        $format = 'YmdHis';
+        $datetime = DateTime::createFromFormat($format, "{$yyyymm}01000000");
+        $result = new eDateTime($datetime);
+        return $result;
+    }
+
+    /**
      * @var DateTime
      */
     private $datetime;

@@ -32,6 +32,17 @@ class eDateTime {
     }
 
     /**
+     * @param type $yyyymm
+     * @return \Bang\Lib\eDateTime
+     */
+    public static function CreateByYYYYmm($yyyymm) {
+        $format = 'YmdHis';
+        $datetime = DateTime::createFromFormat($format, "{$yyyymm}01000000");
+        $result = new eDateTime($datetime);
+        return $result;
+    }
+
+    /**
      * @var DateTime
      */
     private $datetime;
@@ -161,9 +172,12 @@ class eDateTime {
     }
 
     public function GetFirstDateOfTheWeek() {
-        $timestamp = strtotime('sunday last week', $this->ToTimestamp());
-        $result = date("Y-m-d", $timestamp);
-        return $result;
+        $datetime = new eDateTime($this->ToDateString());
+        if ($datetime->GetWeekDay() != 0) {
+            $days = $datetime->GetWeekDay();
+            $datetime->AddDay((-1 * $days));
+        }
+        return $datetime->ToDateString();
     }
 
     public function GetWeekDay() {
@@ -188,6 +202,21 @@ class eDateTime {
     public static function GetFirstDateOfThisMonth() {
         $datetime = new eDateTime('first day of this month');
         return $datetime;
+    }
+
+    /**
+     * 取的當前時間的字串（格式：yyyy-MM-dd HH:mm:ss.SSSSSS）
+     * @param int $point_to 秒數至小數點第幾位
+     */
+    public static function GetDateTimeWithMilliseconds($point_to = 6) {
+        $t = microtime(true);
+        $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+        $d = new DateTime(date('Y-m-d H:i:s.' . $micro, $t));
+        $result = $d->format("Y-m-d H:i:s.u");
+        if ($point_to >= 0 && $point_to < 6) {
+            $result = substr($result, 0, 20 + $point_to);
+        }
+        return $result;
     }
 
 }

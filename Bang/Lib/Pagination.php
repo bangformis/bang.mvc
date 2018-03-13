@@ -222,4 +222,8 @@ class Pagination {
         return $this->CountPerPage * ($this->CurrentPage - 1);
     }
 
+    public function ToNextPage(){
+        $this->CurrentPage += 1;
+    }
+    
 }

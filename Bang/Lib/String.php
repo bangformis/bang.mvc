@@ -145,17 +145,28 @@ class String {
 
     /**
      * @param string $input
-     * @param string $split_by
+     * @param string $split_by 不可为空
      * @return array
      */
     public static function Split($input, $split_by = ',') {
         return explode($split_by, $input);
     }
 
+    /**
+     * @param array $input
+     * @param string $join_by
+     * @return string
+     */
+    public static function Join($input, $join_by = ',') {
+        return implode($join_by, $input);
+    }
+
+    public static function GetFirstChar($input) {
+        return mb_substr($input, 0, 1, 'UTF-8');
+    }
+
     public static function GetLastChar($input) {
-        $result = str_split($input);
-        $count = strlen($input);
-        return $result[$count - 1];
+        return mb_substr($input, -1, 1, 'UTF-8');
     }
 
 }

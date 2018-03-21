@@ -29,7 +29,7 @@ class eDateTimeTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals($result1, '2017-06-26');
         $this->assertEquals($result2, '2017-07-10');
-        $this->assertEquals($result3, '2018-01-28');
+        $this->assertEquals($result3, '2018-01-29');
     }
 
     public function test_get_week_day() {

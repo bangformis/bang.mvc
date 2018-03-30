@@ -119,6 +119,7 @@ class MySqlDb {
     public function Rollback() {
         if ($this->pdo->inTransaction()) {
             $result = $this->pdo->rollBack();
+            $this->transaction_count = 0;
             if (!$result) {
                 throw new \Exception('Rollback Transaction Error!', \Models\ErrorCode::DatabaseError);
             }

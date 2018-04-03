@@ -167,6 +167,13 @@ class eDateTime {
         return $this->datetime->format('m');
     }
 
+    public function GetLastMonthYYmm() {
+        $datetime = $this->GetFirstDateOfThisMonth();
+        $datetime->AddDay(-1);
+        $result = $datetime->ToYYmm();
+        return $result;
+    }
+
     public function ToTimestamp() {
         return $this->datetime->getTimestamp();
     }

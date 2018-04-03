@@ -136,6 +136,12 @@ class eDateTimeTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('2017-08-01', $datetime->ToDateString());
     }
 
+    public function testGetLastYYmm() {
+        $datetime = new eDateTime('2018-03-30 00:00:00');
+        $result = $datetime->GetLastMonthYYmm();
+        $this->assertEquals($result, '1802');
+    }
+
     public function testGetAndSet2() {
         $hour = rand(10, 23);
         $minite = rand(10, 59);

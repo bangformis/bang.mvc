@@ -5,12 +5,12 @@ namespace Bang\Lib;
 /**
  * 字串(String)擴增功能
  */
-class String {
+class eString {
 
     /**
      * 解码HTML
-     * @param string $string
-     * @return string
+     * @param eString $string
+     * @return eString
      */
     public static function DecodeHtml($string){
         return html_entity_decode($string);
@@ -18,8 +18,8 @@ class String {
     
     /**
      * 改为HTML编码
-     * @param string $str
-     * @return string
+     * @param eString $str
+     * @return eString
      */
     public static function EncodeHtml($str) {
         return htmlentities($str, ENT_QUOTES, 'utf-8');
@@ -28,9 +28,9 @@ class String {
     /**
      * 将阵列字串结合成单一字串
      * @param array $strs 字串阵列
-     * @param string $separated 分隔字串
-     * @param string $symbol 字串符号
-     * @return string 结果字串
+     * @param eString $separated 分隔字串
+     * @param eString $symbol 字串符号
+     * @return eString 结果字串
      */
     public static function ToSingleString($strs, $separated = ",", $symbol = "'") {
         $result = "";
@@ -47,16 +47,16 @@ class String {
 
     /**
      * 判斷字串不是空值或是空白
-     * @param string $str 判斷字串
+     * @param eString $str 判斷字串
      * @return bool 判斷結果
      */
     public static function IsNotNullOrSpace($str) {
-        return !String::IsNullOrSpace($str);
+        return !eString::IsNullOrSpace($str);
     }
 
     /**
      * 判斷字串是空值或是空白
-     * @param string $str 判斷字串
+     * @param eString $str 判斷字串
      * @return bool 判斷結果
      */
     public static function IsNullOrSpace($str) {
@@ -65,9 +65,9 @@ class String {
 
     /**
      * 刪除字串開頭文字
-     * @param string $input 輸入值
-     * @param string $prefix 開頭文字
-     * @return string 刪除後字串
+     * @param eString $input 輸入值
+     * @param eString $prefix 開頭文字
+     * @return eString 刪除後字串
      */
     public static function RemovePrefix($input, $prefix) {
         $str = $input;
@@ -79,9 +79,9 @@ class String {
 
     /**
      * 刪除字串結尾文字
-     * @param string $input 輸入值
-     * @param string $suffix 結尾文字
-     * @return string 刪除後字串
+     * @param eString $input 輸入值
+     * @param eString $suffix 結尾文字
+     * @return eString 刪除後字串
      */
     public static function RemoveSuffix($input, $suffix) {
         $str = $input;
@@ -93,8 +93,8 @@ class String {
 
     /**
      * 判斷字串是否為$test開頭
-     * @param string $input 輸入值
-     * @param string $test 比對值
+     * @param eString $input 輸入值
+     * @param eString $test 比對值
      * @return bool 判斷結果
      */
     public static function StartsWith($input, $test) {
@@ -103,8 +103,8 @@ class String {
 
     /**
      * 判斷字串是否為$test結尾
-     * @param string $input 輸入值
-     * @param string $test 比對值
+     * @param eString $input 輸入值
+     * @param eString $test 比對值
      * @return bool 判斷結果
      */
     public static function EndsWith($input, $test) {
@@ -113,10 +113,10 @@ class String {
 
     /**
      * 字串取代
-     * @param string $input 輸入完整字串
-     * @param string $target_str 尋找目標？
-     * @param string $replace_to 取代為？
-     * @return string 結果字串
+     * @param eString $input 輸入完整字串
+     * @param eString $target_str 尋找目標？
+     * @param eString $replace_to 取代為？
+     * @return eString 結果字串
      */
     public static function Replace($input, $target_str, $replace_to) {
         return str_replace($target_str, $replace_to, $input);
@@ -124,7 +124,7 @@ class String {
 
     /**
      * 將QueryString轉為陣列
-     * @param string $input QueryString
+     * @param eString $input QueryString
      * @return array 陣列結果
      */
     public static function ParseQueryStringToArray($input) {
@@ -135,8 +135,8 @@ class String {
 
     /**
      * 判断字串是否包含某字串
-     * @param string $input 字串 (ex:'test')
-     * @param string $test 是否包含的字串 (ex:'es')
+     * @param eString $input 字串 (ex:'test')
+     * @param eString $test 是否包含的字串 (ex:'es')
      * @return bool
      */
     public static function Contains($input, $test) {
@@ -144,8 +144,8 @@ class String {
     }
 
     /**
-     * @param string $input
-     * @param string $split_by 不可为空
+     * @param eString $input
+     * @param eString $split_by 不可为空
      * @return array
      */
     public static function Split($input, $split_by = ',') {
@@ -154,8 +154,8 @@ class String {
 
     /**
      * @param array $input
-     * @param string $join_by
-     * @return string
+     * @param eString $join_by
+     * @return eString
      */
     public static function Join($input, $join_by = ',') {
         return implode($join_by, $input);

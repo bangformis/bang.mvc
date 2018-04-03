@@ -2,7 +2,7 @@
 
 namespace Models\Database;
 
-use Bang\Lib\String;
+use Bang\Lib\eString;
 use Bang\MVC\DbContext;
 use Bang\MVC\Route;
 use DateTime;
@@ -18,11 +18,11 @@ class api_logs {
 
     
     public function InitRequest($action = "", $request = "", DateTime $time = null) {
-        if (String::IsNullOrSpace($action)) {
+        if (eString::IsNullOrSpace($action)) {
             $route = Route::Current();
             $action = "{$route->controller}/{$route->action}";
         }
-        if (String::IsNullOrSpace($request)) {
+        if (eString::IsNullOrSpace($request)) {
             $request = http_build_query($_GET);
         }
         if (null === $time) {

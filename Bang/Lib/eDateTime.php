@@ -14,7 +14,7 @@ class eDateTime {
         if (null !== $time) {
             if ($time instanceof DateTime) {
                 $this->datetime = $time;
-            } else if (String::IsNotNullOrSpace($time)) {
+            } else if (eString::IsNotNullOrSpace($time)) {
                 $this->datetime = new DateTime($time);
             } else {
                 $this->datetime = new DateTime();
@@ -168,7 +168,7 @@ class eDateTime {
     }
 
     public function GetLastMonthYYmm() {
-        $datetime = $this->GetFirstDateOfThisMonth();
+        $datetime = $this->GetFirstDateOfTheMonth();
         $datetime->AddDay(-1);
         $result = $datetime->ToYYmm();
         return $result;

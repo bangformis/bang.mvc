@@ -22,7 +22,7 @@ class Request {
         );
         foreach ($vars as $key => $value) {
             if (isset($_SERVER[$value])) {
-                $ip_array = String::Split($_SERVER[$value], ",");
+                $ip_array = eString::Split($_SERVER[$value], ",");
                 return $ip_array[0];
             }
         }

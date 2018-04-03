@@ -3,7 +3,7 @@
 namespace Models\RequestBag;
 
 use Bang\Lib\Checker;
-use Bang\Lib\String;
+use Bang\Lib\eString;
 use Exception;
 use Models\ErrorCode;
 
@@ -21,7 +21,7 @@ class Base {
      */
     public function ValidProperties($array) {
         foreach ($array as $value) {
-            if (String::IsNullOrSpace($this->{$value})) {
+            if (eString::IsNullOrSpace($this->{$value})) {
                 $this->ThrowException("缺少必要参数：{$value}", ErrorCode::MissingParameter);
             }
         }
@@ -36,7 +36,7 @@ class Base {
 
     public function HasProperties($array) {
         foreach ($array as $value) {
-            if (String::IsNotNullOrSpace($this->{$value})) {
+            if (eString::IsNotNullOrSpace($this->{$value})) {
                 return true;
             }
         }
@@ -52,7 +52,7 @@ class Base {
 
     public function ValidIsDate($param) {
         $test = $this->{$param};
-        if (String::IsNotNullOrSpace($test) && !Checker::IsDate($test)) {
+        if (eString::IsNotNullOrSpace($test) && !Checker::IsDate($test)) {
             $this->ThrowException("{$param}参数日期格式有误!", ErrorCode::WrongFormat);
         }
     }

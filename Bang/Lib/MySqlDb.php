@@ -26,7 +26,7 @@ class MySqlDb {
         $pdo = new \PDO("mysql:host={$host};port={$port};charset=utf8", $username, $password);
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $pdo->exec("set names utf8;");
-        if (String::IsNotNullOrSpace($name)) {
+        if (eString::IsNotNullOrSpace($name)) {
             $pdo->exec("USE {$name};");
         }
 
@@ -144,7 +144,7 @@ class MySqlDb {
     private function GetInsertQuery($tablename, $params) {
         $keys = array();
         foreach ($params as $key => $value) {
-            $keys[] = String::Replace($key, ':', '');
+            $keys[] = eString::Replace($key, ':', '');
         }
         $fields = "";
         $values = "";
@@ -163,7 +163,7 @@ class MySqlDb {
     public function QuickInsertOrAdd($tablename, $params, $un_updates) {
         $keys = array();
         foreach ($params as $key => $value) {
-            $keys[] = String::Replace($key, ':', '');
+            $keys[] = eString::Replace($key, ':', '');
         }
         $fields = "";
         $values = "";
@@ -203,7 +203,7 @@ class MySqlDb {
     public function QuickInsertOrUpdate($tablename, $params, $un_updates) {
         $keys = array();
         foreach ($params as $key => $value) {
-            $keys[] = String::Replace($key, ':', '');
+            $keys[] = eString::Replace($key, ':', '');
         }
         $fields = "";
         $values = "";
@@ -250,13 +250,13 @@ class MySqlDb {
     public function QuickUpdate($tablename, $where, $params) {
         $keys = array();
         foreach ($params as $key => $value) {
-            $keys[] = String::Replace($key, ':', '');
+            $keys[] = eString::Replace($key, ':', '');
         }
 
         $set_sql = "";
         $count = 0;
         foreach ($keys as $value) {
-            if (String::StartsWith($value, 'where')) {
+            if (eString::StartsWith($value, 'where')) {
                 continue;
             }
             if ($count > 0) {

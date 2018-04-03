@@ -68,7 +68,7 @@ class ORM {
             $name = $property->name;
 
             if (isset($array[$name])) {
-                if ($space_to_null && String::IsNullOrSpace($array[$name])) {
+                if ($space_to_null && eString::IsNullOrSpace($array[$name])) {
                     $property->setValue($target_obj, NULL);
                 } else {
                     $property->setValue($target_obj, $array[$name]);

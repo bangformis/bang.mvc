@@ -33,7 +33,7 @@ class eDateTime {
 
     /**
      * @param type $yyyymm
-     * @return \Bang\Lib\eDateTime
+     * @return eDateTime
      */
     public static function CreateByYYYYmm($yyyymm) {
         $format = 'YmdHis';
@@ -167,10 +167,26 @@ class eDateTime {
         return $this->datetime->format('m');
     }
 
+    /**
+     * @return eDateTime
+     */
+    public function GetFirstDateOfTheMonth() {
+        $date_str = $this->Format('Y-m-') . '01';
+        $datetime = new eDateTime($date_str);
+        return $datetime;
+    }
+
     public function GetLastMonthYYmm() {
         $datetime = $this->GetFirstDateOfTheMonth();
         $datetime->AddDay(-1);
         $result = $datetime->ToYYmm();
+        return $result;
+    }
+
+    public function GetLastMonthYYYYmm() {
+        $datetime = $this->GetFirstDateOfTheMonth();
+        $datetime->AddDay(-1);
+        $result = $datetime->ToYYYYmm();
         return $result;
     }
 

@@ -22,7 +22,7 @@ class ObjectSyntaxGenerator {
         foreach ($names as $name) {
             $pascal_name = self::ConnectMarkToPascalNaming($name);
             $result .= "public function Has{$pascal_name}() {{$new_line}
-                            \Bang\Lib\eString::IsNotNullOrSpace(\$this->{$pascal_name});{$new_line}
+                            \Bang\Lib\eString::IsNotNullOrSpace(\$this->{$name});{$new_line}
                         }{$new_line}{$new_line}";
         }
         return $result;

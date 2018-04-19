@@ -180,6 +180,7 @@ class eDateTime {
         $datetime = $this->GetFirstDateOfTheMonth();
         $datetime->AddDay(-1);
         $result = $datetime->ToYYmm();
+        $datetime->AddDay(1);
         return $result;
     }
 
@@ -187,6 +188,7 @@ class eDateTime {
         $datetime = $this->GetFirstDateOfTheMonth();
         $datetime->AddDay(-1);
         $result = $datetime->ToYYYYmm();
+        $datetime->AddDay(1);
         return $result;
     }
 

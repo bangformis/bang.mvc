@@ -61,7 +61,7 @@ class Url {
      * @return string Action網址
      */
     public static function Action($action, $controller = "", $params = null) {
-        if (String::IsNullOrSpace($controller)) {
+        if (eString::IsNullOrSpace($controller)) {
             $controller = Route::Current()->controller;
         }
         if (is_null($params)) {

@@ -59,7 +59,7 @@ class ORM {
         return $obj;
     }
 
-    public static function CopyPropertiesIfExist($src_obj, $target_obj) {
+    public static function CopyPropertiesIfExist($src_obj, $target_obj, $space_to_null = false) {
         $reflect = new \ReflectionClass($target_obj);
         $array = self::ObjectToArray($src_obj);
 
@@ -68,7 +68,11 @@ class ORM {
             $name = $property->name;
 
             if (isset($array[$name])) {
-                $property->setValue($target_obj, $array[$name]);
+                if ($space_to_null && eString::IsNullOrSpace($array[$name])) {
+                    $property->setValue($target_obj, NULL);
+                } else {
+                    $property->setValue($target_obj, $array[$name]);
+                }
             }
         }
         return $target_obj;

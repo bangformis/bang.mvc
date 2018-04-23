@@ -42,8 +42,8 @@ class Checker {
      * @return boolean
      */
     public static function IsPostiveInt($value) {
-        $is_int = is_numeric($value) && !String::Contains($value, '.');
-        $is_not_null = String::IsNotNullOrSpace($value);
+        $is_int = is_numeric($value) && !eString::Contains($value, '.');
+        $is_not_null = eString::IsNotNullOrSpace($value);
         $great_than_0 = intval($value) >= 0;
         return $is_not_null && $is_int && $great_than_0;
     }
@@ -54,7 +54,7 @@ class Checker {
      */
     public static function IsPostiveNumber($value) {
         $is_number = is_numeric($value);
-        $is_not_null = String::IsNotNullOrSpace($value);
+        $is_not_null = eString::IsNotNullOrSpace($value);
         $great_than_0 = intval($value) >= 0;
         return $is_not_null && $is_number && $great_than_0;
     }
@@ -113,10 +113,10 @@ class Checker {
      */
     public static function Match($input, $characters) {
         $regexp = "/[";
-        $array = String::Split($characters, ",");
+        $array = eString::Split($characters, ",");
         foreach ($array as $value) {
             if (self::Regexp($value, "/[a-zA-Z0-9]/")) {
-                if (String::Contains($input, $value)) {
+                if (eString::Contains($input, $value)) {
                     return true;
                 }
             } else {

@@ -14,7 +14,7 @@ class eDateTime {
         if (null !== $time) {
             if ($time instanceof DateTime) {
                 $this->datetime = $time;
-            } else if (String::IsNotNullOrSpace($time)) {
+            } else if (eString::IsNotNullOrSpace($time)) {
                 $this->datetime = new DateTime($time);
             } else {
                 $this->datetime = new DateTime();
@@ -27,6 +27,17 @@ class eDateTime {
     public static function Create($year, $month, $day, $hour = '01', $minute = '01', $second = '01') {
         $format = 'Y-m-d H:i:s';
         $datetime = DateTime::createFromFormat($format, "{$year}-{$month}-{$day} {$hour}:{$minute}:{$second}");
+        $result = new eDateTime($datetime);
+        return $result;
+    }
+
+    /**
+     * @param type $yyyymm
+     * @return eDateTime
+     */
+    public static function CreateByYYYYmm($yyyymm) {
+        $format = 'YmdHis';
+        $datetime = DateTime::createFromFormat($format, "{$yyyymm}01000000");
         $result = new eDateTime($datetime);
         return $result;
     }
@@ -156,14 +167,42 @@ class eDateTime {
         return $this->datetime->format('m');
     }
 
+    /**
+     * @return eDateTime
+     */
+    public function GetFirstDateOfTheMonth() {
+        $date_str = $this->Format('Y-m-') . '01';
+        $datetime = new eDateTime($date_str);
+        return $datetime;
+    }
+
+    public function GetLastMonthYYmm() {
+        $datetime = $this->GetFirstDateOfTheMonth();
+        $datetime->AddDay(-1);
+        $result = $datetime->ToYYmm();
+        $datetime->AddDay(1);
+        return $result;
+    }
+
+    public function GetLastMonthYYYYmm() {
+        $datetime = $this->GetFirstDateOfTheMonth();
+        $datetime->AddDay(-1);
+        $result = $datetime->ToYYYYmm();
+        $datetime->AddDay(1);
+        return $result;
+    }
+
     public function ToTimestamp() {
         return $this->datetime->getTimestamp();
     }
 
     public function GetFirstDateOfTheWeek() {
-        $timestamp = strtotime('sunday last week', $this->ToTimestamp());
-        $result = date("Y-m-d", $timestamp);
-        return $result;
+        $datetime = new eDateTime($this->ToDateString());
+        if ($datetime->GetWeekDay() != 0) {
+            $days = $datetime->GetWeekDay();
+            $datetime->AddDay((-1 * $days));
+        }
+        return $datetime->ToDateString();
     }
 
     public function GetWeekDay() {
@@ -188,6 +227,21 @@ class eDateTime {
     public static function GetFirstDateOfThisMonth() {
         $datetime = new eDateTime('first day of this month');
         return $datetime;
+    }
+
+    /**
+     * 取的當前時間的字串（格式：yyyy-MM-dd HH:mm:ss.SSSSSS）
+     * @param int $point_to 秒數至小數點第幾位
+     */
+    public static function GetDateTimeWithMilliseconds($point_to = 6) {
+        $t = microtime(true);
+        $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+        $d = new DateTime(date('Y-m-d H:i:s.' . $micro, $t));
+        $result = $d->format("Y-m-d H:i:s.u");
+        if ($point_to >= 0 && $point_to < 6) {
+            $result = substr($result, 0, 20 + $point_to);
+        }
+        return $result;
     }
 
 }

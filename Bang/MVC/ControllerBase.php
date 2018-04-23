@@ -15,10 +15,10 @@ class ControllerBase {
      * 帶預設Layout.php
      */
     protected function View($viewName = "", $layout = "_Layout") {
-        if (Lib\String::IsNullOrSpace($viewName)) {
+        if (Lib\eString::IsNullOrSpace($viewName)) {
             $viewName = Route::Current()->action;
         }
-        $className = Lib\String::RemovePrefix(get_class($this), "Controllers\\");
+        $className = Lib\eString::RemovePrefix(get_class($this), "Controllers\\");
         $viewFile = "{$className}/{$viewName}.php";
         Lib\ResponseBag::Add("View", $viewFile);
         $layoutFile = Lib\Path::View($layout, "Shared");

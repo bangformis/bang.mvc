@@ -1,4 +1,6 @@
 <?php
-
 require_once 'System.php';
-echo Bang\Lib\Session::Get('test');
+
+
+$result = \Bang\Lib\Request::GetPostBody();
+echo $result;

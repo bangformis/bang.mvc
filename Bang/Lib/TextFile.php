@@ -69,6 +69,8 @@ class TextFile {
             $this->ChangeMode($mode);
         }
     }
+    
+    
 
     /**
      * 修改權限

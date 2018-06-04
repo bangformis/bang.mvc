@@ -69,8 +69,11 @@ class TextFile {
             $this->ChangeMode($mode);
         }
     }
-    
-    
+
+    public function IsExist() {
+        $result = file_exists($this->Path);
+        return $result;
+    }
 
     /**
      * 修改權限

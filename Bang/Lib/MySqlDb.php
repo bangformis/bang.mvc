@@ -271,4 +271,14 @@ class MySqlDb {
         return $result;
     }
 
+    /**
+     * Must query by SQL_CALC_FOUND_ROWS before this function
+     */
+    public function GetSqlCalcFoundRows() {
+        $sql = "SELECT FOUND_ROWS() as totals;";
+        $stem = $this->Query($sql);
+        $data = $stem->fetch(2);
+        return $data['totals'];
+    }
+
 }

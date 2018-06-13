@@ -114,5 +114,15 @@ class DbContext {
         $db = self::GetConnection();
         return $db->QuickUpdate($tablename, $where, $params);
     }
+    
+    /**
+     * Must query by SQL_CALC_FOUND_ROWS before this function
+     * @return int
+     */
+    public static function GetSqlCalcFoundRows(){
+        $db = self::GetConnection();
+        $result = $db->GetSqlCalcFoundRows();
+        return $result;
+    }
 
 }

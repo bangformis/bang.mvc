@@ -5,7 +5,7 @@ class Config {
     /**
      * @var string 網站跟目錄（相對位置）
      */
-    public static $Root = "/";
+    public static $Root = "/bang.mvc/";
     public static $Path = __DIR__;
 
     /**

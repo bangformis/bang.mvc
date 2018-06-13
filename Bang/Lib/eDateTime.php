@@ -24,6 +24,10 @@ class eDateTime {
         }
     }
 
+    public function GetTimeZone() {
+        return $this->datetime->getTimezone();
+    }
+
     public static function Create($year, $month, $day, $hour = '01', $minute = '01', $second = '01') {
         $format = 'Y-m-d H:i:s';
         $datetime = DateTime::createFromFormat($format, "{$year}-{$month}-{$day} {$hour}:{$minute}:{$second}");

@@ -9,6 +9,13 @@ use Bang\Lib\eString;
  */
 class StringTest extends PHPUnit_Framework_TestCase {
 
+    public function tests() {
+        $test = 'banG';
+
+        $result = eString::ToFirstCharUpperFormat($test);
+        $this->assertEquals($result, 'Bang');
+    }
+
     public function testIsNullOrSpace() {
         //Arrange 
         $strTrue = '  ';

@@ -18,13 +18,11 @@ $viewBag = ViewBag::Get();
         <meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8" />
         <?php
         Bundle::Css('test_css', array(
-            'Content/bootstrap/css/bootstrap.css',
-            'Content/bootstrap/css/bootstrap-theme.css',
+            'Content/css/normalize.css',
             'Content/css/site.css'
         ));
         Bundle::Js('test_js', array(
-            'Content/js/lib/jquery.js',
-            'Content/bootstrap/js/bootstrap.js'
+            'Content/js/lib/jquery.js'
         ));
         ?>
     </head>

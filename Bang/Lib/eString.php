@@ -12,10 +12,10 @@ class eString {
      * @param eString $string
      * @return eString
      */
-    public static function DecodeHtml($string){
+    public static function DecodeHtml($string) {
         return html_entity_decode($string);
     }
-    
+
     /**
      * 改为HTML编码
      * @param eString $str
@@ -167,6 +167,13 @@ class eString {
 
     public static function GetLastChar($input) {
         return mb_substr($input, -1, 1, 'UTF-8');
+    }
+
+    public static function ToFirstCharUpperFormat($input) {
+        $data = strtolower($input);
+        $first = self::GetFirstChar($data);
+        $result = strtoupper($first) . mb_substr($data, 1, NULL, 'UTF-8');
+        return $result;
     }
 
 }

@@ -2,7 +2,7 @@
 
 require_once 'auto_load.php';
 
-class Test1 {
+class TestORM1 {
 
     public $item1;
     public $item2;
@@ -17,7 +17,7 @@ class ORMTest extends PHPUnit_Framework_TestCase {
 
     public function testGetPropertiesName() {
         // Arrange
-        $results = \Bang\Lib\ORM::GetPropertiesName('Test1');
+        $results = \Bang\Lib\ORM::GetPropertiesName('TestORM1');
 
         $this->assertEquals($results[0], 'item1');
         $this->assertEquals($results[1], 'item2');

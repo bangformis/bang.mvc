@@ -6,24 +6,6 @@ ini_set("display_errors", Config::EnablePHPErrorReport);
 error_reporting(E_ALL);
 
 /**
- * Exception統一處理
- * @param Exception $exception
- */
-$_handleMissedException = function (Exception $exception) {
-    
-};
-/**
- * Error統一處理
- * @param int $errno 錯誤代碼
- * @param string $errstr 錯誤原因
- * @param string $errfile 錯誤檔案
- * @param string $errline 錯誤行號
- */
-$_handleMissedError = function ($errno, $errstr, $errfile, $errline) {
-    
-};
-
-/**
  * 自動載入lib中的Class功能
  */
 function __bang_mvc_autoload($classname) {

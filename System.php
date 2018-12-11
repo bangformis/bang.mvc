@@ -14,10 +14,10 @@ function __bang_mvc_autoload($classname) {
     if (file_exists($namespace_path)) {
         require_once($namespace_path);
     } else {
-        throw new Exception("找不到 {$classname} 這個Class檔案，無法載入！");
+        throw new Exception("The class {$classname} was not found!");
     }
 }
 
-spl_autoload_register('__bang_mvc_autoload');
+spl_autoload_register('__mvc_system_autoload');
 
 session_start();

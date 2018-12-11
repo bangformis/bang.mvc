@@ -11,7 +11,7 @@ spl_autoload_register(function ($classname) {
         if (file_exists($namespace_path)) {
             require_once($namespace_path);
         } else {
-            throw new Exception("找不到 {$classname} 這個Class檔案，無法載入！");
+            throw new Exception("The class {$classname} was not found!");
         }
     }
 });

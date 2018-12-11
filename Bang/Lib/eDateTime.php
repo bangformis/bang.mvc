@@ -248,4 +248,15 @@ class eDateTime {
         return $result;
     }
 
+    /**
+     * @param type $timestamp
+     * @return eDateTime
+     */
+    public static function CreateByTimestamp($timestamp) {
+        $datetime = new DateTime();
+        $datetime->setTimestamp($timestamp);
+        $result = new eDateTime($datetime);
+        return $result;
+    }
+
 }

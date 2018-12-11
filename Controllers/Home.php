@@ -1,33 +1,18 @@
 <?php
+
 namespace Controllers;
 
-use Models\RequestBag;
-use Models\ControllerBase;
+use Bang\Lib\Response;
+use Models\ControllerBase\ApiControllerBase;
 
 /**
  * 主頁面Controller
  * @author Bang
  */
-class Home extends ControllerBase\ApiControllerBase {
+class Home extends ApiControllerBase {
 
     public function Index() {
-        \Bang\Lib\Response::Forbidden();
+        Response::Forbidden();
     }
 
-    public function TestSuccess() {
-        $result = new \Bang\Lib\TaskResult();
-        $bag = RequestBag\Test::GetFromQuery();
-        $bag->Valid();
-        $result->SetSuccess(true, 'test success!');
-        return $this->Json($result);
-    }
-
-    public function TestUnSuccess() {
-        $result = new \Bang\Lib\TaskResult();
-        $bag = RequestBag\Test::GetFromQuery();
-        $bag->Valid();
-        $result->SetUnsuccess('test unsuccess!');
-        return $this->Json($result);
-    }
-    
 }

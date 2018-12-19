@@ -3,13 +3,13 @@
 namespace Controllers;
 
 use Bang\Lib\Response;
-use Models\ControllerBase\ApiControllerBase;
+use Bang\MVC\ControllerBase;
 
 /**
  * 主頁面Controller
  * @author Bang
  */
-class Home extends ApiControllerBase {
+class Home extends ControllerBase {
 
     public function Index() {
         Response::Forbidden();

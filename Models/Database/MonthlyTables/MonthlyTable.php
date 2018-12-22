@@ -1,32 +1,32 @@
 <?php
 
-namespace Models\Database;
+namespace Models\Database\MonthlyTables;
 
+use Bang\Lib\eString;
+use Bang\MVC\DbContext;
 use Models\Current;
+use PDO;
 
 class MonthlyTable {
 
-    private static $_ym = null;
+    private static $yyyyMM = null;
 
     public static function GetYm() {
-        if (MonthlyTable::$_ym == null) {
-            MonthlyTable::$_ym = Current\Request::GetDatetime()->format('ym');
+        if (self::$yyyyMM == null) {
+            $datetime = Current\Request::GetLibDatetime();
+            self::$yyyyMM = $datetime->ToYYYYmm();
         }
-        return MonthlyTable::$_ym;
+        return self::$yyyyMM;
     }
 
-    public static function GetYmById($id) {
-        return substr($id, 0, 4);
-    }
+    public static function ApiLogs($yyyyMM = '') {
 
-    public static function ApiLogs($yyMM = '') {
-        
-        if (\Bang\Lib\eString::IsNullOrSpace($yyMM)) {
-            $yyMM = MonthlyTable::GetYm();
+        if (eString::IsNullOrSpace($yyyyMM)) {
+            $yyyyMM = self::GetYm();
         }
         $table_name = "api_logs";
         $sql_without_create = "(
-                                    `id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+                                    `id`  int(20) NOT NULL AUTO_INCREMENT ,
                                     `day`  int(11) NOT NULL ,
                                     `hour`  int(11) NOT NULL ,
                                     `action`  varchar(50) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL ,
@@ -42,10 +42,10 @@ class MonthlyTable {
                                 )
                                 ENGINE=InnoDB
                                 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
-                                AUTO_INCREMENT={$yyMM}00000000000001
+                                AUTO_INCREMENT=1
                                 ROW_FORMAT=COMPACT
                                 ;";
-        return MonthlyTable::GetSplitTableName($table_name, $sql_without_create, $yyMM);
+        return self::GetSplitTableName($table_name, $sql_without_create, $yyyyMM);
     }
 
     /**
@@ -55,19 +55,19 @@ class MonthlyTable {
      */
     private static function GetSplitTableName($table_name, $create_table_sql_without_create, $yyyyMM = '') {
 
-        if (\Bang\Lib\eString::IsNullOrSpace($yyyyMM)) {
-            $yyyyMM = MonthlyTable::GetYm();
+        if (eString::IsNullOrSpace($yyyyMM)) {
+            $yyyyMM = self::GetYm();
         }
 
         $split_table_name = "{$table_name}_{$yyyyMM}";
         $sql = "show tables like '{$split_table_name}'";
-        $query_result = \Bang\MVC\DbContext::Query($sql);
-        $result = $query_result->fetchAll(\PDO::FETCH_ASSOC);
+        $query_result = DbContext::Query($sql);
+        $query_result->fetchAll(PDO::FETCH_ASSOC);
         $row_count = $query_result->rowCount();
 
         if ($row_count == 0) { //沒有該月表
             $create_sql = "CREATE TABLE `{$split_table_name}` " . $create_table_sql_without_create;
-            \Bang\MVC\DbContext::Query($create_sql);
+            DbContext::Query($create_sql);
         }
 
         return $split_table_name;

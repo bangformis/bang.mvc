@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Database;
+namespace Models\Database\MonthlyTables;
 
 use Bang\Lib\eString;
 use Bang\MVC\DbContext;

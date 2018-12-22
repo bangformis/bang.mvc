@@ -1,8 +1,9 @@
 <?php
 
-namespace Models\Database;
+namespace Models\Database\MonthlyTables;
 
 use Bang\Lib\eString;
+use Bang\Lib\MySqlDb;
 use Bang\MVC\DbContext;
 use Bang\MVC\Route;
 use DateTime;
@@ -60,6 +61,16 @@ class api_logs {
         $id = DbContext::QuickInsert($tablename, $params);
         $this->id = $id;
         return $id;
+    }
+
+    public function Update() {
+        $table = MonthlyTable::ApiLogs();
+        $params = MySqlDb::GetParamsByObject($this);
+        unset($params[':id']);
+        $params[':where_id'] = $this->id;
+        $stem = DbContext::QuickUpdate($table, " `id`=:where_id ", $params);
+        $result = $stem->rowCount() === 1;
+        return $result;
     }
 
 }

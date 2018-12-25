@@ -19,6 +19,23 @@ class MonthlyTable {
         return self::$yyyyMM;
     }
 
+    public static function IdGenerator($yyyyMM = '') {
+        if (eString::IsNullOrSpace($yyyyMM)) {
+            $yyyyMM = self::GetYm();
+        }
+        $table_name = "id_generator";
+        $sql_without_create = "(
+                                    `id`  bigint(20) NOT NULL AUTO_INCREMENT ,
+                                    `content`  varchar(1) CHARACTER SET ascii COLLATE ascii_general_ci NULL DEFAULT NULL ,
+                                    PRIMARY KEY (`id`)
+                                )
+                                ENGINE=InnoDB
+                                DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+                                ROW_FORMAT=COMPACT
+                                ;";
+        return self::GetSplitTableName($table_name, $sql_without_create, $yyyyMM);
+    }
+
     public static function ApiLogs($yyyyMM = '') {
 
         if (eString::IsNullOrSpace($yyyyMM)) {

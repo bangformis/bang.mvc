@@ -34,4 +34,9 @@ class id_generator {
         return $result;
     }
 
+    public static function GetYmById($id_with_Ym) {
+        $result = substr($id_with_Ym, 0, 6);
+        return $result;
+    }
+
 }

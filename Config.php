@@ -33,8 +33,8 @@ class ConfigMemecache {
 
 class ApiConfig {
 
-    const LogResponse = false;
-    const LogRequest = false;
+    const LogResponse = true;
+    const LogRequest = true;
     const Key = 'bang_api_test';
 
 }

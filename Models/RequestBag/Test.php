@@ -2,6 +2,10 @@
 
 namespace Models\RequestBag;
 
+use Bang\Lib\Checker;
+use Bang\Lib\Request;
+use Models\ErrorCode;
+
 /**
  * @author Bang
  */
@@ -11,17 +15,17 @@ class Test extends ChecksumBase {
 
     public function Valid() {
         parent::Valid();
-        if (!\Bang\Lib\Checker::IsEmail($this->email)) {
-            $this->ThrowException('Wrong Email Format', \Models\ErrorCode::WrongFormat);
+        if (!Checker::IsEmail($this->email)) {
+            $this->ThrowException('Wrong Email Format', ErrorCode::WrongFormat);
         }
     }
 
     /**
-     * @return \Models\RequestBag\Test
+     * @return Test
      */
     public static function GetFromQuery() {
         $bag = new Test();
-        \Bang\Lib\Request::GetGet($bag);
+        Request::GetGet($bag);
         return $bag;
     }
 

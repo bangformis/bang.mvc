@@ -22,6 +22,20 @@ class id_generator {
     }
 
     /**
+     * 取得包含年月和三位數代碼的SN
+     * @param string $code 輸入三位代碼 Ex:G01
+     * @return string ex:{yyyymm}
+     */
+    public static function GetNewIdWithYmAndCode($code) {
+        $sn = self::NewSn();
+        $datetime = Request::GetLibDatetime();
+        $yyyymm = $datetime->ToYYYYmm();
+        $id_str = str_pad($sn, 15, '0', STR_PAD_LEFT);
+        $result = "{$yyyymm}{$code}{$id_str}";
+        return $result;
+    }
+
+    /**
      * 取得包含年月的SN
      * @return string ex:{yyyymm}
      */

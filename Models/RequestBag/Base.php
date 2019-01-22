@@ -22,15 +22,18 @@ class Base {
     public function ValidProperties($array) {
         foreach ($array as $value) {
             if (eString::IsNullOrSpace($this->{$value})) {
-                $this->ThrowException("缺少必要参数：{$value}", ErrorCode::MissingParameter);
+                $this->ThrowException("Miss the parameter '{$value}'!", ErrorCode::MissingParameter);
             }
         }
     }
 
-    public function ValidPositive($number) {
-        $value = doubleval($number);
-        if ($value < 0) {
-            $this->ThrowException('带入的数值不可为负数！', ErrorCode::WrongFormat);
+    public function ValidPositive($param) {
+        $test = $this->{$param};
+        if (eString::IsNotNullOrSpace($test)) {
+            $value = doubleval($test);
+            if ($value < 0) {
+                $this->ThrowException("The number must be positive！", ErrorCode::WrongFormat);
+            }
         }
     }
 
@@ -44,16 +47,26 @@ class Base {
     }
 
     public function ValidIsBoolean($param) {
-        $test = intval($this->{$param});
-        if ($test !== 0 && $test !== 1) {
-            $this->ThrowException("{$param}参数必须为1或0!", ErrorCode::WrongFormat);
+        $test = $this->{$param};
+        if (eString::IsNotNullOrSpace($test)) {
+            $value = intval($test);
+            if ($value !== 0 && $value !== 1) {
+                $this->ThrowException("The parameters '{$param}' must be 1 or 0!", ErrorCode::WrongFormat);
+            }
         }
     }
 
     public function ValidIsDate($param) {
         $test = $this->{$param};
         if (eString::IsNotNullOrSpace($test) && !Checker::IsDate($test)) {
-            $this->ThrowException("{$param}参数日期格式有误!", ErrorCode::WrongFormat);
+            $this->ThrowException("The parameters '{$param}' format is wrong!", ErrorCode::WrongFormat);
+        }
+    }
+
+    public function ValidIsDateTime($param) {
+        $test = $this->{$param};
+        if (eString::IsNotNullOrSpace($test) && !Checker::IsDateTime($test)) {
+            $this->ThrowException("The parameters '{$param}' format is wrong!", ErrorCode::WrongFormat);
         }
     }
 

@@ -41,11 +41,23 @@ class DbContext {
         return $db->Query($sql, $params);
     }
 
+    /**
+     * @param string $tablename
+     * @param array $params
+     * @param array $un_updates ex: array( 'id', ...  )
+     * @return \PDOStatement 查詢結果
+     */
     public static function QuickInsertOrAdd($tablename, $params, $un_updates) {
         $db = self::GetConnection();
         return $db->QuickInsertOrAdd($tablename, $params, $un_updates);
     }
 
+    /**
+     * @param string $tablename
+     * @param array $params
+     * @param array $un_updates ex: array( 'id', ...  )
+     * @return \PDOStatement 查詢結果
+     */
     public static function QuickInsertOrUpdate($tablename, $params, $un_updates) {
         $db = self::GetConnection();
         return $db->QuickInsertOrUpdate($tablename, $params, $un_updates);
@@ -114,12 +126,12 @@ class DbContext {
         $db = self::GetConnection();
         return $db->QuickUpdate($tablename, $where, $params);
     }
-    
+
     /**
      * Must query by SQL_CALC_FOUND_ROWS before this function
      * @return int
      */
-    public static function GetSqlCalcFoundRows(){
+    public static function GetSqlCalcFoundRows() {
         $db = self::GetConnection();
         $result = $db->GetSqlCalcFoundRows();
         return $result;

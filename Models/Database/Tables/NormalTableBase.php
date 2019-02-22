@@ -67,4 +67,35 @@ abstract class NormalTableBase {
         ORM::ArrayToObject($data, $this);
     }
 
+    protected function GetExistKeyValue() {
+        $keys = ORM::ObjectToArray($this);
+        $exist_keys = array();
+        foreach ($keys as $key => $value) {
+            if (isset($value)) {
+                $exist_keys[$key] = $value;
+            }
+        }
+        return $exist_keys;
+    }
+
+    public function RefreshByExistKeys() {
+        $exist_keys = $this->GetExistKeyValue();
+        $tablename = $this->GetTableName();
+
+        $where_sql = "true ";
+        $params = array();
+        foreach ($exist_keys as $key => $value) {
+            $where_sql .= " AND `{$key}`=:{$key}";
+            $params[":{$key}"] = $value;
+        }
+        $sql = "SELECT * FROM `{$tablename}` WHERE {$where_sql} LIMIT 1";
+
+        $stem = DbContext::Query($sql, $params);
+        if ($stem->rowCount() === 0) {
+            throw new Exception("The data[{$where_sql}] in table {$tablename} was not found!", ErrorCode::NotFound);
+        }
+        $data = $stem->fetch(2);
+        ORM::ArrayToObject($data, $this);
+    }
+
 }

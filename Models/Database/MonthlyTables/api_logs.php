@@ -17,6 +17,16 @@ class api_logs {
         $this->error_code = 0;
     }
 
+    public $id;
+    public $day;
+    public $hour;
+    public $action;
+    public $request;
+    public $response;
+    public $error_code;
+    public $time;
+    public $span_ms;
+
     public function InitRequest($action = "", $request = "", DateTime $time = null) {
         if (eString::IsNullOrSpace($action)) {
             $route = Route::Current();
@@ -34,15 +44,6 @@ class api_logs {
         $this->day = $time->format('d');
         $this->hour = $time->format('H');
     }
-
-    public $id;
-    public $day;
-    public $hour;
-    public $action;
-    public $request;
-    public $response;
-    public $error_code;
-    public $time;
 
     public function Insert() {
         if (!isset($this->request)) {

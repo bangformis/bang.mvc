@@ -11,12 +11,11 @@ use DateTime;
 class Request {
 
     private static $Time = null;
-    private static $eDateTime = null;
 
     /**
      * @return DateTime
      */
-    public static function GetDatetime() {
+    private static function GetDatetime() {
         if (is_null(self::$Time)) {
             self::$Time = new DateTime();
         }
@@ -27,11 +26,9 @@ class Request {
      * @return eDateTime
      */
     public static function GetLibDatetime() {
-        if (is_null(self::$eDateTime)) {
-            $datetime = self::GetDatetime();
-            self::$eDateTime = eDateTime::CreateByTimestamp($datetime->getTimestamp());
-        }
-        return self::$eDateTime;
+        $datetime = self::GetDatetime();
+        $result = eDateTime::CreateByTimestamp($datetime->getTimestamp());
+        return $result;
     }
 
     public static function GetYmdhisTime() {

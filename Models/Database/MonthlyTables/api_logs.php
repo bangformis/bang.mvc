@@ -2,11 +2,11 @@
 
 namespace Models\Database\MonthlyTables;
 
+use Bang\Lib\eDateTime;
 use Bang\Lib\eString;
 use Bang\Lib\MySqlDb;
 use Bang\MVC\DbContext;
 use Bang\MVC\Route;
-use DateTime;
 
 /**
  * @author Bang
@@ -27,22 +27,23 @@ class api_logs {
     public $time;
     public $span_ms;
 
-    public function InitRequest($action = "", $request = "", DateTime $time = null) {
+    public function InitRequest($action = "", $request = "", eDateTime $time = null) {
         if (eString::IsNullOrSpace($action)) {
             $route = Route::Current();
+
             $action = "{$route->controller}/{$route->action}";
         }
         if (eString::IsNullOrSpace($request)) {
             $request = http_build_query($_GET);
         }
         if (null === $time) {
-            $time = new DateTime();
+            $time = new eDateTime();
         }
         $this->action = $action;
         $this->request = $request;
-        $this->time = $time->format('Y-m-d H:i:s');
-        $this->day = $time->format('d');
-        $this->hour = $time->format('H');
+        $this->time = $time->Format('Y-m-d H:i:s');
+        $this->day = $time->Format('d');
+        $this->hour = $time->Format('H');
     }
 
     public function Insert() {

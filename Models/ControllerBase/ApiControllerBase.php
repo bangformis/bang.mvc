@@ -22,7 +22,7 @@ class ApiControllerBase extends ControllerBase {
             $route = Route::Current();
             $action = "{$route->controller}/{$route->action}";
             $request = http_build_query($_GET);
-            $time = Request::GetDatetime();
+            $time = Request::GetLibDatetime();
             $log->InitRequest($action, $request, $time);
 
             if (ApiConfig::LogRequest) {

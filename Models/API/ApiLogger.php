@@ -2,6 +2,7 @@
 
 namespace Models\API;
 
+use ApiConfig;
 use Bang\Abstracts\IApiLogger;
 use Exception;
 use Models\Database\MonthlyTables\api_logs;
@@ -11,27 +12,57 @@ use Models\Database\MonthlyTables\api_logs;
  */
 class ApiLogger implements IApiLogger {
 
+    function __construct() {
+        $this->is_request_init = false;
+    }
+
     /**
      * @var api_logs 
      */
     private $log;
+    private $start_mtime;
+    private $is_request_init;
 
     public function EndWithResponse($is_success, $response) {
         $this->log->response = $response;
         $this->log->error_code = $is_success;
-        $this->log->Update();
+        $end_mtime = microtime(1);
+        $start_mtime = $this->start_mtime;
+        $span_mtime = round($end_mtime - $start_mtime, 4);
+        $this->log->span_ms = $span_mtime;
+        if (ApiConfig::LogResponse) {
+            if (ApiConfig::LogRequest) {
+                $this->log->Update();
+            } else {
+                $this->log->Insert();
+            }
+        }
     }
 
     public function Error(Exception $ex) {
-        $this->log->response = $ex->getMessage() . ":\n" . $ex->getTraceAsString();
+        $this->log->response = "Error:" . $ex->getMessage() . "\n" . $ex->getTraceAsString();
         $this->log->error_code = $ex->getCode();
-        $this->log->Update();
+        if (ApiConfig::LogError || ApiConfig::LogResponse) {
+            if (ApiConfig::LogRequest) {
+                $this->log->Update();
+            } else {
+                $this->log->Insert();
+            }
+        }
     }
 
     public function InitRequest($uri, $request) {
+        $this->start_mtime = microtime(1);
         $this->log = new api_logs();
         $this->log->InitRequest($uri, $request);
-        $this->log->Insert();
+        $this->is_request_init = true;
+        if (ApiConfig::LogRequest) {
+            $this->log->Insert();
+        }
+    }
+
+    public function IsInitRequest() {
+        return $this->is_request_init;
     }
 
 }

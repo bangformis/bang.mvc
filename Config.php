@@ -3,17 +3,17 @@
 class Config {
 
     /**
-     * @var string 網站跟目錄（相對位置）
+     * @var string 網�跟目���位置�
      */
     public static $Root = "/bang.mvc/";
     public static $Path = __DIR__;
 
     /**
-     * @var string 網站名稱(會出現在Title 後至)
+     * @var string 網�稱(�出�在Title 後至)
      */
     public static $SiteName = "Bang MVC API";
 
-    //資料庫各項連線設定
+    //資�庫��設�
     const DbName = "bang_mvc_api";
     const DbHost = "localhost";
     const DbPort = "3306";
@@ -34,6 +34,7 @@ class ConfigMemecache {
 class ApiConfig {
 
     const LogResponse = true;
+    const LogError = true;
     const LogRequest = true;
     const Key = 'bang_api_test';
 

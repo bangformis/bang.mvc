@@ -51,6 +51,7 @@ class MonthlyTable {
                                     `response`  text CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
                                     `error_code`  varchar(35) CHARACTER SET ascii COLLATE ascii_general_ci NULL DEFAULT NULL ,
                                     `time`  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+                                    `span_ms`  varchar(35) CHARACTER SET ascii COLLATE ascii_general_ci NULL DEFAULT NULL ,
                                     PRIMARY KEY (`id`),
                                     INDEX `day_index` USING BTREE (`day`) ,
                                     INDEX `hour_index` USING BTREE (`hour`) ,

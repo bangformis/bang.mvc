@@ -31,7 +31,7 @@ class ControllerBase {
      */
     protected function Json($obj = NULL) {
         if ($obj === NULL) {
-            $obj = new Bang\Lib\TaskResult();
+            $obj = new \Bang\Lib\TaskResult();
             $obj->IsSuccess = true;
         }
         $result = json_encode($obj);

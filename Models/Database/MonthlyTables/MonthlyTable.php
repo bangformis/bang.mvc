@@ -36,6 +36,28 @@ class MonthlyTable {
         return self::GetSplitTableName($table_name, $sql_without_create, $yyyyMM);
     }
 
+    public static function LoadingRecords($yyyyMM = '') {
+        if (eString::IsNullOrSpace($yyyyMM)) {
+            $yyyyMM = self::GetYm();
+        }
+        $table_name = "loading_records";
+        $sql_without_create = " (
+                                    `datetime_minutes`  varchar(30) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL ,
+                                    `action`  varchar(50) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL ,
+                                    `count`  bigint(20) NOT NULL DEFAULT 0 ,
+                                    `success`  bigint(20) NOT NULL DEFAULT 0 ,
+                                    `error`  bigint(11) NOT NULL DEFAULT 0 ,
+                                    `total_span_seconds`  decimal(24,4) NOT NULL DEFAULT 0.0000 ,
+                                    PRIMARY KEY (`datetime_minutes`, `action`),
+                                    INDEX `index1` USING BTREE (`action`) 
+                                )
+                                ENGINE=InnoDB
+                                DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
+                                ROW_FORMAT=COMPACT
+                                ;";
+        return self::GetSplitTableName($table_name, $sql_without_create, $yyyyMM);
+    }
+
     public static function ApiLogs($yyyyMM = '') {
 
         if (eString::IsNullOrSpace($yyyyMM)) {

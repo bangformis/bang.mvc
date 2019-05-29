@@ -12,7 +12,7 @@ class eString {
             $encoding = mb_internal_encoding();
         }
         if ($split_length < 1) {
-            throw new Exception('The split length number is should be positive!');
+            throw new Exception('The split length number should be positive!');
         }
         $return_value = array();
         $string_length = mb_strlen($string, $encoding);

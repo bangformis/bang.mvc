@@ -33,10 +33,18 @@ class ConfigMemecache {
 
 class ApiConfig {
 
+    const LogType = ApiLogTypes::Daily;
     const LogError = true;
     const LogResponse = false;
     const LogRequest = false;
     const LoadingRecords = true;
     const Key = 'bang_api_test';
+
+}
+
+class ApiLogTypes {
+
+    const Daily = 'daily';
+    const Monthly = 'monthly';
 
 }

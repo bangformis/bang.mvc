@@ -5,7 +5,7 @@ namespace Models\API;
 use ApiConfig;
 use Bang\Abstracts\IApiLogger;
 use Exception;
-use Models\Database\MonthlyTables\api_logs;
+use Models\Database\api_logs;
 use Models\Database\MonthlyTables\loading_records;
 
 /**

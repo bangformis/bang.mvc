@@ -63,7 +63,19 @@ class ApiControllerBase extends ControllerBase {
         }
 
         if (ApiConfig::LogResponse || ApiConfig::LogError) {
+            $error_code = 0;
+            if ($is_response_error) {
+                //Error發生時我們建議將回傳錯誤代碼放置在Value或Value下的error_code
+                $obj = json_decode($json_str, 1);
+                if (isset($obj['Value']) && is_array($obj['Value']) && isset($obj['Value']['error_code'])) {
+                    $error_code = $obj['Value']['error_code'];
+                } else if (isset($obj['Value']) && !is_array($obj['Value'])) {
+                    $error_code = $obj['Value'];
+                }
+            }
+
             $log = Current::GetLogger();
+            $log->error_code = $error_code;
             $log->response = $json_str;
             $log->span_ms = $span_mtime;
             if (ApiConfig::LogResponse) {

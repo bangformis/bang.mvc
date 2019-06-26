@@ -69,6 +69,7 @@ class api_logs {
         }
         $tablename = self::GetTablename();
         $params = MySqlDb::GetParamsByObject($this);
+        unset($params[':id']);
         $id = DbContext::QuickInsert($tablename, $params);
         $this->id = $id;
         return $id;

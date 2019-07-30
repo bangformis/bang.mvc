@@ -3,18 +3,18 @@
 class Config {
 
     /**
-     * @var string 網�跟目���位置�
+     * @var string 網站跟目錄（相對位置）
      */
     public static $Root = "/bang.mvc/";
     public static $Path = __DIR__;
 
     /**
-     * @var string 網�稱(�出�在Title 後至)
+     * @var string 網站名稱(會出現在Title 後至)
      */
     public static $SiteName = "Bang MVC";
 
-    //資�庫��設�
-    const DbName = "bang_mvc_web";
+    //資料庫各項連線設定
+    const DbName = "bang_mvc_api";
     const DbHost = "localhost";
     const DbPort = "3306";
     const DbUser = "root";
@@ -30,3 +30,13 @@ class ConfigMemecache {
     const Port = 11211;
 
 }
+
+    const LogType = ApiLogTypes::Daily;
+    const LoadingRecords = true;
+
+}
+
+class ApiLogTypes {
+
+    const Daily = 'daily';
+    const Monthly = 'monthly';

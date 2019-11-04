@@ -264,4 +264,9 @@ class eDateTime {
         return $result;
     }
 
+    public static function GetMicroTimestamp() {
+        $result = str_pad(microtime(true), 15, '0');
+        return $result;
+    }
+
 }

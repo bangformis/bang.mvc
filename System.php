@@ -18,6 +18,7 @@ function __mvc_system_autoload($classname) {
     }
 }
 
+require_once __DIR__ . '/Libs/Redis/autoload.php';
 spl_autoload_register('__mvc_system_autoload');
 
 session_start();

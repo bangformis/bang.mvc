@@ -16,6 +16,17 @@ class TaskResult {
     }
 
     /**
+     * @param type $json
+     * @return TaskResult
+     */
+    public static function CreateFromJson($json) {
+        $result = new TaskResult();
+        $json_array = \json_decode($json, 1);
+        ORM::ArrayToObject($json_array, $result);
+        return $result;
+    }
+
+    /**
      * @var bool 是否執行成功
      */
     public $IsSuccess;

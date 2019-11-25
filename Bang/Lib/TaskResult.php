@@ -34,7 +34,7 @@ class TaskResult {
      * test@@
      * @param type $msg
      * @param type $value
-     * @return \Bang\Lib\TaskResult
+     * @return TaskResult
      */
     public function SetUnsuccess($msg = '', $value = null) {
         $this->Message = $msg;
@@ -62,6 +62,19 @@ class TaskResult {
         $this->Message = $msg;
         $this->Value = $value;
         return $this;
+    }
+
+    /**
+     * @return Exception
+     */
+    public function ToException() {
+        $result = new Exception($this->Message, $this->Value);
+        return $result;
+    }
+
+    public function FireException() {
+        $ex = $this->ToException();
+        throw $ex;
     }
 
 }

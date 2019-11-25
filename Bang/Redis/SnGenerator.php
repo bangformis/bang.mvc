@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\RedisDb;
+namespace Bang\Redis;
 
 use Models\Current\Request;
 

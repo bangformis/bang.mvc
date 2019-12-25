@@ -13,8 +13,19 @@ class ORM {
      * @param mixed $obj
      * @return array 結果陣列
      */
-    public static function ObjectToArray($obj) {
-        return get_object_vars($obj);
+    public static function ObjectToArray($obj, $unset_if_null = false) {
+        $array = get_object_vars($obj);
+        if ($unset_if_null) {
+            $result = array();
+            foreach ($array as $key => $value) {
+                if (!is_null($array[$key])) {
+                    $result[$key] = $value;
+                }
+            }
+        } else {
+            $result = $array;
+        }
+        return $result;
     }
 
     /**

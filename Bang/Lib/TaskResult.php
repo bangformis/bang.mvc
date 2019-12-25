@@ -42,10 +42,8 @@ class TaskResult {
     public $Value;
 
     /**
-     * test@@
-     * @param type $msg
-     * @param type $value
-     * @return TaskResult
+     * @param string $msg
+     * @return TaskResult this
      */
     public function SetUnsuccess($msg = '', $value = null) {
         $this->Message = $msg;

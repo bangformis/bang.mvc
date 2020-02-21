@@ -24,6 +24,10 @@ class eDateTime {
         }
     }
 
+    public function GetTimeZone() {
+        return $this->datetime->getTimezone();
+    }
+
     public static function Create($year, $month, $day, $hour = '01', $minute = '01', $second = '01') {
         $format = 'Y-m-d H:i:s';
         $datetime = DateTime::createFromFormat($format, "{$year}-{$month}-{$day} {$hour}:{$minute}:{$second}");
@@ -81,14 +85,19 @@ class eDateTime {
     public function AddYear($count) {
         $day_count = intval($count);
         if ($day_count < 0) {
-            return $this->SubMonth($day_count * -1);
+            return $this->SubYear($day_count * -1);
         } else {
             $this->datetime->add(new DateInterval("P{$day_count}Y"));
         }
     }
 
     public function SubYear($count) {
-        $this->AddDay($count * -1);
+        $day_count = intval($count);
+        if ($day_count < 0) {
+            return $this->AddYear($day_count * -1);
+        } else {
+            $this->datetime->sub(new DateInterval("P{$day_count}Y"));
+        }
     }
 
     public function AddMonth($count) {
@@ -230,6 +239,15 @@ class eDateTime {
     }
 
     /**
+     * @return eDateTime
+     */
+    public static function GetYesterday() {
+        $datetime = new eDateTime();
+        $datetime->AddDay(-1);
+        return $datetime;
+    }
+
+    /**
      * 取的當前時間的字串（格式：yyyy-MM-dd HH:mm:ss.SSSSSS）
      * @param int $point_to 秒數至小數點第幾位
      */
@@ -240,6 +258,25 @@ class eDateTime {
         $result = $d->format("Y-m-d H:i:s.u");
         if ($point_to >= 0 && $point_to < 6) {
             $result = substr($result, 0, 20 + $point_to);
+        }
+        return $result;
+    }
+
+    /**
+     * @param type $timestamp
+     * @return eDateTime
+     */
+    public static function CreateByTimestamp($timestamp) {
+        $datetime = new DateTime();
+        $datetime->setTimestamp($timestamp);
+        $result = new eDateTime($datetime);
+        return $result;
+    }
+
+    public static function GetMicroTimestamp($with_dot = true) {
+        $result = str_pad(microtime(true), 15, '1');
+        if (!$with_dot) {
+            $result = eString::Replace($result, '.', '');
         }
         return $result;
     }

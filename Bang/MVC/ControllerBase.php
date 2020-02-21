@@ -3,6 +3,8 @@
 namespace Bang\MVC;
 
 use Bang\Lib;
+use Bang\Lib\Response;
+use Bang\Lib\Url;
 
 /**
  * 所有Controller的基底
@@ -31,10 +33,10 @@ class ControllerBase {
      */
     protected function Json($obj = NULL) {
         if ($obj === NULL) {
-            $obj = new Bang\Lib\TaskResult();
+            $obj = new Lib\TaskResult();
             $obj->IsSuccess = true;
         }
-        $result = json_encode($obj);
+        $result = json_encode($obj, JSON_UNESCAPED_UNICODE);
         return $this->JsonContent($result);
     }
 
@@ -52,7 +54,7 @@ class ControllerBase {
      * @param string $url 導向的網址
      */
     protected function RedirectToUrl($url) {
-        \Bang\Lib\Response::RedirectUrl($url);
+        Response::RedirectUrl($url);
         die();
     }
 
@@ -64,7 +66,7 @@ class ControllerBase {
         if (null == $controller) {
             $controller = Route::Current()->controller;
         }
-        $url = \Bang\Lib\Url::Action($actoiName, $controller, $params);
+        $url = Url::Action($actoiName, $controller, $params);
         $this->RedirectToUrl($url);
     }
 

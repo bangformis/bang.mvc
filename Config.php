@@ -5,7 +5,7 @@ class Config {
     /**
      * @var string 網站跟目錄（相對位置）
      */
-    public static $Root = "/";
+    public static $Root = "/bang.mvc/";
     public static $Path = __DIR__;
 
     /**
@@ -19,15 +19,13 @@ class Config {
     const DbPort = "3306";
     const DbUser = "root";
     const DbPassword = "123456";
-    //系統使用的目錄分隔符號
-    const DirSplitor = DIRECTORY_SEPARATOR;
     const EnablePHPErrorReport = true;
 
 }
 
 class ConfigMemecache {
 
-    const Enable = true;
+    const Enable = false;
     const Host = "localhost";
     const Port = 11211;
 
@@ -35,8 +33,25 @@ class ConfigMemecache {
 
 class ApiConfig {
 
-    const LogResponse = true;
-    const LogRequest = true;
+    const LogType = ApiLogTypes::Daily;
+    const LogError = true;
+    const LogResponse = false;
+    const LogRequest = false;
+    const LoadingRecords = true;
     const Key = 'bang_api_test';
+
+}
+
+class ApiLogTypes {
+
+    const Daily = 'daily';
+    const Monthly = 'monthly';
+
+}
+
+class ConfigRedis {
+
+    const Host = 'localhost';
+    const Port = 6379;
 
 }

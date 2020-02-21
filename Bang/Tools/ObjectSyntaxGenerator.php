@@ -22,7 +22,8 @@ class ObjectSyntaxGenerator {
         foreach ($names as $name) {
             $pascal_name = self::ConnectMarkToPascalNaming($name);
             $result .= "public function Has{$pascal_name}() {{$new_line}
-                            \Bang\Lib\eString::IsNotNullOrSpace(\$this->{$name});{$new_line}
+                            \$result = \\Bang\\Lib\\eString::IsNotNullOrSpace(\$this->{$name});{$new_line}
+                            return \$result;{$new_line}
                         }{$new_line}{$new_line}";
         }
         return $result;
@@ -48,6 +49,18 @@ class ObjectSyntaxGenerator {
 
     public function HasObj() {
         eString::IsNotNullOrSpace($this->obj);
+    }
+
+    public function EchoClassProperties($new_line = "<br />") {
+        $obj_or_array = $this->obj;
+        if (!is_array($obj_or_array)) {
+            $obj_or_array = ORM::ObjectToArray($obj_or_array);
+        }
+        $result = '';
+        foreach ($obj_or_array as $key => $value) {
+            $result .= 'public $' . "{$key};{$new_line}";
+        }
+        return $result;
     }
 
 }

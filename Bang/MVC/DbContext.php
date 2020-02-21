@@ -2,6 +2,10 @@
 
 namespace Bang\MVC;
 
+use Bang\Lib\MySqlDb;
+use Config;
+use PDOStatement;
+
 /**
  * 資料庫類型容器基底
  * @author Bang
@@ -10,21 +14,21 @@ class DbContext {
 
     /**
      * 實作單例連線
-     * @var \Bang\Lib\MySqlDb 連線
+     * @var MySqlDb 連線
      */
     private static $DB = NULL;
 
     /**
      * 取得PDO連線
-     * @return \Bang\Lib\MySqlDb 連線物件
+     * @return MySqlDb 連線物件
      */
     public static function GetConnection() {
         if (is_null(self::$DB)) {
-            $host = \Config::DbHost;
-            $name = \Config::DbName;
-            $username = \Config::DbUser;
-            $password = \Config::DbPassword;
-            $db = new \Bang\Lib\MySqlDb($host, $username, $password, $name);
+            $host = Config::DbHost;
+            $name = Config::DbName;
+            $username = Config::DbUser;
+            $password = Config::DbPassword;
+            $db = new MySqlDb($host, $username, $password, $name);
             self::$DB = $db;
         }
         return self::$DB;
@@ -34,18 +38,30 @@ class DbContext {
      * 執行Query
      * @param string $sql Prepare SQL語法
      * @param array $params 傳入參數
-     * @return \PDOStatement 查詢結果
+     * @return PDOStatement 查詢結果
      */
     public static function Query($sql, $params = array()) {
         $db = self::GetConnection();
         return $db->Query($sql, $params);
     }
 
+    /**
+     * @param string $tablename
+     * @param array $params
+     * @param array $un_updates ex: array( 'id', ...  )
+     * @return PDOStatement 查詢結果
+     */
     public static function QuickInsertOrAdd($tablename, $params, $un_updates) {
         $db = self::GetConnection();
         return $db->QuickInsertOrAdd($tablename, $params, $un_updates);
     }
 
+    /**
+     * @param string $tablename
+     * @param array $params
+     * @param array $un_updates ex: array( 'id', ...  )
+     * @return PDOStatement 查詢結果
+     */
     public static function QuickInsertOrUpdate($tablename, $params, $un_updates) {
         $db = self::GetConnection();
         return $db->QuickInsertOrUpdate($tablename, $params, $un_updates);
@@ -108,18 +124,18 @@ class DbContext {
      * @param string $tablename
      * @param string $where
      * @param string $params (参数以where开头将不会被Update,只会带入where语法中)
-     * @return \PDOStatement
+     * @return PDOStatement
      */
     public static function QuickUpdate($tablename, $where, $params) {
         $db = self::GetConnection();
         return $db->QuickUpdate($tablename, $where, $params);
     }
-    
+
     /**
      * Must query by SQL_CALC_FOUND_ROWS before this function
      * @return int
      */
-    public static function GetSqlCalcFoundRows(){
+    public static function GetSqlCalcFoundRows() {
         $db = self::GetConnection();
         $result = $db->GetSqlCalcFoundRows();
         return $result;

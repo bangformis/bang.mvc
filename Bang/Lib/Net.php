@@ -8,6 +8,45 @@ namespace Bang\Lib;
 class Net {
 
     /**
+     * 
+     * @param ServerLoginData $login_data
+     * @param type $local_file_path
+     * @param type $remote_file_path
+     * @return bool 是否上傳成功
+     * @throws Exception
+     */
+    public static function UploadFileToFtp(ServerLoginData $login_data, $local_file_path, $remote_file_path, $ftp_pasv = false, $binary = true) {
+        $remote_file = $remote_file_path;   ### 遠端檔案
+        $local_file = $local_file_path;   ### 本機儲存檔案名稱
+        $handle = fopen($local_file, 'r');
+        $conn_id = ftp_connect($login_data->host);
+        $login_result = ftp_login($conn_id, $login_data->username, $login_data->password);
+        if (!$login_result) {
+            throw new Exception("FTP connection authentication fail!", ErrorCode::AuthenticationFail);
+        }
+        if ($ftp_pasv) {
+            ftp_pasv($conn_id, $ftp_pasv);
+        }
+
+        $type = $binary ? FTP_BINARY : FTP_ASCII;
+        $result = ftp_fput($conn_id, $remote_file, $handle, $type, 0);
+
+        ftp_close($conn_id);
+        fclose($handle);
+        return $result;
+    }
+
+    /**
+     * @param string $file_full_name
+     * @param string $url
+     * @return int size for bytes
+     */
+    public static function Download($file_full_name, $url) {
+        $size_bytes = file_put_contents($file_full_name, fopen($url, 'r'));
+        return $size_bytes;
+    }
+
+    /**
      * 以Gmail寄送信件
      * @param string $login_email 登入的Email
      * @param string $login_password 登入密碼

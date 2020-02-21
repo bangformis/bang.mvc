@@ -21,6 +21,15 @@ class Url {
     }
 
     /**
+     * 回传图片网址（以/Content/img/ 开头）
+     * @param type $url
+     * @return type
+     */
+    public static function Img($url) {
+        return self::Content("Content/img/{$url}");
+    }
+
+    /**
      * 回傳網站View檔案
      * EX:(Index.php) return /Views/{ControllerName}/Index.php Or  /Views/Shared/Index.php
      * @param string $url

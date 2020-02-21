@@ -281,4 +281,13 @@ class MySqlDb {
         return $data['totals'];
     }
 
+    public static function GetParamsByObject($obj) {
+        $datas = ORM::ObjectToArray($obj);
+        $result = array();
+        foreach ($datas as $key => $value) {
+            $result[":{$key}"] = $value;
+        }
+        return $result;
+    }
+
 }

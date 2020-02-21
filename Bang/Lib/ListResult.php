@@ -17,4 +17,12 @@ class ListResult {
     public $TotalItems;
     public $TotalPages;
 
+    /**
+     * @param ListResult $obj
+     * @return ListResult
+     */
+    public static function AsType(ListResult $obj){
+        return $obj;
+    }
+    
 }

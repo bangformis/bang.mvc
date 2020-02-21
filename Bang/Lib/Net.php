@@ -47,6 +47,28 @@ class Net {
     }
 
     /**
+     * 將IPv6轉算為數字長度過長所以是字串（需導入php_gmp 套件）
+     * @param string $ip_address IP位置
+     * @return int 數字結果
+     */
+    public static function INET_ATON_V6($ip_address) {
+        $ip = trim($ip_address);
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            $ip_n = inet_pton($ip);
+            $bits = 15; // 16 x 8 bit = 128bit
+            $ipv6long = '';
+            while ($bits >= 0) {
+                $bin = sprintf("%08b", (ord($ip_n[$bits])));
+                $ipv6long = $bin . $ipv6long;
+                $bits--;
+            }
+            return gmp_strval(gmp_init($ipv6long, 2), 10);
+        } else {
+            return 0;
+        }
+    }
+
+    /**
      * 將數字轉算為IP
      * @param int $ip_number 數字
      * @return string IP位置

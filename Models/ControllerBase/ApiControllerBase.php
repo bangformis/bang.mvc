@@ -14,15 +14,18 @@ use Models\Current\Request;
  */
 class ApiControllerBase extends ControllerBase {
 
+    private static $start_mtime;
+
     function __construct() {
         if (ApiConfig::LogRequest || ApiConfig::LogResponse) {
+            self::$start_mtime = microtime(1);
             $log = Current::GetLogger();
             $route = Route::Current();
             $action = "{$route->controller}/{$route->action}";
             $request = http_build_query($_GET);
-            $time = Request::GetDatetime();
+            $time = Request::GetLibDatetime();
             $log->InitRequest($action, $request, $time);
-            
+
             if (ApiConfig::LogRequest) {
                 $log->Insert();
             }
@@ -35,9 +38,13 @@ class ApiControllerBase extends ControllerBase {
      */
     protected function JsonContent($json_str) {
         if (ApiConfig::LogResponse) {
+            $end_mtime = microtime(1);
+            $start_mtime = self::$start_mtime;
+            $span_mtime = round($end_mtime - $start_mtime, 4);
             $log = Current::GetLogger();
             $log->response = $json_str;
-            $log->Insert();
+            $log->span_ms = $span_mtime;
+            $log->Update();
         }
         parent::JsonContent($json_str);
     }

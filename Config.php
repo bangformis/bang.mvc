@@ -48,3 +48,10 @@ class ApiLogTypes {
     const Monthly = 'monthly';
 
 }
+
+class ConfigRedis {
+
+    const Host = 'localhost';
+    const Port = 6379;
+
+}

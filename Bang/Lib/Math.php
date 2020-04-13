@@ -126,4 +126,9 @@ class Math {
         }
     }
 
+    public static function Round($number, $decimals = 2) {
+        $result = number_format($number, $decimals, '.', '');
+        return $result;
+    }
+
 }

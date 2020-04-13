@@ -264,4 +264,19 @@ class eDateTime {
         return $result;
     }
 
+    public static function GetFromToDateStringList($from_date, $to_date) {
+        if ($from_date > $to_date) {
+            return array();
+        }
+        $datetime = new eDateTime($from_date);
+        $date = $datetime->ToDateString();
+        $result = array();
+        while ($date <= $to_date) {
+            $result[] = $date;
+            $datetime->AddDay(1);
+            $date = $datetime->ToDateString();
+        }
+        return $result;
+    }
+
 }

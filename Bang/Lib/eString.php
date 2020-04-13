@@ -7,6 +7,21 @@ namespace Bang\Lib;
  */
 class eString {
 
+    public static function SplitByLength($string, $split_length = 1, $encoding = null) {
+        if (is_null($encoding)) {
+            $encoding = mb_internal_encoding();
+        }
+        if ($split_length < 1) {
+            throw new Exception('The split length number should be positive!');
+        }
+        $return_value = array();
+        $string_length = mb_strlen($string, $encoding);
+        for ($i = 0; $i < $string_length; $i += $split_length) {
+            $return_value[] = mb_substr($string, $i, $split_length, $encoding);
+        }
+        return $return_value;
+    }
+
     /**
      * 解码HTML
      * @param eString $string

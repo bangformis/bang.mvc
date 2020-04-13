@@ -1,12 +1,17 @@
 <?php
 
-namespace Models\Database\MonthlyTables;
+namespace Models\Database;
 
+use ApiConfig;
+use ApiLogTypes;
 use Bang\Lib\eDateTime;
 use Bang\Lib\eString;
 use Bang\Lib\MySqlDb;
 use Bang\MVC\DbContext;
 use Bang\MVC\Route;
+use Models\Current\Request;
+use Models\Database\DailyTables\DailyTable;
+use Models\Database\MonthlyTables\MonthlyTable;
 
 /**
  * @author Bang
@@ -14,7 +19,7 @@ use Bang\MVC\Route;
 class api_logs {
 
     function __construct() {
-        $this->error_code = 0;
+        
     }
 
     public $id;
@@ -24,6 +29,8 @@ class api_logs {
     public $request;
     public $response;
     public $error_code;
+    public $request_id;
+    public $client_request_id;
     public $time;
     public $span_ms;
 
@@ -44,29 +51,32 @@ class api_logs {
         $this->time = $time->Format('Y-m-d H:i:s');
         $this->day = $time->Format('d');
         $this->hour = $time->Format('H');
+        $this->request_id = Request::GetId();
+    }
+
+    public static function GetTablename() {
+        if (ApiConfig::LogType == ApiLogTypes::Daily) {
+            $tablename = DailyTable::ApiLogs();
+        } else {
+            $tablename = MonthlyTable::ApiLogs();
+        }
+        return $tablename;
     }
 
     public function Insert() {
         if (!isset($this->request)) {
             $this->InitRequest();
         }
-        $tablename = MonthlyTable::ApiLogs();
-        $params = array(
-            ':day' => $this->day,
-            ':hour' => $this->hour,
-            ':action' => $this->action,
-            ':request' => $this->request,
-            ':response' => $this->response,
-            ':error_code' => $this->error_code,
-            ':time' => $this->time
-        );
+        $tablename = self::GetTablename();
+        $params = MySqlDb::GetParamsByObject($this);
+        unset($params[':id']);
         $id = DbContext::QuickInsert($tablename, $params);
         $this->id = $id;
         return $id;
     }
 
     public function Update() {
-        $table = MonthlyTable::ApiLogs();
+        $table = self::GetTablename();
         $params = MySqlDb::GetParamsByObject($this);
         unset($params[':id']);
         $params[':where_id'] = $this->id;

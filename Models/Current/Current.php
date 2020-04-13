@@ -2,7 +2,7 @@
 
 namespace Models\Current;
 
-use Models\Database\MonthlyTables\api_logs;
+use Models\Database\api_logs;
 
 /**
  * @author Bang

@@ -51,4 +51,16 @@ class ObjectSyntaxGenerator {
         eString::IsNotNullOrSpace($this->obj);
     }
 
+    public function EchoClassProperties($new_line = "<br />") {
+        $obj_or_array = $this->obj;
+        if (!is_array($obj_or_array)) {
+            $obj_or_array = ORM::ObjectToArray($obj_or_array);
+        }
+        $result = '';
+        foreach ($obj_or_array as $key => $value) {
+            $result .= 'public $' . "{$key};{$new_line}";
+        }
+        return $result;
+    }
+
 }

@@ -7,6 +7,20 @@ namespace Bang\Lib;
  */
 class eString {
 
+    public static function SplitByLength($string, $split_length = 1, $encoding = null) {
+        if (is_null($encoding)) {
+            $encoding = mb_internal_encoding();
+        }
+        if ($split_length < 1) {
+            throw new Exception('The split length number should be positive!');
+        }
+        $return_value = array();
+        $string_length = mb_strlen($string, $encoding);
+        for ($i = 0; $i < $string_length; $i += $split_length) {
+            $return_value[] = mb_substr($string, $i, $split_length, $encoding);
+        }
+        return $return_value;
+    }
     /**
      * 解码HTML
      * @param eString $string
@@ -61,6 +75,28 @@ class eString {
      */
     public static function IsNullOrSpace($str) {
         return (!isset($str) || trim($str) === '');
+    }
+
+    /**
+     * @param type $src_str
+     * @param type $char
+     * @param type $start_index
+     * @param type $count
+     * @return string
+     */
+    public static function RepleaseCharByIndex($src_str, $char, $start_index, $count) {
+        $account = \str_split($src_str);
+        $new_account = "";
+        $index = 1;
+        foreach ($account as $value) {
+            if ($index >= $start_index && $index <= ($start_index + $count - 1)) {
+                $new_account .= $char;
+            } else {
+                $new_account .= $value;
+            }
+            $index++;
+        }
+        return $new_account;
     }
 
     /**

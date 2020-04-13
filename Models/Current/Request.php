@@ -31,6 +31,11 @@ class Request {
         return $result;
     }
 
+    public static function GetDatetimeToMinutes() {
+        $datetime = Request::GetDatetime();
+        return $datetime->format('Y-m-d H:i');
+    }
+
     public static function GetYmdhisTime() {
         $datetime = Request::GetDatetime();
         return $datetime->format('Y-m-d H:i:s');

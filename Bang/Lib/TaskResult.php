@@ -16,6 +16,17 @@ class TaskResult {
     }
 
     /**
+     * @param type $json
+     * @return TaskResult
+     */
+    public static function CreateFromJson($json) {
+        $result = new TaskResult();
+        $json_array = \json_decode($json, 1);
+        ORM::ArrayToObject($json_array, $result);
+        return $result;
+    }
+
+    /**
      * @var bool 是否執行成功
      */
     public $IsSuccess;
@@ -31,10 +42,8 @@ class TaskResult {
     public $Value;
 
     /**
-     * test@@
-     * @param type $msg
-     * @param type $value
-     * @return \Bang\Lib\TaskResult
+     * @param string $msg
+     * @return TaskResult this
      */
     public function SetUnsuccess($msg = '', $value = null) {
         $this->Message = $msg;
@@ -62,6 +71,19 @@ class TaskResult {
         $this->Message = $msg;
         $this->Value = $value;
         return $this;
+    }
+
+    /**
+     * @return Exception
+     */
+    public function ToException() {
+        $result = new Exception($this->Message, $this->Value);
+        return $result;
+    }
+
+    public function FireException() {
+        $ex = $this->ToException();
+        throw $ex;
     }
 
 }

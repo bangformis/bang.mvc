@@ -239,6 +239,15 @@ class eDateTime {
     }
 
     /**
+     * @return eDateTime
+     */
+    public static function GetYesterday() {
+        $datetime = new eDateTime();
+        $datetime->AddDay(-1);
+        return $datetime;
+    }
+
+    /**
      * 取的當前時間的字串（格式：yyyy-MM-dd HH:mm:ss.SSSSSS）
      * @param int $point_to 秒數至小數點第幾位
      */
@@ -261,6 +270,29 @@ class eDateTime {
         $datetime = new DateTime();
         $datetime->setTimestamp($timestamp);
         $result = new eDateTime($datetime);
+        return $result;
+    }
+
+    public static function GetMicroTimestamp($with_dot = true) {
+        $result = str_pad(microtime(true), 15, '1');
+        if (!$with_dot) {
+            $result = eString::Replace($result, '.', '');
+        }
+        return $result;
+    }
+
+    public static function GetFromToDateStringList($from_date, $to_date) {
+        if ($from_date > $to_date) {
+            return array();
+        }
+        $datetime = new eDateTime($from_date);
+        $date = $datetime->ToDateString();
+        $result = array();
+        while ($date <= $to_date) {
+            $result[] = $date;
+            $datetime->AddDay(1);
+            $date = $datetime->ToDateString();
+        }
         return $result;
     }
 

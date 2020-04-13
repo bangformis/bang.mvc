@@ -138,4 +138,12 @@ class Checker {
         return self::Regexp($input, "/^[a-zA-Z0-9]{{$length_min},{$length_max}}$/");
     }
 
+    public static function MD5($input) {
+        return 1 === preg_match('/^[a-f0-9]{32}$/', $input);
+    }
+
+    public static function Json($str) {
+        return is_string($str) && is_array(json_decode($str, true)) && (json_last_error() == JSON_ERROR_NONE) ? true : false;
+    }
+
 }

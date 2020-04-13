@@ -4,6 +4,7 @@ namespace Models\RequestBag;
 
 use Bang\Lib\Checker;
 use Bang\Lib\eString;
+use Bang\Lib\ORM;
 use Exception;
 use Models\ErrorCode;
 
@@ -14,6 +15,15 @@ class Base {
 
     protected function ThrowException($message, $code) {
         throw new Exception($message, $code);
+    }
+
+    public function ValidAllRequired() {
+        $params = ORM::GetPropertiesName($this);
+        foreach ($params as $param) {
+            if (eString::IsNullOrSpace($this->{$param})) {
+                $this->ThrowException("Miss the parameter '{$param}'!", ErrorCode::MissingParameter);
+            }
+        }
     }
 
     /**

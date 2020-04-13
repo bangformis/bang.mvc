@@ -20,7 +20,11 @@ class TextFile {
         $path = ($this->Path);
         if (is_file($path)) {
             $file = $this->FileOpen($path, "r");
-            $content = $this->FileRead($file, filesize($path));
+            $content = '';
+            $length = filesize($path);
+            if ($length > 0) {
+                $content = $this->FileRead($file, filesize($path));
+            }
             fclose($file);
             return $content;
         } else {

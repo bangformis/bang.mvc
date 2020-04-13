@@ -8,15 +8,44 @@ namespace Bang\Lib;
 class Net {
 
     /**
+     * 
+     * @param ServerLoginData $login_data
+     * @param type $local_file_path
+     * @param type $remote_file_path
+     * @return bool 是否上傳成功
+     * @throws Exception
+     */
+    public static function UploadFileToFtp(ServerLoginData $login_data, $local_file_path, $remote_file_path, $ftp_pasv = false, $binary = true) {
+        $remote_file = $remote_file_path;   ### 遠端檔案
+        $local_file = $local_file_path;   ### 本機儲存檔案名稱
+        $handle = fopen($local_file, 'r');
+        $conn_id = ftp_connect($login_data->host);
+        $login_result = ftp_login($conn_id, $login_data->username, $login_data->password);
+        if (!$login_result) {
+            throw new Exception("FTP connection authentication fail!", ErrorCode::AuthenticationFail);
+        }
+        if ($ftp_pasv) {
+            ftp_pasv($conn_id, $ftp_pasv);
+        }
+
+        $type = $binary ? FTP_BINARY : FTP_ASCII;
+        $result = ftp_fput($conn_id, $remote_file, $handle, $type, 0);
+
+        ftp_close($conn_id);
+        fclose($handle);
+        return $result;
+    }
+
+    /**
      * @param string $file_full_name
      * @param string $url
      * @return int size for bytes
      */
-    public static function Download($file_full_name,  $url){
+    public static function Download($file_full_name, $url) {
         $size_bytes = file_put_contents($file_full_name, fopen($url, 'r'));
         return $size_bytes;
     }
-    
+
     /**
      * 以Gmail寄送信件
      * @param string $login_email 登入的Email
@@ -54,6 +83,28 @@ class Net {
             return 0;
         }
         return sprintf("%u", ip2long($ip));
+    }
+
+    /**
+     * 將IPv6轉算為數字長度過長所以是字串（需導入php_gmp 套件）
+     * @param string $ip_address IP位置
+     * @return int 數字結果
+     */
+    public static function INET_ATON_V6($ip_address) {
+        $ip = trim($ip_address);
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            $ip_n = inet_pton($ip);
+            $bits = 15; // 16 x 8 bit = 128bit
+            $ipv6long = '';
+            while ($bits >= 0) {
+                $bin = sprintf("%08b", (ord($ip_n[$bits])));
+                $ipv6long = $bin . $ipv6long;
+                $bits--;
+            }
+            return gmp_strval(gmp_init($ipv6long, 2), 10);
+        } else {
+            return 0;
+        }
     }
 
     /**
